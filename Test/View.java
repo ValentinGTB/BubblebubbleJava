@@ -21,6 +21,8 @@ public class View extends JPanel {
         });
         timer.start();
 
+        /* Settore per il movimento del personaggio */
+        
         setFocusable(true);
         requestFocus();
         addKeyListener(new KeyListener() {
@@ -36,6 +38,8 @@ public class View extends JPanel {
                 }
             }
 
+            /* Settore se non premiamo niente */
+
             @Override
             public void keyReleased(KeyEvent e) {
                 int key = e.getKeyCode();
@@ -45,6 +49,8 @@ public class View extends JPanel {
                     model.setYSpeed(0);
                 }
             }
+
+            /* Niente */
 
             @Override
             public void keyTyped(KeyEvent e) {
@@ -56,8 +62,9 @@ public class View extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setColor(Color.BLUE);
-        g.fillRect(model.getX(), model.getY(), 50, 50);
+        
+        // Disegna l'immagine corrente dell'animazione della camminata del personaggio
+        g.drawImage(model.getCurrentWalkFrame().getImage(), model.getX(), model.getY(), this);
 
         g.setColor(Color.GREEN); // Colore della piattaforma
         g.fillRect(model.getPlatformX(), model.getPlatformY(), model.getPlatformWidth(), model.getPlatformHeight()); // Disegna la piattaforma
