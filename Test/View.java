@@ -32,9 +32,7 @@ public class View extends JPanel {
                 } else if (key == KeyEvent.VK_RIGHT) {
                     model.setXSpeed(2);
                 } else if (key == KeyEvent.VK_UP) {
-                    model.setYSpeed(-2);
-                } else if (key == KeyEvent.VK_DOWN) {
-                    model.setYSpeed(2);
+                    model.setYSpeedManual(-10); // Imposta la velocità verticale negativa per far saltare il personaggio
                 }
             }
 
@@ -60,5 +58,8 @@ public class View extends JPanel {
         super.paintComponent(g);
         g.setColor(Color.BLUE);
         g.fillRect(model.getX(), model.getY(), 50, 50);
+
+        g.setColor(Color.GREEN); // Colore della piattaforma
+        g.fillRect(model.getPlatformX(), model.getPlatformY(), model.getPlatformWidth(), model.getPlatformHeight()); // Disegna la piattaforma
     }
 }
