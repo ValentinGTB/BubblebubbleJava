@@ -14,7 +14,7 @@ public class Test extends JFrame {
         add(view);
         setTitle("MVC Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 300);
+        setSize(model.getMAXWIDTH(), model.getMAXHEIGHT());
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);

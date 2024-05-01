@@ -6,6 +6,9 @@ public class Model {
     private int xSpeed = 0;
     private int ySpeed = 0;
 
+    private int MAXWIDTH = 800;
+    private int MAXHEIGHT = 600;
+    private int DISTANCEPG = 20;
     //Froza di Gravità
     private double gravity = 1.2;
 
@@ -16,6 +19,15 @@ public class Model {
     private int platformWidth = 400;
     private int platformHeight = 30;
     //-----------------------------------
+
+
+    // Punteggio
+    //-------------------------------------
+
+    // private int Punteggio = 0;
+
+    //-------------------------------------
+
 
     private int frameCount = 0; // Conteggio dei frame
 
@@ -45,6 +57,14 @@ public class Model {
     // Restituisce la posizione y del personaggio
     public int getY() {
         return y;
+    }
+
+    public int getMAXWIDTH(){
+        return MAXWIDTH;
+    }
+
+    public int getMAXHEIGHT(){
+        return MAXHEIGHT;
     }
 
     // Restituisce la posizione x della piattaforma
@@ -79,8 +99,8 @@ public class Model {
         // private int platformHeight = 20;
 
         // Tracciamento tocco della piattaforma
-        if (y + 20 >= platformY && y <= platformY + platformHeight && x + 20 >= platformX && x <= platformX + platformWidth) {
-            y = platformY - 18; // Set della posizione del personaggio su piattaforma
+        if (y + DISTANCEPG >= platformY && y <= platformY + platformHeight && x + DISTANCEPG >= platformX && x <= platformX + platformWidth) {
+            y = platformY - DISTANCEPG; // Set della posizione del personaggio su piattaforma
             ySpeed = 0;
             }
 
@@ -88,16 +108,16 @@ public class Model {
             x = 0;
         }
 
-        if (x > 350) {
-            x = 350;
+        if (x > MAXWIDTH) {
+            x = MAXWIDTH;
         }
 
         if (y < 0) {
             y = 0;
         }
 
-        if (y > 250) {
-            y = 250;
+        if (y > MAXHEIGHT) {
+            y = MAXHEIGHT;
         }
 
 
@@ -114,6 +134,15 @@ public class Model {
         
     }
 
+
+    public void setMAXWIDTH(int MAXWIDTH){
+        this.MAXWIDTH = MAXWIDTH;
+    }
+
+    public void setMAXHEIGHT(int MAXHEIGHT){
+        this.MAXHEIGHT = MAXHEIGHT;
+    }
+    
     // Imposta la velocità x del personaggio
     public void setXSpeed(int speed) {
         xSpeed = speed;
