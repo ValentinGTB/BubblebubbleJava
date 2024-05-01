@@ -28,13 +28,13 @@ public class View extends JPanel {
             public void keyPressed(KeyEvent e) {
                 int key = e.getKeyCode();
                 if (key == KeyEvent.VK_LEFT) {
-                    model.setXSpeed(-1);
+                    model.setXSpeed(-2);
                 } else if (key == KeyEvent.VK_RIGHT) {
-                    model.setXSpeed(1);
+                    model.setXSpeed(2);
                 } else if (key == KeyEvent.VK_UP) {
-                    model.setYSpeed(-1);
+                    model.setYSpeed(-2);
                 } else if (key == KeyEvent.VK_DOWN) {
-                    model.setYSpeed(1);
+                    model.setYSpeed(2);
                 }
             }
 
