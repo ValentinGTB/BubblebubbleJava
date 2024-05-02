@@ -8,7 +8,7 @@ public class Model {
 
     private int MAXWIDTH = 800;
     private int MAXHEIGHT = 600;
-    private int DISTANCEPG = 20;
+    private int DISTANCEPG = 40;
     //Froza di Gravità
 
     private double gravity = 1;
@@ -37,12 +37,13 @@ public class Model {
     private int frameCount = 0; // Conteggio dei frame
     private ImageIcon[] walkFrames;
     private int currentFrame = 0; // Frame corrente dell'animazione
+    private int totalframe = 4;
 
     public Model() {
         // Carica le immagini dell'animazione della camminata
-        walkFrames = new ImageIcon[4]; // Supponiamo di avere 4 frame di animazione
-        for (int i = 0; i < 4; i++) {
-            walkFrames[i] = new ImageIcon(getClass().getResource("/walk_" + i + ".png"));
+        walkFrames = new ImageIcon[totalframe]; // Supponiamo di avere 4 frame di animazione
+        for (int i = 0; i < totalframe; i++) {
+            walkFrames[i] = new ImageIcon(getClass().getResource("walk__" + i + ".png"));
         }
     }
 
@@ -113,16 +114,16 @@ public class Model {
             x = 0;
         }
 
-        if (x > MAXWIDTH) {
-            x = MAXWIDTH;
+        if (x > MAXWIDTH - 70) {
+            x = MAXWIDTH - 70;
         }
 
         if (y < 0) {
             y = 0;
         }
 
-        if (y > MAXHEIGHT) {
-            y = MAXHEIGHT;
+        if (y > MAXHEIGHT - 70) {
+            y = -MAXHEIGHT;
         }
 
 
