@@ -10,7 +10,8 @@ public class Model {
     private int MAXHEIGHT = 600;
     private int DISTANCEPG = 20;
     //Froza di Gravità
-    private double gravity = 1.2;
+
+    private double gravity = 1;
 
     // Piattaforma 
     //----------------------------------
@@ -29,10 +30,11 @@ public class Model {
     //-------------------------------------
 
 
-    private int frameCount = 0; // Conteggio dei frame
-
-
+    
+    //---------------------------------------------------------------------------------------------
+    
     // Array di immagini per l'animazione della camminata
+    private int frameCount = 0; // Conteggio dei frame
     private ImageIcon[] walkFrames;
     private int currentFrame = 0; // Frame corrente dell'animazione
 
@@ -48,6 +50,9 @@ public class Model {
     public ImageIcon getCurrentWalkFrame() {
         return walkFrames[currentFrame];
     }
+
+    //---------------------------------------------------------------------------------------------
+
 
     // Restituisce la posizione x del personaggio
     public int getX() {
