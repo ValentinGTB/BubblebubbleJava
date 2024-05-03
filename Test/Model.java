@@ -1,24 +1,24 @@
 import javax.swing.ImageIcon;
 
 public class Model {
-    private int x = 200;
-    private int y = 200;
+    
+    private int DISTANCEPG = 40;
+    private int MAXHEIGHT = 800;
+    private int MAXWIDTH = 900;
+    //Froza di Gravità
+    private int x = MAXWIDTH/2;
+    private int y = (MAXHEIGHT*90)/100;
     private int xSpeed = 0;
     private int ySpeed = 0;
-
-    private int MAXWIDTH = 800;
-    private int MAXHEIGHT = 600;
-    private int DISTANCEPG = 40;
-    //Froza di Gravità
-
+    
     private double gravity = 1;
 
     // Piattaforma 
     //----------------------------------
+    private int platformWidth = MAXWIDTH;
+    private int platformHeight = (MAXHEIGHT * 3) / 100 ;
     private int platformX = 0;
-    private int platformY = 230;
-    private int platformWidth = 400;
-    private int platformHeight = 30;
+    private int platformY = (MAXHEIGHT*90)/100 ;
     //-----------------------------------
 
 
