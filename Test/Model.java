@@ -4,7 +4,7 @@ public class Model {
     
     private int DISTANCEPG = 40;
     private int MAXHEIGHT = 800;
-    private int MAXWIDTH = 900;
+    private int MAXWIDTH = 800;
     //Froza di Gravità
     private int x = MAXWIDTH/2;
     private int y = (MAXHEIGHT*90)/100;
@@ -12,6 +12,8 @@ public class Model {
     private int ySpeed = 0;
     
     private double gravity = 1;
+    private static boolean isJumping;
+
 
     // Piattaforma 
     //----------------------------------
@@ -31,7 +33,7 @@ public class Model {
 
 
     
-    //---------------------------------------------------------------------------------------------
+    //#region---------------------------------------------------------------------------------------------
     
     // Array di immagini per l'animazione della camminata
     private int frameCount = 0; // Conteggio dei frame
@@ -105,9 +107,13 @@ public class Model {
         // private int platformHeight = 20;
 
         // Tracciamento tocco della piattaforma
+
+
+
         if (y + DISTANCEPG >= platformY && y <= platformY + platformHeight && x + DISTANCEPG >= platformX && x <= platformX + platformWidth) {
             y = platformY - DISTANCEPG; // Set della posizione del personaggio su piattaforma
             ySpeed = 0;
+            isJumping = false; // riconosce se il drago atterra sulla piattaforma per non farlo più saltare 
             }
 
         if (x < 0) {
@@ -137,8 +143,17 @@ public class Model {
         } else {
             frameCount = 0;
         }
+
+        
         
     }
+
+    public void salta() {
+        if (!isJumping) {
+            ySpeed = -15; 
+            isJumping = true; 
+        }
+    } // risolto problema salto 
 
 
     public void setMAXWIDTH(int MAXWIDTH){
@@ -171,4 +186,10 @@ public class Model {
         platformWidth = width;
         platformHeight = height;
     }
+
+    
+
+    
+	
+
 }

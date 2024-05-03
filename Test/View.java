@@ -34,7 +34,7 @@ public class View extends JPanel {
                 } else if (key == KeyEvent.VK_RIGHT) {
                     model.setXSpeed(2);
                 } else if (key == KeyEvent.VK_UP) {
-                    model.setYSpeedManual(-10); // Imposta la velocità verticale negativa per far saltare il personaggio
+                    model.salta();
                 }
             }
 
@@ -66,7 +66,7 @@ public class View extends JPanel {
         // Disegna l'immagine corrente dell'animazione della camminata del personaggio
         g.drawImage(model.getCurrentWalkFrame().getImage(), model.getX(), model.getY(), this);
 
-        g.setColor(Color.GREEN); // Colore della piattaforma
+        g.setColor(Color.black); // Colore della piattaforma
         g.fillRect(model.getPlatformX(), model.getPlatformY(), model.getPlatformWidth(), model.getPlatformHeight()); // Disegna la piattaforma
     }
 }
