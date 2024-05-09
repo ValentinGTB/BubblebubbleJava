@@ -56,36 +56,22 @@ public class PlayerModel {
     }
 
     public boolean collidesWith(PlatformModel platform) {
-        // da controllare meglio.
-        return
-            y + DISTANCEPG >= platform.getPlatformY() && y <= platform.getPlatformY() + platform.getPlatformHeight() &&
-            x + DISTANCEPG >= platform.getPlatformX() && x <= platform.getPlatformX() + platform.getPlatformWidth();
+        // Controlla se il personaggio sta scendendo e il punto inferiore del personaggio
+        // è sopra il punto superiore della piattaforma
+        return getYSpeed() >= 0 &&
+               y + DISTANCEPG + 10 >= platform.getPlatformY() &&
+               y <= platform.getPlatformY() + platform.getPlatformHeight() &&
+               x + DISTANCEPG + 10 >= platform.getPlatformX() &&
+               x <= platform.getPlatformX() + platform.getPlatformWidth();
     }
+    
+    
 
     // Muove il personaggio
     public void move() {
         x += xSpeed;
         y += ySpeed;
         ySpeed += gravity;
-
-        // private int platformX = 0;
-        // private int platformY = 230;
-        // private int platformWidth = 400;
-        // private int platformHeight = 20;
-
-        // Tracciamento tocco della piattaforma
-
-
-        // if (xSpeed != 0) {
-        //     frameCount++;
-            
-        //     // Aggiorna l'animazione ogni 5 frame (puoi regolare questo valore per rallentare o accelerare l'animazione)
-        //     if (frameCount % 5 == 0) {
-        //         currentFrame = (currentFrame + 1) % 4;
-        //     }
-        // } else {
-        //     frameCount = 0;
-        // }
     }
 
     // Imposta la velocità x del personaggio

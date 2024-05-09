@@ -19,6 +19,7 @@ public class Main extends JFrame {
         add(controller.getGame());
         setTitle("MVC Game");
         setLocationRelativeTo(null);
+        setLocation(300, 100); // Imposta le coordinate manualmente
         setResizable(false);
         setSize(Constants.MAX_WIDTH, Constants.MAX_HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -45,7 +46,7 @@ public class Main extends JFrame {
             }
         });
 
-        Timer timer = new Timer(0, new ActionListener() {
+        Timer timer = new Timer(5, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 controller.onTick();
@@ -56,6 +57,11 @@ public class Main extends JFrame {
         timer.start();
     }
 
+
+    
+    /** 
+     * @param args
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(Main::new);
     }

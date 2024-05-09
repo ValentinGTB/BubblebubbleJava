@@ -19,16 +19,20 @@ public class GameController {
     private GameModel model;
 
     public GameController() {
-        player = new PlayerModel(Constants.MAX_WIDTH/2, Constants.MAX_HEIGHT * 90 / 100);
+        player = new PlayerModel(Constants.MAX_WIDTH/2, Constants.MAX_HEIGHT * 70 / 100);
         
         ArrayList<PlatformModel> platforms = new ArrayList<>();
-        platforms.add(new PlatformModel(0, Constants.MAX_HEIGHT*90/100, Constants.MAX_WIDTH, Constants.MAX_HEIGHT * 3 /100));
-        platforms.add(new PlatformModel(0, Constants.MAX_HEIGHT*80/100, Constants.MAX_WIDTH/2, Constants.MAX_HEIGHT * 3 /100));
+        platforms.add(new PlatformModel(0, Constants.MAX_HEIGHT*90/100, Constants.MAX_WIDTH, Constants.ALL_PLATFORMHEIGHT));
+        platforms.add(new PlatformModel(200, Constants.MAX_HEIGHT*70/100, Constants.MAX_WIDTH/2, Constants.ALL_PLATFORMHEIGHT));
 
         model = new GameModel(player, platforms);
         game = new GameView(model);
     }
 
+    
+    /** 
+     * @return GameView
+     */
     public GameView getGame() {
         return game;
     }
@@ -40,21 +44,29 @@ public class GameController {
         
         player.move();
 
-        // se il player si sposta troppo a sx o troppo a dx, blocchiamolo...
+            // Se il player si sposta troppo a sinistra, blocchiamolo sul bordo sinistro dello schermo
         if (player.getX() + player.getXSpeed() < 0) {
             player.setX(0);
         }
 
-        // TODO: non ci dovrebbero essere numeri magici (es. 70)
-        if (player.getX() + player.getXSpeed() >= Constants.MAX_WIDTH - 70) {
-            player.setX(Constants.MAX_WIDTH - 70);
+        // Se il player si sposta troppo a destra, blocchiamolo sul bordo destro dello schermo
+        if (player.getX() + player.getXSpeed() >= Constants.MAX_WIDTH) {
+            player.setX(Constants.MAX_WIDTH);
         }
 
+        // Se il player si sposta troppo in alto, blocchiamolo sul bordo superiore dello schermo
         if (player.getY() + player.getYSpeed() < 0) {
             player.setY(0);
         }
 
-        if (player.getY() + player.getYSpeed() >= Constants.MAX_HEIGHT - 70) {
+        // Controllo della collisione con la piattaforma solo se il personaggio sta scendendo
+        // Se il player si trova troppo in basso e sta scendendo, blocchiamolo sopra la piattaforma
+        if (player.getY() + player.getYSpeed() >= Constants.MAX_HEIGHT && player.getYSpeed() > 0) {
+            player.setY(Constants.MAX_HEIGHT);
+        }
+
+        // Se il player si sposta troppo in basso, riportalo sopra il bordo superiore dello schermo
+        if (player.getY() + player.getYSpeed() >= Constants.MAX_HEIGHT) {
             player.setY(-Constants.MAX_HEIGHT);
         }
 
@@ -66,13 +78,11 @@ public class GameController {
     }
 
     public void onKeyPressed(KeyEvent e) {
-        // TODO: evitare numeri magici.
-        // usare constants, ma dentro player.
         int key = e.getKeyCode();
         if (key == KeyEvent.VK_LEFT) {
-            player.setXSpeed(-2);
+            player.setXSpeed(-Constants.SPEED);
         } else if (key == KeyEvent.VK_RIGHT) {
-            player.setXSpeed(2);
+            player.setXSpeed(Constants.SPEED);
         } else if (key == KeyEvent.VK_UP) {
             player.salta();
         }

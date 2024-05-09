@@ -1,4 +1,4 @@
-package models;
+package com.bubblebobble.models;
 
 import javax.swing.ImageIcon;
 
@@ -16,6 +16,10 @@ public class WalkModel {
         }
     }
 
+    
+    /** 
+     * @return ImageIcon
+     */
     // Restituisce l'immagine corrente per l'animazione della camminata
     public ImageIcon getCurrentWalkFrame() {
         return walkFrames[currentFrame];
