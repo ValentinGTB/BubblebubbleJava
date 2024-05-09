@@ -2,93 +2,104 @@ package com.bubblebobble.models;
 
 public class PlayerModel {
 
-    private int x;
-    private int y;
+	private int x;
+	private int y;
 
-    private int xSpeed = 0;
-    private int ySpeed = 0;
+	private int xSpeed = 0;
+	private int ySpeed = 0;
 
-    private int DISTANCEPG = 40;
-    private double gravity = 1;
-    
-    private boolean isJumping;
+	private int DISTANCEPG = 40;
+	private double gravity = 1;
 
-    public PlayerModel(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
+	private boolean isJumping;
 
-    public void setX(int x) {
-        this.x = x;
-    }
+	public PlayerModel(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
 
-    // Restituisce la posizione x del personaggio
-    public int getX() {
-        return x;
-    }   
+	public void setX(int x) {
+		this.x = x;
+	}
 
-    public void setY(int y) {
-        this.y = y;
-    }
+	// Restituisce la posizione x del personaggio
+	public int getX() {
+		return x;
+	}
 
-    // Restituisce la posizione y del personaggio
-    public int getY() {
-        return y;
-    }
+	public void setY(int y) {
+		this.y = y;
+	}
 
-    public void salta() {
-        if (!isJumping)
-            setJumping(true);
-    }
+	// Restituisce la posizione y del personaggio
+	public int getY() {
+		return y;
+	}
 
-    public boolean isJumping() {
-        return isJumping;
-    }
+	public void salta() {
+		if (!isJumping)
+			setJumping(true);
+	}
 
-    public void setJumping(boolean jumping) {
-        if (jumping) {
-            ySpeed = -15; 
-            isJumping = true; 
-        } else {
-            ySpeed = 0;
-            isJumping = false;
-        }
-    }
+	public boolean isJumping() {
+		return isJumping;
+	}
 
-    public boolean collidesWith(PlatformModel platform) {
-        // Controlla se il personaggio sta scendendo e il punto inferiore del personaggio
-        // è sopra il punto superiore della piattaforma
-        return getYSpeed() >= 0 &&
-               y + DISTANCEPG + 10 >= platform.getPlatformY() &&
-               y <= platform.getPlatformY() + platform.getPlatformHeight() &&
-               x + DISTANCEPG + 10 >= platform.getPlatformX() &&
-               x <= platform.getPlatformX() + platform.getPlatformWidth();
-    }
-    
-    
+	public void setJumping(boolean jumping) {
+		if (jumping) {
+			ySpeed = -15;
+			isJumping = true;
+		} else {
+			ySpeed = 0;
+			isJumping = false;
+		}
+	}
 
-    // Muove il personaggio
-    public void move() {
-        x += xSpeed;
-        y += ySpeed;
-        ySpeed += gravity;
-    }
+	public boolean collidesWith(PlatformModel platform) {
+		// Controlla se il personaggio è sopra la piattaforma e se la parte inferiore del personaggio è al di sopra del punto superiore della piattaforma
+	
+		if (ySpeed >= 0 
+			&& y + DISTANCEPG >= platform.getPlatformY() 
+			&& y <= platform.getPlatformY() + platform.getPlatformHeight()
+			&& x + DISTANCEPG >= platform.getPlatformX() 
+			&& x <= platform.getPlatformX() + platform.getPlatformWidth()
+			&& y + DISTANCEPG <= platform.getPlatformY() + platform.getPlatformHeight()) {
+			// La parte inferiore del personaggio è sopra il punto superiore della piattaforma
+			// La parte superiore del personaggio è al di sotto della piattaforma
+			// Il personaggio sta scendendo
+	
+			// Regola la posizione del personaggio per farlo rimanere sulla piattaforma
+			y = platform.getPlatformY() - DISTANCEPG;
+			ySpeed = 0; // Imposta la velocità verticale a 0 per fermare il movimento verso il basso
+			setJumping(false); // Imposta lo stato del salto a falso
+			return true; // Collisione rilevata
+		}
+	
+		return false; // Nessuna collisione rilevata
+	}
 
-    // Imposta la velocità x del personaggio
-    public void setXSpeed(int speed) {
-        xSpeed = speed;
-    }
+	// Muove il personaggio
+	public void move() {
+		x += xSpeed;
+		y += ySpeed;
+		ySpeed += gravity;
+	}
 
-    public int getXSpeed() {
-        return xSpeed;
-    }
+	// Imposta la velocità x del personaggio
+	public void setXSpeed(int speed) {
+		xSpeed = speed;
+	}
 
-    // Imposta la velocità y del personaggio
-    public void setYSpeed(int speed) {
-        ySpeed = speed;
-    }
+	public int getXSpeed() {
+		return xSpeed;
+	}
 
-    public int getYSpeed() {
-        return ySpeed;
-    }
+	// Imposta la velocità y del personaggio
+	public void setYSpeed(int speed) {
+		ySpeed = speed;
+	}
+
+	public int getYSpeed() {
+		return ySpeed;
+	}
 }

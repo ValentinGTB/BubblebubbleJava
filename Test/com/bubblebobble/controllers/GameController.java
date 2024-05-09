@@ -19,11 +19,21 @@ public class GameController {
     private GameModel model;
 
     public GameController() {
-        player = new PlayerModel(Constants.MAX_WIDTH/2, Constants.MAX_HEIGHT * 70 / 100);
+        player = new PlayerModel(Constants.MAX_WIDTH/3, Constants.MAX_HEIGHT * 70 / 100 - Constants.ALL_PLATFORMHEIGHT);
         
         ArrayList<PlatformModel> platforms = new ArrayList<>();
-        platforms.add(new PlatformModel(0, Constants.MAX_HEIGHT*90/100, Constants.MAX_WIDTH, Constants.ALL_PLATFORMHEIGHT));
-        platforms.add(new PlatformModel(200, Constants.MAX_HEIGHT*70/100, Constants.MAX_WIDTH/2, Constants.ALL_PLATFORMHEIGHT));
+        platforms.add(new PlatformModel(0, 0, Constants.ALL_PLATFORMHEIGHT ,Constants.MAX_WIDTH ));
+        platforms.add(new PlatformModel(Constants.MAX_WIDTH-50, 0, Constants.ALL_PLATFORMHEIGHT ,Constants.MAX_WIDTH ));
+
+
+        platforms.add(new PlatformModel(0, Constants.MAX_HEIGHT*90/100, Constants.MAX_WIDTH/2, Constants.ALL_PLATFORMHEIGHT));
+        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT*75/100, Constants.MAX_WIDTH/2, Constants.ALL_PLATFORMHEIGHT));
+        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT*55/100, Constants.MAX_WIDTH/2, Constants.ALL_PLATFORMHEIGHT));
+        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT*45/100, Constants.MAX_WIDTH/2, Constants.ALL_PLATFORMHEIGHT));
+        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT*35/100, Constants.MAX_WIDTH/2, Constants.ALL_PLATFORMHEIGHT));
+        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT*25/100, Constants.MAX_WIDTH/2, Constants.ALL_PLATFORMHEIGHT));
+        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT*15/100, Constants.MAX_WIDTH/2, Constants.ALL_PLATFORMHEIGHT));
+        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT*5/100, Constants.MAX_WIDTH/2, Constants.ALL_PLATFORMHEIGHT));
 
         model = new GameModel(player, platforms);
         game = new GameView(model);
@@ -43,37 +53,39 @@ public class GameController {
         // qui gestiamo ogni aggiornamento dei nostri modelli
         
         player.move();
+        blocchiBordiLeftRight();
+        blocchiBordiTopBottom();
 
-            // Se il player si sposta troppo a sinistra, blocchiamolo sul bordo sinistro dello schermo
-        if (player.getX() + player.getXSpeed() < 0) {
-            player.setX(0);
-        }
-
-        // Se il player si sposta troppo a destra, blocchiamolo sul bordo destro dello schermo
-        if (player.getX() + player.getXSpeed() >= Constants.MAX_WIDTH) {
-            player.setX(Constants.MAX_WIDTH);
-        }
-
-        // Se il player si sposta troppo in alto, blocchiamolo sul bordo superiore dello schermo
-        if (player.getY() + player.getYSpeed() < 0) {
-            player.setY(0);
-        }
-
-        // Controllo della collisione con la piattaforma solo se il personaggio sta scendendo
-        // Se il player si trova troppo in basso e sta scendendo, blocchiamolo sopra la piattaforma
-        if (player.getY() + player.getYSpeed() >= Constants.MAX_HEIGHT && player.getYSpeed() > 0) {
-            player.setY(Constants.MAX_HEIGHT);
-        }
-
-        // Se il player si sposta troppo in basso, riportalo sopra il bordo superiore dello schermo
-        if (player.getY() + player.getYSpeed() >= Constants.MAX_HEIGHT) {
-            player.setY(-Constants.MAX_HEIGHT);
-        }
 
         for (PlatformModel platform : model.getPlatforms()) {
             if (player.collidesWith(platform)) {
                 player.setJumping(false);
             }
+        }
+    }
+
+    public void blocchiBordiTopBottom(){
+
+        if  (player.getY() + player.getYSpeed() < 0){
+            player.setYSpeed(Constants.SPEED);
+        }
+        
+        if (player.getY() + player.getYSpeed() >= Constants.MAX_HEIGHT){
+            player.setY(-40);
+            player.setYSpeed(-Constants.SPEED);
+        }
+
+    }
+
+    public void blocchiBordiLeftRight(){
+        if(player.getX() + player.getXSpeed() < 0){
+            player.setXSpeed(0);
+            player.setX(0);
+        }
+
+        if(player.getX() + player.getXSpeed() >= Constants.MAX_WIDTH - 50){
+            player.setXSpeed(0);
+            player.setX(Constants.MAX_WIDTH - 50);
         }
     }
 

@@ -25,11 +25,4 @@ public class WalkModel {
         return walkFrames[currentFrame];
     }
 
-    public void Destra(){
-
-    }
-
-    public void Sinistra(){
-
-    }
 }
