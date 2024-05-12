@@ -16,6 +16,11 @@ public class Constants {
     
     public static int SPEED = 2;
 
-
+    //Mantieni menu aperto fin quando è true
+    //Quando si avvia il gioco, questa viene messa a false
+    public static boolean MENUAPERTO = true;
+    
+    public static boolean INGAMEMENUAPERTO = false;
+    public static boolean isGamePaused = false;
 
 }

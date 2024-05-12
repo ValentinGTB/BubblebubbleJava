@@ -38,7 +38,7 @@ public class GameController {
         model = new GameModel(player, platforms);
         game = new GameView(model);
     }
-
+    
     
     /** 
      * @return GameView
@@ -62,6 +62,7 @@ public class GameController {
                 player.setJumping(false);
             }
         }
+        
     }
 
     public void blocchiBordiTopBottom(){
@@ -110,4 +111,5 @@ public class GameController {
             player.setYSpeed(0);
         }
     }
+    
 }
