@@ -1,6 +1,8 @@
 package com.bubblebobble;
 
 import java.awt.Image;
+import java.util.stream.BaseStream;
+
 import javax.imageio.ImageIO;
 
 
@@ -23,9 +25,10 @@ public class Constants {
 
     //COSTANTI PER LE IMMAGINI
 
+    public static String BaseURL = "Test/com/bubblebobble/views/img/";
     //Percorso per l'immagine di start nel menu
-    public static String IMMAGINESTART = "C:/Users/tbone/OneDrive/Documenti/UNIVERSITA/BubblebubbleJava/BubblebubbleJava/Test/com/bubblebobble/views/img/start.png";
-    public static String IMMAGINESTART2 = "C:/Users/tbone/OneDrive/Documenti/UNIVERSITA/BubblebubbleJava/BubblebubbleJava/Test/com/bubblebobble/views/img/start2.png";
+    public static String IMMAGINESTART =  BaseURL + "start.png";
+    public static String IMMAGINESTART2 =  BaseURL + "start2.png";
 
 
 
