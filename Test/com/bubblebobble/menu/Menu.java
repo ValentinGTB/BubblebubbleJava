@@ -1,36 +1,42 @@
 package com.bubblebobble.menu;
 
+import com.bubblebobble.Constants;
+import com.bubblebobble.Main;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 import javax.swing.*;
-
-import com.bubblebobble.Constants;
-import com.bubblebobble.Main;
 
 public class Menu extends JPanel{
 	
-	    Image image = Toolkit.getDefaultToolkit().getImage("C:/Users/tbone/OneDrive/Documenti/UNIVERSITA/BubblebubbleJava/BubblebubbleJava/Test/com/bubblebobble/views/img/start.png");
-	    JButton button = new JButton();
-	    
-	   
-	    
+	    Image image = Toolkit.getDefaultToolkit().getImage(Constants.IMMAGINESTART2);
+
+		JButton button = new JButton();
+	    JButton buttonExit = new JButton();
 	    public Menu() 
 		{
+
+				Constants c = new Constants();
+				c.inizializzaConstants();
+
+				button.setIcon(new ImageIcon(Constants.immagineBottoneInizia));
+				buttonExit.setIcon(new ImageIcon(Constants.immagineBottoneEsci));
+
 	    		setLayout(new BoxLayout(this , BoxLayout.Y_AXIS));
-				button.setBackground(Color.green);
-				button.setText("premimi");
-				button.setPreferredSize(new Dimension(500,200)); //Imposta grandezza con PreferredSize visto che si sta usando il FlowLayout manager
-				
+
+				button.setBackground(Color.BLACK);
+				button.setPreferredSize(new Dimension(0,56)); //Cambia height
+				button.setMaximumSize(new Dimension(100, 0)); //Cambia width
+
+				buttonExit.setBackground(Color.black);
+
 				add(Box.createVerticalStrut(200)); //Aggiungi uno spessore invisibile tra il bordo del pannello e il pulsante
-				add(Box.createHorizontalStrut(150));
+				add(Box.createHorizontalStrut(Constants.MAX_WIDTH/2 - 290));
+
 				button.addMouseListener(new MouseAdapter() 
 				{
 					@Override
@@ -40,13 +46,24 @@ public class Menu extends JPanel{
 						Constants.MENUAPERTO = false;
 					}
 				});
+
+				buttonExit.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e)
+					{
+						System.exit(0);
+					}
+				});
 				
 				
 				setBackground(Color.black);
+
+				add(Box.createVerticalGlue());
 				add(button);
-				add(new JButton("ciao"));
-				add(new JButton("prova"));
-				add(new JButton("mondo"));
+				add(Box.createVerticalGlue());
+				add(buttonExit);
+				add(Box.createVerticalGlue());
+
 				setVisible(true);
 				requestFocus(); //Richiedi che questo pannello sia pronto a ricevere input da mouse o tastiera appena visualizzato sopra a tutti gli altri
 				
@@ -56,9 +73,13 @@ public class Menu extends JPanel{
 
 		public void paintComponent(Graphics g) 
 		{
+			int larghezza = image.getWidth(null);
+			int altezza = image.getHeight(null);
+
+			int W = Constants.MAX_WIDTH / 2 - larghezza / 2; //Sposto a sinistra l'immagine per centrarla, spostandola di quanto vale la sua metà
+			int H = Constants.MAX_HEIGHT / 3 - altezza / 2;
 			super.paintComponent(g);
-			g.drawImage(image , Constants.MAX_WIDTH /2 , 0 , this );
-			
+			g.drawImage(image , W , H , this );	
 		}
 		
 }

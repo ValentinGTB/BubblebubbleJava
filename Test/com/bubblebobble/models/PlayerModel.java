@@ -24,6 +24,7 @@ public class PlayerModel {
 
 	// Restituisce la posizione x del personaggio
 	public int getX() {
+		//System.out.println("X aggiornate --> " + x);
 		return x;
 	}
 

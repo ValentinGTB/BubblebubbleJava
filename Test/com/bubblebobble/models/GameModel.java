@@ -2,9 +2,6 @@ package com.bubblebobble.models;
 
 import java.util.ArrayList;
 
-import com.bubblebobble.*;
-import com.bubblebobble.views.*;
-
 public class GameModel {
     private PlayerModel player;
     private ArrayList<PlatformModel> platforms;
@@ -21,4 +18,5 @@ public class GameModel {
     public ArrayList<PlatformModel> getPlatforms() {
         return platforms;
     }
+
 }

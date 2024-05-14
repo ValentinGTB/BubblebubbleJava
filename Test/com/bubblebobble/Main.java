@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
 
 public class Main extends JFrame {
     
@@ -20,6 +21,8 @@ public class Main extends JFrame {
 	private JPanel inGamePanel;
 	private JButton closeButton;
 	boolean isPaused = false;
+    private JButton esciButton;
+
 
     public Main() {	
     	
@@ -49,8 +52,21 @@ public class Main extends JFrame {
             }
         });
     	
+        esciButton = new JButton("Esci");
+        esciButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                System.exit(0);
+            }
+
+        });
+
+
         inGamePanel.add(closeButton);
-    	
+    	inGamePanel.add(esciButton);
+
         add(inGamePanel , BorderLayout.WEST);
         
     	setTitle("MVC Game"); 

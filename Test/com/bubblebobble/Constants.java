@@ -1,6 +1,33 @@
 package com.bubblebobble;
 
+import java.awt.Image;
+import javax.imageio.ImageIO;
+
+
 public class Constants {
+
+    public static Image immagineBottoneInizia;
+    public static Image immagineBottoneEsci;
+
+    public void inizializzaConstants()
+    {
+        try{
+				immagineBottoneInizia = ImageIO.read(getClass().getResource("imageButtonStart.png"));
+				immagineBottoneEsci = ImageIO.read(getClass().getResource("exitButtonDef.png"));
+				}
+		catch(Exception e)
+				{
+					System.out.print("errore nel caricamento immagine" + e);
+				}
+    }
+
+    //COSTANTI PER LE IMMAGINI
+
+    //Percorso per l'immagine di start nel menu
+    public static String IMMAGINESTART = "C:/Users/tbone/OneDrive/Documenti/UNIVERSITA/BubblebubbleJava/BubblebubbleJava/Test/com/bubblebobble/views/img/start.png";
+    public static String IMMAGINESTART2 = "C:/Users/tbone/OneDrive/Documenti/UNIVERSITA/BubblebubbleJava/BubblebubbleJava/Test/com/bubblebobble/views/img/start2.png";
+
+
 
     //GameSize
     

@@ -1,22 +1,20 @@
 package com.bubblebobble.controllers;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.ArrayList;
-
-import com.bubblebobble.views.*;
 import com.bubblebobble.Constants;
 import com.bubblebobble.models.*;
+import com.bubblebobble.views.*;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 public class GameController {
     private GameView game;
-
+    private EnemyModel enemy;
     private PlayerModel player;
     private GameModel model;
+    int xPlayer = 0;
+    int yPlayer = 0;
+
+    public GameController(int vuoto){}
 
     public GameController() {
         player = new PlayerModel(Constants.MAX_WIDTH/3, Constants.MAX_HEIGHT * 70 / 100 - Constants.ALL_PLATFORMHEIGHT);
@@ -47,6 +45,8 @@ public class GameController {
         return game;
     }
 
+    
+
     // eseguito ad ogni frame
     // qui dobbiamo sia aggiornare i modelli (es. fare il move) che fare il render della view  
     public void onTick() {
@@ -56,6 +56,13 @@ public class GameController {
         blocchiBordiLeftRight();
         blocchiBordiTopBottom();
 
+        xPlayer = player.getX();
+        enemy.setPlayerX(xPlayer);
+
+        yPlayer = player.getY();
+        enemy.setPlayerY(yPlayer);
+
+        
 
         for (PlatformModel platform : model.getPlatforms()) {
             if (player.collidesWith(platform)) {
@@ -99,6 +106,8 @@ public class GameController {
         } else if (key == KeyEvent.VK_UP) {
             player.salta();
         }
+        //new EnemyModel();
+
     }
 
     public void onKeyReleased(KeyEvent e) {

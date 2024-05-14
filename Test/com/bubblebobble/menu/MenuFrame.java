@@ -1,11 +1,7 @@
 package com.bubblebobble.menu;
 
-import java.awt.Color;
-import java.awt.Window;
-
-import javax.swing.JFrame;
-
 import com.bubblebobble.Constants;
+import javax.swing.JFrame;
 
 public class MenuFrame extends JFrame{
 	
