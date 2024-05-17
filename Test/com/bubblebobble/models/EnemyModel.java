@@ -28,7 +28,9 @@ public class EnemyModel{
             distance(deltaX, deltaY);
         }
         else{
-            
+            // Se tocchi il player -> player.vita(-1)
+            // vanish del personaggio per 3 secondi player.vanish(3, 3) sta per 3 secondi e il frame
+            // scompare e riappare per 3 secondi.
         }
 
         
