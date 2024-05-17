@@ -51,8 +51,8 @@ public class GameController {
     // qui dobbiamo sia aggiornare i modelli (es. fare il move) che fare il render della view  
     public void onTick() {
         // qui gestiamo ogni aggiornamento dei nostri modelli
-        
         player.move();
+        enemy.move();
         blocchiBordiLeftRight();
         blocchiBordiTopBottom();
 
