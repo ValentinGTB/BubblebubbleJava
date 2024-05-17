@@ -8,7 +8,7 @@ public class EnemyModel{
     int xEnemy = 50; 
     int yEnemy = 50;
 
-    int enemySpeed = Constants.SPEED;
+    double enemySpeed = Constants.SPEED - 0.50;
 
     int xGiocatore;
     int yGiocatore;
@@ -21,12 +21,20 @@ public class EnemyModel{
     public void move()
     {
 
-        if(xEnemy != xGiocatore && yEnemy != yGiocatore)
+        if(xEnemy != xGiocatore || yEnemy != yGiocatore)
         {
             int deltaX = xGiocatore - xEnemy;
             int deltaY = yGiocatore - yEnemy;
+            distance(deltaX, deltaY);
+        }
+        else{
+            
         }
 
+        
+    }
+
+    public void distance(int deltaX, int deltaY){
         double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
         // Normalizza il vettore
