@@ -10,13 +10,13 @@ public class GameView extends JPanel {
     private GameModel model;
     private PlayerView player;
     private java.util.List<PlatformView> platforms;
-    
+    private EnemyView enemyV;
 
 
     public GameView(GameModel model) {
         player = new PlayerView(model.getPlayer());
         platforms = model.getPlatforms().stream().map(PlatformView::new).toList();
-
+        enemyV = new EnemyView(model.getEnemyModel());
     }
 
     @Override
@@ -28,7 +28,7 @@ public class GameView extends JPanel {
         	// disegna personaggio
         	player.paintComponent(g);
             //Disegna nemico
-            //enemy.paintComponent(g);
+            enemyV.paintComponent(g);
             
         }
         else 

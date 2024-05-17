@@ -12,8 +12,6 @@ public class EnemyModel {
         System.out.print("CREATO");
     }
     
-    
-
     public void setPlayerX(int x)
     {
         this.xGiocatore = x;
