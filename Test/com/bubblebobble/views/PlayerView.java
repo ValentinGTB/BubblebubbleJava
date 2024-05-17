@@ -1,13 +1,9 @@
 package com.bubblebobble.views;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
+import com.bubblebobble.Constants;
 import com.bubblebobble.models.*;
+import java.awt.*;
+import javax.swing.*;
 
 public class PlayerView {
     // Array di immagini per l'animazione della camminata
@@ -15,6 +11,9 @@ public class PlayerView {
     private ImageIcon[] walkFrames;
     private int currentFrame = 0; // Frame corrente dell'animazione
     private int totalframe = 4;
+
+    private Image vita = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "vita.png");
+    private Image gameOver = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "gameOver.png");
 
     private PlayerModel model;
 
@@ -35,5 +34,26 @@ public class PlayerView {
     public void paintComponent(Graphics g) {
         // Disegna l'immagine corrente dell'animazione della camminata del personaggio
         g.drawImage(getCurrentWalkFrame().getImage(), model.getX(), model.getY(), null);
+        //Disegna vita
+        if(model.getVita() == 3){
+            
+            g.drawImage(vita, 50, 50, null);
+            g.drawImage(vita, 70, 50, null);
+            g.drawImage(vita, 90, 50, null);
+        }
+        else if(model.getVita() == 2)
+        {
+            g.drawImage(vita, 50, 50, null);
+            g.drawImage(vita, 70, 50, null);
+           
+        }
+        else if(model.getVita() == 1)
+        {
+            g.drawImage(vita, 50, 50, null);
+        }
+        else
+        {
+            g.drawImage(gameOver, 50, 50, null);
+        }
     }
 }

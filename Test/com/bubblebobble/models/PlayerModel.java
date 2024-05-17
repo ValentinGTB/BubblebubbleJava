@@ -4,6 +4,7 @@ public class PlayerModel {
 
 	private int x;
 	private int y;
+	private int vita = 3;
 
 	private int xSpeed = 0;
 	private int ySpeed = 0;
@@ -12,6 +13,8 @@ public class PlayerModel {
 	private double gravity = 1;
 
 	private boolean isJumping;
+
+	public PlayerModel(){}
 
 	public PlayerModel(int x, int y) {
 		this.x = x;
@@ -35,6 +38,16 @@ public class PlayerModel {
 	// Restituisce la posizione y del personaggio
 	public int getY() {
 		return y;
+	}
+
+	public void setVita()
+	{
+		vita -= 1;
+	}
+
+	public int getVita()
+	{
+		return vita;
 	}
 
 	public void salta() {

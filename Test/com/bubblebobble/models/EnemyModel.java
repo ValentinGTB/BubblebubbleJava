@@ -8,8 +8,8 @@ public class EnemyModel{
     int xEnemy = 50; 
     int yEnemy = 50;
 
-    double enemySpeed = Constants.SPEED - 0.50;
-
+    PlayerModel pm = new PlayerModel();
+    double enemySpeed = Constants.SPEED + 2.50;
     int xGiocatore;
     int yGiocatore;
     GameController controller = new GameController(0);
@@ -29,6 +29,12 @@ public class EnemyModel{
         }
         else{
             // Se tocchi il player -> player.vita(-1)
+            if(pm.getVita() > 0)
+            {
+            pm.setVita();
+            System.out.print(pm.getVita());
+            }
+
             // vanish del personaggio per 3 secondi player.vanish(3, 3) sta per 3 secondi e il frame
             // scompare e riappare per 3 secondi.
         }
