@@ -47,8 +47,7 @@ public class PlayerModel {
 	public void setVita()
 	{
 		vita -= 1;
-		pw.setVitaView(vita);
-		//System.out.println(vita);
+		System.out.println("DOPO SETVITA" + vita);
 	}
 
 	public int getVita()

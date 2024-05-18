@@ -29,6 +29,8 @@ public class GameView extends JPanel {
         	player.paintComponent(g);
             //Disegna nemico
             enemyV.paintComponent(g);
+            //Disegna vita
+            player.drawVita(g);
         }
         else 
         {

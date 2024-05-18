@@ -32,9 +32,10 @@ public class GameController {
         platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT*25/100, Constants.MAX_WIDTH/2, Constants.ALL_PLATFORMHEIGHT));
         platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT*15/100, Constants.MAX_WIDTH/2, Constants.ALL_PLATFORMHEIGHT));
         platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT*5/100, Constants.MAX_WIDTH/2, Constants.ALL_PLATFORMHEIGHT));
-        enemy = new EnemyModel();
+        enemy = new EnemyModel(player);
         model = new GameModel(player, platforms , enemy);
         game = new GameView(model);
+        
     }
     
     

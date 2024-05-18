@@ -8,14 +8,15 @@ public class EnemyModel{
     int xEnemy = 50; 
     int yEnemy = 50;
 
-    PlayerModel pm = new PlayerModel();
+    PlayerModel pm;
     double enemySpeed = Constants.SPEED + 2.50;
     int xGiocatore;
     int yGiocatore;
     GameController controller = new GameController(0);
 
-    public EnemyModel() {
+    public EnemyModel(PlayerModel pm) {
         System.out.print("CREATO");
+        this.pm = pm;
     }
 
     public void move()
