@@ -1,10 +1,12 @@
 package com.bubblebobble.models;
 
+import com.bubblebobble.views.PlayerView;
+
 public class PlayerModel {
 
 	private int x;
 	private int y;
-	private int vita = 3;
+	int vita = 3;
 
 	private int xSpeed = 0;
 	private int ySpeed = 0;
@@ -13,6 +15,8 @@ public class PlayerModel {
 	private double gravity = 1;
 
 	private boolean isJumping;
+
+	private PlayerView pw = new PlayerView();
 
 	public PlayerModel(){}
 
@@ -43,6 +47,8 @@ public class PlayerModel {
 	public void setVita()
 	{
 		vita -= 1;
+		pw.setVitaView(vita);
+		//System.out.println(vita);
 	}
 
 	public int getVita()

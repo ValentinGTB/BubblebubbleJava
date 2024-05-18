@@ -18,7 +18,7 @@ public class EnemyView extends JComponent{
         {
             playerX = enemy.getPlayerXEnemy();
             playerY = enemy.getPlayerYEnemy();
-            System.out.print(playerX);
+            //System.out.print(playerX);
         }
 
     }
