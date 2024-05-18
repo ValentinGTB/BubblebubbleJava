@@ -35,7 +35,6 @@ public class GameController {
         enemy = new EnemyModel(player);
         model = new GameModel(player, platforms , enemy);
         game = new GameView(model);
-        
     }
     
     
@@ -50,7 +49,7 @@ public class GameController {
 
     // eseguito ad ogni frame
     // qui dobbiamo sia aggiornare i modelli (es. fare il move) che fare il render della view  
-    public void onTick() {
+    public void onTick(){
         // qui gestiamo ogni aggiornamento dei nostri modelli
         player.move();
         enemy.move();

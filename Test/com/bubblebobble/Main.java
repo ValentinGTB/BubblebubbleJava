@@ -128,8 +128,8 @@ public class Main extends JFrame {
             	
             	if(isPaused == false) 
             	{
-                controller.onTick();
-                repaint();
+                    controller.onTick();
+                    repaint();
             	}
 
             }  
