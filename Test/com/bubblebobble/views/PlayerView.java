@@ -36,16 +36,14 @@ public class PlayerView {
 
     public void drawVita(Graphics g) {
         // Disegna vita
-
-        int xMassima = 90;
+        int xMassima = 50;
 
         // Stampa j volte l'immagine fino ad arrivare alla vitaAttuale // La vitaAttuale
         // viene decrementata per cui il for arriverà sempre a meno
 
         for (int j = 1; j <= model.getVita(); j++) {
-            System.out.println(model.getVita());
             g.drawImage(vita, xMassima, 50, null);
-            xMassima -= 20; // Stampa i cuori a 20 di distanza da destra a sinistra togliendo 20 dalla dist
+            xMassima += 20; // Stampa i cuori a 20 di distanza da destra a sinistra togliendo 20 dalla dist
                             // massima ad ogni ciclata
         }
         if (model.getVita() <= 0) {

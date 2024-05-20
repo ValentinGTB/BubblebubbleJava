@@ -1,8 +1,6 @@
 package com.bubblebobble;
 
 import java.awt.Image;
-import java.util.stream.BaseStream;
-
 import javax.imageio.ImageIO;
 
 
@@ -30,6 +28,8 @@ public class Constants {
     public static String IMMAGINESTART =  BaseURL + "start.png";
     public static String IMMAGINESTART2 =  BaseURL + "start2.png";
 
+    //Valore per sapere se il player è stato colpito
+    public static boolean colpito = false;
 
 
     //GameSize

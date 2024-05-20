@@ -4,17 +4,19 @@ import com.bubblebobble.Constants;
 
 public class EnemyModel {
 
-    int xEnemy = 50;
-    int yEnemy = 50;
+    int xEnemy = 70;
+    int yEnemy = 600;
 
     PlayerModel pm;
-    double enemySpeed = Constants.SPEED + 2.50;
+    double enemySpeed = Constants.SPEED + 1.50;
     int xGiocatore;
     int yGiocatore;
+    int flipFlop = 0; 
 
     public EnemyModel(PlayerModel pm) {
         System.out.print("CREATO");
         this.pm = pm;
+        MyThread.getInstance().startThread(pm);
     }
 
     public void move() {
@@ -23,27 +25,17 @@ public class EnemyModel {
             int deltaX = xGiocatore - xEnemy;
             int deltaY = yGiocatore - yEnemy;
             distance(deltaX, deltaY);
-
+            Constants.colpito = false;
+            flipFlop = 1;
         } else {
+    
+            /* if(flipFlop == 1)    ------ POSSIBILE LOGICA DA POTER USARE PER FAR COLPIRE SUBITO UNA VOLTA SOLA IL GIOCATORE E POI PASSARE L'AZIONE AL THREAD
+            {
+                System.out.println("COLPISCI SUBITO!!");
+                flipFlop = 0;
+            } */
 
-            new Thread(new Runnable() {
-                public void run() {
-                    try {
-
-                        // Se tocchi il player -> player.vita(-1)
-                        
-                        if (pm.getVita() > 0) {
-                            pm.setVita();
-                        }
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
-                        System.out.println("interrotto male");
-                        Thread.currentThread().interrupt();
-                        e.printStackTrace();
-                    }
-
-                }
-            }).start();
+            Constants.colpito = true;
 
             // vanish del personaggio per 3 secondi player.vanish(3, 3) sta per 3 secondi e
             // il frame scompare e riappare per 3 secondi.

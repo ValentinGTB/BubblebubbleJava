@@ -32,11 +32,6 @@ public class EnemyView extends JComponent{
         g.setColor(Color.green);
         g.fillRect(enemyX, enemyY, 10, 10);
 
-
-
-
-
-
         /* DEBUG PER VEDERE SE PRENDE X E Y DEL GIOCATORE
          * g.setColor(Color.green);
          * g.fillRect(enemy.getPlayerXEnemy(), enemy.getPlayerYEnemy(), 10, 10);
