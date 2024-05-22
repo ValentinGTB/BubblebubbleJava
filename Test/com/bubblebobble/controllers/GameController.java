@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class GameController {
+    private boolean salta = false;
     private GameView game;
     private EnemyModel enemy;
     private PlayerModel player;
@@ -14,42 +15,54 @@ public class GameController {
     int xPlayer = 0;
     int yPlayer = 0;
 
-    public GameController(int vuoto){}
+    public GameController(int vuoto) {
+    }
 
     public GameController() {
-        player = new PlayerModel(Constants.MAX_WIDTH/3, Constants.MAX_HEIGHT * 70 / 100 - Constants.ALL_PLATFORMHEIGHT);
-        
+        player = new PlayerModel(Constants.MAX_WIDTH / 3,
+                Constants.MAX_HEIGHT * 70 / 100 - Constants.ALL_PLATFORMHEIGHT);
+
         ArrayList<PlatformModel> platforms = new ArrayList<>();
-        platforms.add(new PlatformModel(0, 0, Constants.ALL_PLATFORMHEIGHT ,Constants.MAX_WIDTH ));
-        platforms.add(new PlatformModel(Constants.MAX_WIDTH-50, 0, Constants.ALL_PLATFORMHEIGHT ,Constants.MAX_WIDTH ));
+        platforms.add(new PlatformModel(0, 0, Constants.ALL_PLATFORMHEIGHT, Constants.MAX_WIDTH));
+        platforms
+                .add(new PlatformModel(Constants.MAX_WIDTH - 50, 0, Constants.ALL_PLATFORMHEIGHT, Constants.MAX_WIDTH));
 
-
-        platforms.add(new PlatformModel(0, Constants.MAX_HEIGHT*90/100, Constants.MAX_WIDTH/2, Constants.ALL_PLATFORMHEIGHT));
-        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT*75/100, Constants.MAX_WIDTH/2, Constants.ALL_PLATFORMHEIGHT));
-        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT*55/100, Constants.MAX_WIDTH/2, Constants.ALL_PLATFORMHEIGHT));
-        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT*45/100, Constants.MAX_WIDTH/2, Constants.ALL_PLATFORMHEIGHT));
-        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT*35/100, Constants.MAX_WIDTH/2, Constants.ALL_PLATFORMHEIGHT));
-        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT*25/100, Constants.MAX_WIDTH/2, Constants.ALL_PLATFORMHEIGHT));
-        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT*15/100, Constants.MAX_WIDTH/2, Constants.ALL_PLATFORMHEIGHT));
-        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT*5/100, Constants.MAX_WIDTH/2, Constants.ALL_PLATFORMHEIGHT));
+        platforms.add(new PlatformModel(0, Constants.MAX_HEIGHT * 90 / 100, Constants.MAX_WIDTH / 2,
+                Constants.ALL_PLATFORMHEIGHT));
+        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 75 / 100, Constants.MAX_WIDTH / 2,
+                Constants.ALL_PLATFORMHEIGHT));
+        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 55 / 100, Constants.MAX_WIDTH / 2,
+                Constants.ALL_PLATFORMHEIGHT));
+        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 45 / 100, Constants.MAX_WIDTH / 2,
+                Constants.ALL_PLATFORMHEIGHT));
+        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 35 / 100, Constants.MAX_WIDTH / 2,
+                Constants.ALL_PLATFORMHEIGHT));
+        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 25 / 100, Constants.MAX_WIDTH / 2,
+                Constants.ALL_PLATFORMHEIGHT));
+        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 15 / 100, Constants.MAX_WIDTH / 2,
+                Constants.ALL_PLATFORMHEIGHT));
+        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 5 / 100, Constants.MAX_WIDTH / 2,
+                Constants.ALL_PLATFORMHEIGHT));
         enemy = new EnemyModel(player);
-        model = new GameModel(player, platforms , enemy);
+        model = new GameModel(player, platforms, enemy);
         game = new GameView(model);
     }
-    
-    
-    /** 
+
+    /**
      * @return GameView
      */
     public GameView getGame() {
         return game;
     }
 
-    
+    public GameModel getGameModel() {
+        return model;
+    }
 
     // eseguito ad ogni frame
-    // qui dobbiamo sia aggiornare i modelli (es. fare il move) che fare il render della view  
-    public void onTick(){
+    // qui dobbiamo sia aggiornare i modelli (es. fare il move) che fare il render
+    // della view
+    public void onTick() {
         // qui gestiamo ogni aggiornamento dei nostri modelli
         player.move();
         enemy.move();
@@ -62,36 +75,50 @@ public class GameController {
         yPlayer = player.getY();
         enemy.setPlayerY(yPlayer);
 
-        
-
         for (PlatformModel platform : model.getPlatforms()) {
             if (player.collidesWith(platform)) {
                 player.setJumping(false);
             }
         }
-        
+
+        // -----    COLLIDESWITH DI ENEMY   -----
+
+        for (PlatformModel platform : model.getPlatforms()) {
+            if (enemy.collidesWith(platform)) 
+            {
+                enemy.setColliding(false);
+            } 
+            else 
+            {
+                enemy.setColliding(true);
+                enemy.setEnemyY(enemy.getEnemyY() + 1); //Gravità
+                
+            }
+
+        }
+
     }
 
-    public void blocchiBordiTopBottom(){
+    public void blocchiBordiTopBottom() {
 
-        if  (player.getY() + player.getYSpeed() < 0){
+        if (player.getY() + player.getYSpeed() < 0) {
             player.setYSpeed(Constants.SPEED);
         }
-        
-        if (player.getY() + player.getYSpeed() >= Constants.MAX_HEIGHT){
+
+        if (player.getY() + player.getYSpeed() >= Constants.MAX_HEIGHT) {
             player.setY(-40);
             player.setYSpeed(-Constants.SPEED);
         }
 
     }
 
-    public void blocchiBordiLeftRight(){
-        if(player.getX() + player.getXSpeed() < 0){
+    public void blocchiBordiLeftRight() {
+        if (player.getX() + player.getXSpeed() < 0) {
             player.setXSpeed(0);
             player.setX(0);
         }
 
-        if(player.getX() + player.getXSpeed() >= Constants.MAX_WIDTH - 50){
+        if (player.getX() + player.getXSpeed() >= Constants.MAX_WIDTH - 50) {
             player.setXSpeed(0);
             player.setX(Constants.MAX_WIDTH - 50);
         }
@@ -106,7 +133,7 @@ public class GameController {
         } else if (key == KeyEvent.VK_UP) {
             player.salta();
         }
-        //new EnemyModel();
+        // new EnemyModel();
 
     }
 
@@ -120,5 +147,5 @@ public class GameController {
             player.setYSpeed(0);
         }
     }
-    
+
 }

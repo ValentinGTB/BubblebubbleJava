@@ -33,7 +33,7 @@ public class MyThread extends Thread {
 
     private synchronized void incrementCallCount() { // Incrementa le chiamate
         callCount++;
-        System.out.println("chiamato " + callCount + " volte");
+        System.out.println("Thread chiamato " + callCount + " volte");
     }
 
 
