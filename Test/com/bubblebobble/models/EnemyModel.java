@@ -10,15 +10,15 @@ public class EnemyModel extends PlayerModel {
     boolean inAlto = false;
     int xEnemy = 70;
     int yEnemy = 680;
-    int DISTANCEPG = 20;
+    int DISTANCEPG = 45;
     double enemySpeed = Constants.SPEED + 1.50;
     int xGiocatore;
     int yGiocatore;
     int flipFlop = 0;
 
+
     public EnemyModel(PlayerModel pm) {
 
-        System.out.println("NEMICO CREATO!");
         this.pm = pm;
         MyThread.getInstance().startThread(pm);
     }
@@ -39,7 +39,6 @@ public class EnemyModel extends PlayerModel {
              * if(flipFlop == 1) ------ POSSIBILE LOGICA DA POTER USARE PER FAR COLPIRE
              * SUBITO UNA VOLTA SOLA IL GIOCATORE E POI PASSARE L'AZIONE AL THREAD
              * {
-             * System.out.println("COLPISCI SUBITO!!");
              * flipFlop = 0;
              * }
              */
@@ -58,13 +57,11 @@ public class EnemyModel extends PlayerModel {
         double directionX = deltaX / distance;
 
         // Aggiorna la posizione del nemico
-        System.out.println(inAlto);
         if (colliding) {
             xEnemy += directionX * enemySpeed;
 
             if (inAlto) {
                 //Aggiungi logica per far saltare il nemico lungo la piattaforma
-                System.out.println("yEnemy dopo volo " + (yEnemy - 20) + " " + yGiocatore);
                 // Controllo se mi trovo a una certa X di distanza verticalmente dal giocatore
                 // (Evita di salire troppo vicino al giocatore)
             }
@@ -104,7 +101,6 @@ public class EnemyModel extends PlayerModel {
                 // prima di arrivare al margine vero
                 inAlto = true;
                 a += 1;
-                System.out.println("in alto aggiornata " + a + " " + inAlto);
                 
                 if (xEnemy == platform.getPlatformWidth() - 15) {
 
@@ -115,7 +111,6 @@ public class EnemyModel extends PlayerModel {
             // --- Altrimenti, se il giocatore è sulla mia stessa piattaforma ---
             else if (yEnemy - 20 == yGiocatore) {
                 inAlto = false;
-                System.out.println("yEnemy prima del volo " + (yEnemy - 20) + " " + yGiocatore);
             }
 
             return true; // Collisione rilevata

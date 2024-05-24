@@ -1,8 +1,12 @@
 package com.bubblebobble.views;
+import com.bubblebobble.Constants;
 import com.bubblebobble.models.*;
 import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JComponent;
+import java.awt.*;
+import javax.swing.*;
+
 
 public class EnemyView extends JComponent{
     
@@ -10,6 +14,7 @@ public class EnemyView extends JComponent{
     int enemyX , enemyY;
     int playerX , playerY;
     private PlayerModel pm;
+    private Image Enemy1 = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "Enemy1.png");
 
     public EnemyView(EnemyModel enemy) {
 
@@ -29,8 +34,7 @@ public class EnemyView extends JComponent{
         enemyX = enemy.getEnemyX();
         enemyY = enemy.getEnemyY();
         super.paintComponent(g);
-        g.setColor(Color.green);
-        g.fillRect(enemyX, enemyY, 10, 10);
+        g.drawImage(Enemy1,enemyX, enemyY, null);
 
         /* DEBUG PER VEDERE SE PRENDE X E Y DEL GIOCATORE
          * g.setColor(Color.green);
