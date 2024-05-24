@@ -15,8 +15,7 @@ public class GameController {
     int xPlayer = 0;
     int yPlayer = 0;
 
-    public GameController(int vuoto) {
-    }
+    public GameController(int vuoto) {}
 
     public GameController() {
         player = new PlayerModel(Constants.MAX_WIDTH / 3,
@@ -24,25 +23,24 @@ public class GameController {
 
         ArrayList<PlatformModel> platforms = new ArrayList<>();
         platforms.add(new PlatformModel(0, 0, Constants.ALL_PLATFORMHEIGHT, Constants.MAX_WIDTH));
-        platforms
-                .add(new PlatformModel(Constants.MAX_WIDTH - 50, 0, Constants.ALL_PLATFORMHEIGHT, Constants.MAX_WIDTH));
+        platforms.add(new PlatformModel(Constants.MAX_WIDTH - 50, 0, Constants.ALL_PLATFORMHEIGHT, Constants.MAX_WIDTH));
 
-        platforms.add(new PlatformModel(0, Constants.MAX_HEIGHT * 90 / 100, Constants.MAX_WIDTH / 2,
+        platforms.add(new PlatformModel(0, Constants.MAX_HEIGHT * 90 / 100, Constants.MAX_WIDTH / 3,
                 Constants.ALL_PLATFORMHEIGHT));
-        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 75 / 100, Constants.MAX_WIDTH / 2,
+        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 75 / 100, Constants.MAX_WIDTH / 3,
                 Constants.ALL_PLATFORMHEIGHT));
-        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 55 / 100, Constants.MAX_WIDTH / 2,
+        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 55 / 100, Constants.MAX_WIDTH / 3,
                 Constants.ALL_PLATFORMHEIGHT));
-        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 45 / 100, Constants.MAX_WIDTH / 2,
+        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 45 / 100, Constants.MAX_WIDTH / 3,
                 Constants.ALL_PLATFORMHEIGHT));
-        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 35 / 100, Constants.MAX_WIDTH / 2,
+        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 35 / 100, Constants.MAX_WIDTH / 3,
                 Constants.ALL_PLATFORMHEIGHT));
-        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 25 / 100, Constants.MAX_WIDTH / 2,
+        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 25 / 100, Constants.MAX_WIDTH / 3,
                 Constants.ALL_PLATFORMHEIGHT));
-        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 15 / 100, Constants.MAX_WIDTH / 2,
+        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 15 / 100, Constants.MAX_WIDTH / 3,
                 Constants.ALL_PLATFORMHEIGHT));
-        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 5 / 100, Constants.MAX_WIDTH / 2,
-                Constants.ALL_PLATFORMHEIGHT));
+        
+
         enemy = new EnemyModel(player);
         model = new GameModel(player, platforms, enemy);
         game = new GameView(model);
@@ -66,6 +64,7 @@ public class GameController {
         // qui gestiamo ogni aggiornamento dei nostri modelli
         player.move();
         enemy.move();
+        
         blocchiBordiLeftRight();
         blocchiBordiTopBottom();
 
@@ -96,7 +95,6 @@ public class GameController {
             }
 
         }
-
     }
 
     public void blocchiBordiTopBottom() {
@@ -108,6 +106,19 @@ public class GameController {
         if (player.getY() + player.getYSpeed() >= Constants.MAX_HEIGHT) {
             player.setY(-40);
             player.setYSpeed(-Constants.SPEED);
+        }
+
+        // Blocco Enemy
+
+        if (enemy.getEnemyY() + enemy.getEnemySpeed() < 0) {
+            enemy.setEnemySpeed(Constants.SPEED);
+            System.out.println("enemyY < enemySpeed");
+        }
+
+        if (enemy.getEnemyY() + enemy.getEnemySpeed() >= Constants.MAX_HEIGHT) {
+            enemy.setEnemyY(-50);
+            enemy.setEnemySpeed(-Constants.SPEED);
+            System.out.println("enemyY > max height");
         }
 
     }
@@ -122,6 +133,9 @@ public class GameController {
             player.setXSpeed(0);
             player.setX(Constants.MAX_WIDTH - 50);
         }
+
+        // Blocchi Enemy
+
     }
 
     public void onKeyPressed(KeyEvent e) {

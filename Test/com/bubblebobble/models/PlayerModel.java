@@ -1,7 +1,5 @@
 package com.bubblebobble.models;
 
-import com.bubblebobble.views.PlayerView;
-
 public class PlayerModel {
 
 	private int x;
@@ -15,8 +13,6 @@ public class PlayerModel {
 	private double gravity = 1;
 
 	private boolean isJumping;
-
-	private PlayerView pw = new PlayerView();
 
 	public PlayerModel(){}
 

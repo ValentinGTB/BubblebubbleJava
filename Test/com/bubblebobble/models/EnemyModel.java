@@ -15,17 +15,15 @@ public class EnemyModel extends PlayerModel {
     int xGiocatore;
     int yGiocatore;
     int flipFlop = 0;
-
-
+    
     public EnemyModel(PlayerModel pm) {
-
         this.pm = pm;
         MyThread.getInstance().startThread(pm);
     }
 
     public void move() {
 
-        if (xEnemy != xGiocatore || yEnemy != yGiocatore) {
+        if (xEnemy != xGiocatore || yEnemy-2 != yGiocatore) {
             int deltaX = xGiocatore - xEnemy;
             int deltaY = yGiocatore - yEnemy;
 
@@ -42,7 +40,6 @@ public class EnemyModel extends PlayerModel {
              * flipFlop = 0;
              * }
              */
-
             Constants.colpito = true;
             // vanish del personaggio per 3 secondi player.vanish(3, 3) sta per 3 secondi e
             // il frame scompare e riappare per 3 secondi.
@@ -55,13 +52,12 @@ public class EnemyModel extends PlayerModel {
 
         // Normalizza il vettore
         double directionX = deltaX / distance;
-
         // Aggiorna la posizione del nemico
         if (colliding) {
             xEnemy += directionX * enemySpeed;
 
             if (inAlto) {
-                //Aggiungi logica per far saltare il nemico lungo la piattaforma
+                // Aggiungi logica per far saltare il nemico lungo la piattaforma
                 // Controllo se mi trovo a una certa X di distanza verticalmente dal giocatore
                 // (Evita di salire troppo vicino al giocatore)
             }
@@ -99,17 +95,16 @@ public class EnemyModel extends PlayerModel {
                 // --- Controllo se sono alla fine della piattaforma ---
                 // Sottraggo 15 di offset per far pensare all'enemy di essere a fine piattaforma
                 // prima di arrivare al margine vero
-                inAlto = true;
-                a += 1;
+                if(pm.isJumping() == false) inAlto = true;
                 
-                if (xEnemy == platform.getPlatformWidth() - 15) {
-
-                }
+                // Se sono alla fine della piattaforma
+                if (xEnemy == platform.getPlatformWidth() - 15) {}
 
                 
             }
             // --- Altrimenti, se il giocatore è sulla mia stessa piattaforma ---
             else if (yEnemy - 20 == yGiocatore) {
+                System.out.println("falso, non sei in alto");
                 inAlto = false;
             }
 
@@ -149,8 +144,21 @@ public class EnemyModel extends PlayerModel {
         this.yEnemy = yEnemy;
     }
 
+    public void setEnemyX(int xEnemy) {
+        this.xEnemy = xEnemy;
+    }
+
     public void setColliding(boolean colliding) {
         this.colliding = colliding;
+    }
+
+    public double getEnemySpeed() {
+        return enemySpeed;
+    }
+    
+    public void setEnemySpeed(int enemySpeed)
+    {
+        this.enemySpeed = enemySpeed;
     }
 
 }

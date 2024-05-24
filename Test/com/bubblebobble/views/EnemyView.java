@@ -1,11 +1,8 @@
 package com.bubblebobble.views;
 import com.bubblebobble.Constants;
 import com.bubblebobble.models.*;
-import java.awt.Color;
-import java.awt.Graphics;
-import javax.swing.JComponent;
 import java.awt.*;
-import javax.swing.*;
+import javax.swing.JComponent;
 
 
 public class EnemyView extends JComponent{
@@ -34,6 +31,7 @@ public class EnemyView extends JComponent{
         enemyX = enemy.getEnemyX();
         enemyY = enemy.getEnemyY();
         super.paintComponent(g);
+
         g.drawImage(Enemy1,enemyX, enemyY, null);
 
         /* DEBUG PER VEDERE SE PRENDE X E Y DEL GIOCATORE
