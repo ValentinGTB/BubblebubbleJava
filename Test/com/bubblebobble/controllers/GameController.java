@@ -5,6 +5,8 @@ import com.bubblebobble.models.*;
 import com.bubblebobble.views.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.awt.*;
+
 
 public class GameController {
     private boolean salta = false;
@@ -15,20 +17,23 @@ public class GameController {
     int xPlayer = 0;
     int yPlayer = 0;
 
+
     public GameController(int vuoto) {}
 
     public GameController() {
-        player = new PlayerModel(Constants.MAX_WIDTH / 3,
-                Constants.MAX_HEIGHT * 70 / 100 - Constants.ALL_PLATFORMHEIGHT);
-
         ArrayList<PlatformModel> platforms = new ArrayList<>();
         ArrayList<WallModel> walls = new ArrayList<>();
 
+        // Player
+        player = new PlayerModel(Constants.MAX_WIDTH / 3,Constants.MAX_HEIGHT * 70 / 100 - Constants.ALL_PLATFORMHEIGHT);
 
+
+        // muri esterni 
         walls.add(new WallModel(0, 0, Constants.ALL_PLATFORMHEIGHT, Constants.MAX_WIDTH));
-        walls.add(new WallModel(Constants.MAX_WIDTH - 50, 0, Constants.ALL_PLATFORMHEIGHT, Constants.MAX_WIDTH));
+        walls.add(new WallModel(Constants.MAX_WIDTH - 55, 0, Constants.ALL_PLATFORMHEIGHT, Constants.MAX_WIDTH));
 
 
+        //piattagforme
                 
         platforms.add(new PlatformModel(0, Constants.MAX_HEIGHT * 90 / 100, Constants.MAX_WIDTH / 2,
                 Constants.ALL_PLATFORMHEIGHT));
@@ -43,9 +48,6 @@ public class GameController {
         game = new GameView(model);
     }
 
-    /**
-     * @return GameView
-     */
     public GameView getGame() {
         return game;
     }
@@ -62,8 +64,7 @@ public class GameController {
         player.move();
         enemy.move();
         
-        blocchiBordiLeftRight();
-        blocchiBordiTopBottom();
+        BlocchiDirezzionali();;
 
         xPlayer = player.getX();
         enemy.setPlayerX(xPlayer);
@@ -71,13 +72,20 @@ public class GameController {
         yPlayer = player.getY();
         enemy.setPlayerY(yPlayer);
 
+        ControlloSaltoPlatform();
+        CollisioneEnemy();
+        
+    }
+
+    public void ControlloSaltoPlatform(){
         for (PlatformModel platform : model.getPlatforms()) {
             if (player.collidesWith(platform)) {
                 player.setJumping(false);
             }
         }
+    }
 
-        // -----    COLLIDESWITH DI ENEMY   -----
+    public void CollisioneEnemy(){
 
         for (PlatformModel platform : model.getPlatforms()) {
             if (enemy.collidesWith(platform)) 
@@ -92,6 +100,12 @@ public class GameController {
             }
 
         }
+
+    }
+
+    public void BlocchiDirezzionali(){
+        blocchiBordiLeftRight();
+        blocchiBordiTopBottom();
     }
 
     public void blocchiBordiTopBottom() {

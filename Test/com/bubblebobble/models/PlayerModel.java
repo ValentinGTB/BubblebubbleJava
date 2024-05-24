@@ -1,5 +1,7 @@
 package com.bubblebobble.models;
 
+import com.bubblebobble.Constants;
+
 public class PlayerModel {
 
 	private int x;
@@ -94,6 +96,27 @@ public class PlayerModel {
 	
 		return false; // Nessuna collisione rilevata
 	}
+
+	public boolean collidesWithWalls(WallModel wall){
+
+		if (this.getX() + this.getXSpeed() < wall.getWallX()) {
+            this.setXSpeed(0);
+            this.setX(wall.getWallX());
+            return true;
+        } 
+        // Verifica collisione con il muro destro
+        else if (this.getX() + this.getXSpeed() + Constants.MAX_WIDTH - 50 > wall.getWallX() + wall.getWallWidth()) {
+            this.setXSpeed(0);
+            this.setX(wall.getWallX() + wall.getWallWidth() - Constants.MAX_WIDTH - 50);
+            return true;
+        }
+
+		return false; // Nessuna collisione rilevata
+	}
+
+	//TODO: Risolvere la collisione con il muro
+
+
 
 	// Muove il personaggio
 	public void move() {
