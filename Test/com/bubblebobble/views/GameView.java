@@ -7,15 +7,17 @@ import javax.swing.*;
 
 public class GameView extends JPanel {
 
-    private GameModel model;
+    // private GameModel model;
     private PlayerView player;
     private java.util.List<PlatformView> platforms;
+    private java.util.List<WallView> walls;
     private EnemyView enemyV;
 
 
     public GameView(GameModel model) {
         player = new PlayerView(model.getPlayer());
         platforms = model.getPlatforms().stream().map(PlatformView::new).toList();
+        walls = model.getWallModels().stream().map(WallView::new).toList();
         enemyV = new EnemyView(model.getEnemyModel());
     }
 
@@ -25,6 +27,7 @@ public class GameView extends JPanel {
         if(Constants.isGamePaused == false) {
         	// disegna piattaforme
         	platforms.forEach(platform -> platform.paintComponent(g));
+            walls.forEach(wall -> wall.paintComponent(g));
         	// disegna personaggio
         	player.paintComponent(g);
             //Disegna nemico

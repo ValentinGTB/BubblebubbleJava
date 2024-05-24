@@ -13,7 +13,7 @@ public class PlayerView {
     EnemyModel enemyModel;
 
     // Array di immagini per l'animazione della camminata
-    private int frameCount = 0; // Conteggio dei frame
+    // private int frameCount = 0; // Conteggio dei frame
     private ImageIcon[] walkFrames;
     private int currentFrame = 0; // Frame corrente dell'animazione
     private int totalframe = 4;

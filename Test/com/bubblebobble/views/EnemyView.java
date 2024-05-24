@@ -1,8 +1,10 @@
 package com.bubblebobble.views;
+
 import com.bubblebobble.Constants;
 import com.bubblebobble.models.*;
-import java.awt.*;
 import javax.swing.JComponent;
+import java.awt.Graphics;
+import java.awt.*;
 
 
 public class EnemyView extends JComponent{

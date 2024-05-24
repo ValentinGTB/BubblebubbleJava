@@ -14,6 +14,8 @@ public class PlayerModel {
 
 	private boolean isJumping;
 
+	// private PlayerView pw = new PlayerView();
+
 	public PlayerModel(){}
 
 	public PlayerModel(int x, int y) {

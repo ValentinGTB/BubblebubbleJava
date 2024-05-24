@@ -22,27 +22,24 @@ public class GameController {
                 Constants.MAX_HEIGHT * 70 / 100 - Constants.ALL_PLATFORMHEIGHT);
 
         ArrayList<PlatformModel> platforms = new ArrayList<>();
-        platforms.add(new PlatformModel(0, 0, Constants.ALL_PLATFORMHEIGHT, Constants.MAX_WIDTH));
-        platforms.add(new PlatformModel(Constants.MAX_WIDTH - 50, 0, Constants.ALL_PLATFORMHEIGHT, Constants.MAX_WIDTH));
+        ArrayList<WallModel> walls = new ArrayList<>();
 
-        platforms.add(new PlatformModel(0, Constants.MAX_HEIGHT * 90 / 100, Constants.MAX_WIDTH / 3,
+
+        walls.add(new WallModel(0, 0, Constants.ALL_PLATFORMHEIGHT, Constants.MAX_WIDTH));
+        walls.add(new WallModel(Constants.MAX_WIDTH - 50, 0, Constants.ALL_PLATFORMHEIGHT, Constants.MAX_WIDTH));
+
+
+                
+        platforms.add(new PlatformModel(0, Constants.MAX_HEIGHT * 90 / 100, Constants.MAX_WIDTH / 2,
                 Constants.ALL_PLATFORMHEIGHT));
         platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 75 / 100, Constants.MAX_WIDTH / 3,
                 Constants.ALL_PLATFORMHEIGHT));
-        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 55 / 100, Constants.MAX_WIDTH / 3,
-                Constants.ALL_PLATFORMHEIGHT));
-        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 45 / 100, Constants.MAX_WIDTH / 3,
-                Constants.ALL_PLATFORMHEIGHT));
-        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 35 / 100, Constants.MAX_WIDTH / 3,
-                Constants.ALL_PLATFORMHEIGHT));
-        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 25 / 100, Constants.MAX_WIDTH / 3,
-                Constants.ALL_PLATFORMHEIGHT));
-        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 15 / 100, Constants.MAX_WIDTH / 3,
-                Constants.ALL_PLATFORMHEIGHT));
-        
+
+
+
 
         enemy = new EnemyModel(player);
-        model = new GameModel(player, platforms, enemy);
+        model = new GameModel(player, platforms, enemy, walls);
         game = new GameView(model);
     }
 

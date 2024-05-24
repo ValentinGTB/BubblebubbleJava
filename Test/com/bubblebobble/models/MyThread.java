@@ -42,11 +42,9 @@ public class MyThread extends Thread {
 
     @Override
     public void run() {
-        int count = 0;
         while (true) {
             if(Constants.colpito)
             {
-                count++;
                 if (pm.getVita() > 0) {
                     pm.setVita();
                 }
