@@ -1,10 +1,14 @@
 package com.bubblebobble.models;
 
 import com.bubblebobble.Constants;
+import java.util.ArrayList;
 
 public class EnemyModel extends PlayerModel {
 
     PlayerModel pm;
+    ArrayList<WallModel> walls;
+
+    private static final int DISTANZA_SALTO_X = 50; // Ad esempio, 50 pixel
 
     boolean colliding = false;
     boolean inAlto = false;
@@ -15,9 +19,10 @@ public class EnemyModel extends PlayerModel {
     int xGiocatore;
     int yGiocatore;
     int flipFlop = 0;
-    int c = 0;
-    public EnemyModel(PlayerModel pm) {
+ 
+    public EnemyModel(PlayerModel pm , ArrayList<WallModel> walls) {
         this.pm = pm;
+        this.walls = walls;
         MyThread.getInstance().startThread(pm);
     }
 
@@ -26,7 +31,6 @@ public class EnemyModel extends PlayerModel {
         if (xEnemy+1 != xGiocatore || yEnemy-1 != yGiocatore-4) {
             int deltaX = xGiocatore - xEnemy;
             int deltaY = yGiocatore - yEnemy;
-            System.out.println(xEnemy+1 + "-"+ xGiocatore + "-"+ yEnemy + "-"+ (yGiocatore-4));
             distance(deltaX, deltaY);
             Constants.colpito = false;
             flipFlop = 1;
@@ -54,13 +58,38 @@ public class EnemyModel extends PlayerModel {
         double directionX = deltaX / distance;
         // Aggiorna la posizione del nemico
         if (colliding) {
-            xEnemy += directionX * enemySpeed;
+            if(!inAlto) xEnemy += directionX * enemySpeed;
 
             if (inAlto) {
-                // Aggiungi logica per far saltare il nemico lungo la piattaforma
                 
-                // Controllo se mi trovo a una certa X di distanza verticalmente dal giocatore
-                // (Evita di salire troppo vicino al giocatore)
+                // Logica per far saltare il nemico lungo la piattaforma
+                if(checkY(yGiocatore, yEnemy))
+                { 
+                    int distanzaX = Math.abs(xGiocatore - xEnemy);
+
+                    // Se sei già distante dal giocatore orizzontalmente
+                    if (distanzaX >= DISTANZA_SALTO_X) {
+                        System.out.println(distanzaX);
+                        // Infine faccio salire il nemico
+                        yEnemy -= (enemySpeed + 1);
+                    }
+                    // Se sei perfettamente sotto il giocatore
+                    else
+                    {
+                        //Aumenta le X
+                        for(WallModel wm : walls)
+                        {
+                            // Se dove mi trovo + la distanza da percorrere a destra > X del muro
+                            if((xEnemy + 5) > wm.getWallX())
+                            {
+                                System.out.println("AAAAAAAA");
+                                xEnemy -= enemySpeed;
+                            }
+                            else if((xEnemy + 5) < wm.getWallX()) xEnemy += enemySpeed; //Vai più a destra prima di salire
+                            
+                        }
+                    }
+                }
             }
         }
 
@@ -69,8 +98,6 @@ public class EnemyModel extends PlayerModel {
         // Se il nemico è sopra di me, dovrò saltare
 
     }
-
-    int a = 0;
 
     @Override
     public boolean collidesWith(PlatformModel platform) {
@@ -93,30 +120,27 @@ public class EnemyModel extends PlayerModel {
             // --- Se sono a terra, controllo se il giocatore sta più sopra di me ---
             // Il -20 serve a rimediare alla distanza di Y tra player e enemy
            
-            if (yEnemy - 35 > yGiocatore) {
-                c+=1;
+            if (checkY(yGiocatore, yEnemy)) {
                 // --- Controllo se sono alla fine della piattaforma ---
-                // Sottraggo 15 di offset per far pensare all'enemy di essere a fine piattaforma
+                // Sottraggo 35 di offset per far pensare all'enemy di essere a fine piattaforma
                 // prima di arrivare al margine vero
                 if(pm.isJumping() == false) 
                 {
                     inAlto = true;
-                    System.out.println("yEnemy " + (yEnemy - 35) + " yPlayer " + yGiocatore + " " + c);
                 }
-                
-                
-                
+
                 // Se sono alla fine della piattaforma
                 if (xEnemy == platform.getPlatformWidth() - 15) {}
-
-                
+   
             }
             // --- Altrimenti, se il giocatore è sulla mia stessa piattaforma ---
-            else if (yEnemy - 35 == yGiocatore) {
-                System.out.println("falso, non sei in alto" + (yEnemy-35) + " " + yGiocatore);
-                inAlto = false;
-                
+            else
+            {
+                if(pm.isJumping() == false)
+                    //System.out.println("falso, non sei in alto" + (yEnemy-35) + " " + yGiocatore);
+                    inAlto = false;
             }
+            
 
             return true; // Collisione rilevata
         }
@@ -124,6 +148,12 @@ public class EnemyModel extends PlayerModel {
         // Sezione di codice ragginuta SOLO SE il nemico non è più a terra
 
         return false; // Nessuna collisione rilevata
+    }
+
+    public boolean checkY(int yGiocatore , int yEnemy)
+    {
+        if (yEnemy - 35 > yGiocatore) return true;
+        else return false;
     }
 
     public void setPlayerX(int x) {

@@ -6,7 +6,7 @@ public class PlayerModel {
 
 	private int x;
 	private int y;
-	int vita = 3;
+	int vita = Constants.VITA;
 
 	private int xSpeed = 0;
 	private int ySpeed = 0;

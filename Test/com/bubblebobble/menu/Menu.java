@@ -54,8 +54,7 @@ public class Menu extends JPanel{
 						System.exit(0);
 					}
 				});
-				
-				
+
 				setBackground(Color.black);
 
 				add(Box.createVerticalGlue());

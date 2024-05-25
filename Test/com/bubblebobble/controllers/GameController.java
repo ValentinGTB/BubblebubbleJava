@@ -44,7 +44,7 @@ public class GameController {
         platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 75 / 100, Constants.MAX_WIDTH / 2,
                 Constants.ALL_PLATFORMHEIGHT));
 
-        enemy = new EnemyModel(player);
+        enemy = new EnemyModel(player, walls);
         model = new GameModel(player, platforms, enemy, walls);
         game = new GameView(model);
     }
@@ -66,7 +66,6 @@ public class GameController {
         enemy.move();
 
         BlocchiDirezzionali();
-        ;
 
         xPlayer = player.getX();
         enemy.setPlayerX(xPlayer);

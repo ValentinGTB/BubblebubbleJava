@@ -51,6 +51,7 @@ public class Constants {
 
     // Player 
     
+    public static int VITA = 5;
     public static int SPEED = 2;
 
     //Mantieni menu aperto fin quando è true
