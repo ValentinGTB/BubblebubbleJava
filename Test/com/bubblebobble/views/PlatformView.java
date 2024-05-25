@@ -20,11 +20,11 @@ public class PlatformView {
 
         int numberOfImages = Constants.MAX_HEIGHT / imageWidth;
 
-        // for (int i = 0; i <= numberOfImages; i++) {
-        //     g.drawImage(lv1Image, model.getPlatformX() + i * imageWidth, model.getPlatformY(), null);
-        // }
+        for (int i = 0; i <= numberOfImages; i++) {
+            g.drawImage(lv1Image, model.getPlatformX() + i * imageWidth, model.getPlatformY(), null);
+        }
 
-        g.setColor(Color.black);
-        g.fillRect(model.getPlatformX(), model.getPlatformY(), model.getPlatformWidth(), model.getPlatformHeight());
+        // g.setColor(Color.black);
+        // g.fillRect(model.getPlatformX(), model.getPlatformY(), model.getPlatformWidth(), model.getPlatformHeight());
     }
 }

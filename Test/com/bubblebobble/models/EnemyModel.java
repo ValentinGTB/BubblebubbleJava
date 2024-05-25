@@ -15,7 +15,7 @@ public class EnemyModel extends PlayerModel {
     int xGiocatore;
     int yGiocatore;
     int flipFlop = 0;
-    
+    int c = 0;
     public EnemyModel(PlayerModel pm) {
         this.pm = pm;
         MyThread.getInstance().startThread(pm);
@@ -23,7 +23,7 @@ public class EnemyModel extends PlayerModel {
 
     public void move() {
 
-        if (xEnemy != xGiocatore || yEnemy-2 != yGiocatore) {
+        if (xEnemy+1 != xGiocatore || yEnemy != yGiocatore-4) {
             int deltaX = xGiocatore - xEnemy;
             int deltaY = yGiocatore - yEnemy;
 
@@ -58,6 +58,7 @@ public class EnemyModel extends PlayerModel {
 
             if (inAlto) {
                 // Aggiungi logica per far saltare il nemico lungo la piattaforma
+                
                 // Controllo se mi trovo a una certa X di distanza verticalmente dal giocatore
                 // (Evita di salire troppo vicino al giocatore)
             }
@@ -91,11 +92,19 @@ public class EnemyModel extends PlayerModel {
 
             // --- Se sono a terra, controllo se il giocatore sta più sopra di me ---
             // Il -20 serve a rimediare alla distanza di Y tra player e enemy
-            if (yEnemy - 20 > yGiocatore) {
+           
+            if (yEnemy - 35 > yGiocatore) {
+                c+=1;
                 // --- Controllo se sono alla fine della piattaforma ---
                 // Sottraggo 15 di offset per far pensare all'enemy di essere a fine piattaforma
                 // prima di arrivare al margine vero
-                if(pm.isJumping() == false) inAlto = true;
+                if(pm.isJumping() == false) 
+                {
+                    inAlto = true;
+                    System.out.println("yEnemy " + (yEnemy - 35) + " yPlayer " + yGiocatore + " " + c);
+                }
+                
+                
                 
                 // Se sono alla fine della piattaforma
                 if (xEnemy == platform.getPlatformWidth() - 15) {}
@@ -103,9 +112,10 @@ public class EnemyModel extends PlayerModel {
                 
             }
             // --- Altrimenti, se il giocatore è sulla mia stessa piattaforma ---
-            else if (yEnemy - 20 == yGiocatore) {
-                System.out.println("falso, non sei in alto");
+            else if (yEnemy - 35 == yGiocatore) {
+                System.out.println("falso, non sei in alto" + (yEnemy-35) + " " + yGiocatore);
                 inAlto = false;
+                
             }
 
             return true; // Collisione rilevata

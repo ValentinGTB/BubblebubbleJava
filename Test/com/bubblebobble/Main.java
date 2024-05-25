@@ -26,8 +26,6 @@ public class Main extends JFrame {
 
     public Main() {	
     	
-    
-    	
     	inGamePanel = new JPanel();
     	inGamePanel.setBackground(Color.red);
     	//inGamePanel.setPreferredSize(new Dimension(300,300));
@@ -71,7 +69,7 @@ public class Main extends JFrame {
         
     	setTitle("MVC Game"); 
     	setLocationRelativeTo(null); 
-    	setResizable(false); 
+    	setResizable(false);
     	setVisible(true); 
     	setSize(Constants.MAX_WIDTH, Constants.MAX_HEIGHT); 
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
@@ -84,7 +82,6 @@ public class Main extends JFrame {
     		menu = null;
     		
     		controller = new GameController();
-    		
     		add(controller.getGame());
     		setLocation(300, 100); // Imposta le coordinate manualmente
     		setFocusable(true);

@@ -5,7 +5,6 @@ import com.bubblebobble.models.*;
 import com.bubblebobble.views.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.awt.*;
 
 
 public class GameController {
@@ -35,7 +34,7 @@ public class GameController {
 
         //piattagforme
                 
-        platforms.add(new PlatformModel(0, Constants.MAX_HEIGHT * 90 / 100, Constants.MAX_WIDTH / 2,
+        platforms.add(new PlatformModel(0, Constants.MAX_HEIGHT * 90 / 100, Constants.MAX_WIDTH + 200,
                 Constants.ALL_PLATFORMHEIGHT));
         platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 75 / 100, Constants.MAX_WIDTH / 3,
                 Constants.ALL_PLATFORMHEIGHT));
