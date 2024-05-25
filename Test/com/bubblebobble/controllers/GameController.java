@@ -134,18 +134,16 @@ public class GameController {
     }
 
     public void blocchiBordiLeftRight() {
-        if (player.getX() + player.getXSpeed() < 0) {
+        if (player.getX() + player.getXSpeed() < Constants.WallWidth) {
+            System.err.println(Constants.WallWidth + "Wall width");
             player.setXSpeed(0);
-            player.setX(0);
+            player.setX(Constants.WallWidth);
         }
 
-        if (player.getX() + player.getXSpeed() >= Constants.MAX_WIDTH - 50) {
+        if (player.getX() + player.getXSpeed() >= Constants.MAX_WIDTH - (50 + Constants.WallWidth)) {
             player.setXSpeed(0);
-            player.setX(Constants.MAX_WIDTH - 50);
+            player.setX(Constants.MAX_WIDTH -  (53 + Constants.WallWidth));
         }
-
-        // Blocchi Enemy
-
     }
 
     public void onKeyPressed(KeyEvent e) {

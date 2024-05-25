@@ -1,6 +1,7 @@
 package com.bubblebobble;
 
-import java.awt.Image;
+import com.bubblebobble.Constants;
+import java.awt.*;
 import javax.imageio.ImageIO;
 
 
@@ -14,6 +15,8 @@ public class Constants {
         try{
 				immagineBottoneInizia = ImageIO.read(getClass().getResource("imageButtonStart.png"));
 				immagineBottoneEsci = ImageIO.read(getClass().getResource("exitButtonDef.png"));
+                
+
 				}
 		catch(Exception e)
 				{
@@ -42,6 +45,10 @@ public class Constants {
 
     public static int ALL_PLATFORMHEIGHT = 40;
     
+    // Wall
+    public static int  WallWidth = 40;
+
+
     // Player 
     
     public static int SPEED = 2;

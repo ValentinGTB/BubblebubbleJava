@@ -97,26 +97,6 @@ public class PlayerModel {
 		return false; // Nessuna collisione rilevata
 	}
 
-	public boolean collidesWithWalls(WallModel wall){
-
-		if (x + xSpeed< wall.getWallX()) {
-            this.setXSpeed(0);
-            this.setX(wall.getWallX());
-            return true;
-        } 
-        // Verifica collisione con il muro destro
-        else if (x + xSpeed + Constants.MAX_WIDTH - 50 > wall.getWallX() + wall.getWallWidth()) {
-            this.setXSpeed(0);
-            this.setX(wall.getWallX() + wall.getWallWidth() - Constants.MAX_WIDTH - 50);
-            return true;
-        }
-
-		return false; // Nessuna collisione rilevata
-	}
-
-	//TODO: Risolvere la collisione con il muro
-
-
 
 	// Muove il personaggio
 	public void move() {
