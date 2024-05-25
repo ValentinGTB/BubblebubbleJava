@@ -23,10 +23,10 @@ public class EnemyModel extends PlayerModel {
 
     public void move() {
 
-        if (xEnemy+1 != xGiocatore || yEnemy != yGiocatore-4) {
+        if (xEnemy+1 != xGiocatore || yEnemy-1 != yGiocatore-4) {
             int deltaX = xGiocatore - xEnemy;
             int deltaY = yGiocatore - yEnemy;
-
+            System.out.println(xEnemy+1 + "-"+ xGiocatore + "-"+ yEnemy + "-"+ (yGiocatore-4));
             distance(deltaX, deltaY);
             Constants.colpito = false;
             flipFlop = 1;

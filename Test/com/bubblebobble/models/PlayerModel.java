@@ -99,13 +99,13 @@ public class PlayerModel {
 
 	public boolean collidesWithWalls(WallModel wall){
 
-		if (this.getX() + this.getXSpeed() < wall.getWallX()) {
+		if (x + xSpeed< wall.getWallX()) {
             this.setXSpeed(0);
             this.setX(wall.getWallX());
             return true;
         } 
         // Verifica collisione con il muro destro
-        else if (this.getX() + this.getXSpeed() + Constants.MAX_WIDTH - 50 > wall.getWallX() + wall.getWallWidth()) {
+        else if (x + xSpeed + Constants.MAX_WIDTH - 50 > wall.getWallX() + wall.getWallWidth()) {
             this.setXSpeed(0);
             this.setX(wall.getWallX() + wall.getWallWidth() - Constants.MAX_WIDTH - 50);
             return true;

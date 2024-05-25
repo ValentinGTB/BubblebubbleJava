@@ -6,7 +6,6 @@ import com.bubblebobble.views.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-
 public class GameController {
     private boolean salta = false;
     private GameView game;
@@ -16,31 +15,34 @@ public class GameController {
     int xPlayer = 0;
     int yPlayer = 0;
 
-
-    public GameController(int vuoto) {}
+    public GameController(int vuoto) {
+    }
 
     public GameController() {
         ArrayList<PlatformModel> platforms = new ArrayList<>();
         ArrayList<WallModel> walls = new ArrayList<>();
 
         // Player
-        player = new PlayerModel(Constants.MAX_WIDTH / 3,Constants.MAX_HEIGHT * 70 / 100 - Constants.ALL_PLATFORMHEIGHT);
+        player = new PlayerModel(Constants.MAX_WIDTH / 3,
+                Constants.MAX_HEIGHT * 70 / 100 - Constants.ALL_PLATFORMHEIGHT);
 
-
-        // muri esterni 
-        walls.add(new WallModel(0, 0, Constants.ALL_PLATFORMHEIGHT, Constants.MAX_WIDTH));
+        // muri esterni
+        walls.add(new WallModel(0, 3, Constants.ALL_PLATFORMHEIGHT, Constants.MAX_WIDTH));
         walls.add(new WallModel(Constants.MAX_WIDTH - 55, 0, Constants.ALL_PLATFORMHEIGHT, Constants.MAX_WIDTH));
 
+        // piattagforme top e bottom
 
-        //piattagforme
-                
-        platforms.add(new PlatformModel(0, Constants.MAX_HEIGHT * 90 / 100, Constants.MAX_WIDTH + 200,
-                Constants.ALL_PLATFORMHEIGHT));
-        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 75 / 100, Constants.MAX_WIDTH / 3,
+        platforms.add(new PlatformModel(25, Constants.MAX_HEIGHT * 90 / 100, Constants.MAX_WIDTH,
                 Constants.ALL_PLATFORMHEIGHT));
 
+        platforms.add(new PlatformModel(25, Constants.MAX_HEIGHT * 0 / 100, Constants.MAX_WIDTH,
+                Constants.ALL_PLATFORMHEIGHT));
 
 
+        // piattafroma
+        
+        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 75 / 100, Constants.MAX_WIDTH / 2,
+                Constants.ALL_PLATFORMHEIGHT));
 
         enemy = new EnemyModel(player);
         model = new GameModel(player, platforms, enemy, walls);
@@ -62,8 +64,9 @@ public class GameController {
         // qui gestiamo ogni aggiornamento dei nostri modelli
         player.move();
         enemy.move();
-        
-        BlocchiDirezzionali();;
+
+        BlocchiDirezzionali();
+        ;
 
         xPlayer = player.getX();
         enemy.setPlayerX(xPlayer);
@@ -73,10 +76,10 @@ public class GameController {
 
         ControlloSaltoPlatform();
         CollisioneEnemy();
-        
+
     }
 
-    public void ControlloSaltoPlatform(){
+    public void ControlloSaltoPlatform() {
         for (PlatformModel platform : model.getPlatforms()) {
             if (player.collidesWith(platform)) {
                 player.setJumping(false);
@@ -84,25 +87,22 @@ public class GameController {
         }
     }
 
-    public void CollisioneEnemy(){
+    public void CollisioneEnemy() {
 
         for (PlatformModel platform : model.getPlatforms()) {
-            if (enemy.collidesWith(platform)) 
-            {
+            if (enemy.collidesWith(platform)) {
                 enemy.setColliding(false);
-            } 
-            else 
-            {
+            } else {
                 enemy.setColliding(true);
-                enemy.setEnemyY(enemy.getEnemyY() + 1); //Gravità
-                
+                enemy.setEnemyY(enemy.getEnemyY() + 1); // Gravità
+
             }
 
         }
 
     }
 
-    public void BlocchiDirezzionali(){
+    public void BlocchiDirezzionali() {
         blocchiBordiLeftRight();
         blocchiBordiTopBottom();
     }
