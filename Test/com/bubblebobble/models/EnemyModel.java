@@ -9,7 +9,7 @@ public class EnemyModel extends PlayerModel {
     ArrayList<WallModel> walls;
 
     private static final int DISTANZA_SALTO_X = 50; // Ad esempio, 50 pixel
-
+    
     boolean colliding = false;
     boolean inAlto = false;
     int xEnemy = 70;
@@ -63,13 +63,12 @@ public class EnemyModel extends PlayerModel {
             if (inAlto) {
                 
                 // Logica per far saltare il nemico lungo la piattaforma
+                // Logica per far saltare il nemico lungo la piattaforma
                 if(checkY(yGiocatore, yEnemy))
                 { 
-                    int distanzaX = Math.abs(xGiocatore - xEnemy);
-
+                    int distanzaX = Math.abs(xGiocatore - xEnemy);                    
                     // Se sei già distante dal giocatore orizzontalmente
                     if (distanzaX >= DISTANZA_SALTO_X) {
-                        System.out.println(distanzaX);
                         // Infine faccio salire il nemico
                         yEnemy -= (enemySpeed + 1);
                     }
@@ -79,13 +78,17 @@ public class EnemyModel extends PlayerModel {
                         //Aumenta le X
                         for(WallModel wm : walls)
                         {
+                            int distanzaMuroX = Math.abs(wm.getWallX() - xEnemy);
+
                             // Se dove mi trovo + la distanza da percorrere a destra > X del muro
-                            if((xEnemy + 5) > wm.getWallX())
+                            if(Math.abs(wm.getWallX() - xEnemy) <= DISTANZA_SALTO_X)
                             {
-                                System.out.println("AAAAAAAA");
-                                xEnemy -= enemySpeed;
+                                for(int i = 20; i >= 0; i--) {
+                                    
+                                    xEnemy -= enemySpeed; //Salta a SX
+                                }
                             }
-                            else if((xEnemy + 5) < wm.getWallX()) xEnemy += enemySpeed; //Vai più a destra prima di salire
+                            else if(Math.abs(wm.getWallX() - xEnemy) > DISTANZA_SALTO_X) xEnemy += enemySpeed; //Vai più a destra prima di salire
                             
                         }
                     }
@@ -149,6 +152,8 @@ public class EnemyModel extends PlayerModel {
 
         return false; // Nessuna collisione rilevata
     }
+
+    
 
     public boolean checkY(int yGiocatore , int yEnemy)
     {
