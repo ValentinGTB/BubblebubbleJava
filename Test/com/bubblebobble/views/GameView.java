@@ -11,6 +11,7 @@ public class GameView extends JPanel {
     private PlayerView player;
     private java.util.List<PlatformView> platforms;
     private java.util.List<WallView> walls;
+    private ProjectileModel projModel;
     private EnemyView enemyV;
 
 
@@ -19,6 +20,7 @@ public class GameView extends JPanel {
         platforms = model.getPlatforms().stream().map(PlatformView::new).toList();
         walls = model.getWallModels().stream().map(WallView::new).toList();
         enemyV = new EnemyView(model.getEnemyModel());
+        projModel = new ProjectileModel(300, 800, 0);
     }
 
     @Override

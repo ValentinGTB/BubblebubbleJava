@@ -37,4 +37,5 @@ public class PlatformModel {
     public int getPlatformHeight() {
         return this.platformHeight;
     }
+
 }

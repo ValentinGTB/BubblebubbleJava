@@ -1,6 +1,8 @@
 package com.bubblebobble.models;
 
 import com.bubblebobble.Constants;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerModel {
 
@@ -18,12 +20,39 @@ public class PlayerModel {
 
 	// private PlayerView pw = new PlayerView();
 
+	
+
 	public PlayerModel(){}
 
 	public PlayerModel(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
+
+	    // ... esistente codice ...
+
+    private List<ProjectileModel> projectiles = new ArrayList<>();
+
+    // ... esistente codice ...
+
+    public void shoot() {
+        int projectileSpeed = 10; // Imposta la velocità del proiettile
+        projectiles.add(new ProjectileModel(x + DISTANCEPG, y + DISTANCEPG - 80 / 2, projectileSpeed));
+    }
+
+    public List<ProjectileModel> getProjectiles() {
+        return projectiles;
+    }
+
+    public void updateProjectiles() {
+        for (ProjectileModel projectile : projectiles) {
+            if (projectile.isActive()) {
+                projectile.move();
+                // Puoi aggiungere la logica per disattivare il proiettile se esce dallo schermo
+                // projectile.deactivate() se il proiettile esce dallo schermo
+            }
+        }
+    }
 
 	public void setX(int x) {
 		this.x = x;
@@ -103,6 +132,7 @@ public class PlayerModel {
 		x += xSpeed;
 		y += ySpeed;
 		ySpeed += gravity;
+		updateProjectiles();
 	}
 
 	// Imposta la velocità x del personaggio

@@ -4,6 +4,7 @@ import com.bubblebobble.Constants;
 import com.bubblebobble.controllers.GameController;
 import com.bubblebobble.models.*;
 import java.awt.*;
+import java.util.List;
 import javax.swing.*;
 
 public class PlayerView {
@@ -33,6 +34,19 @@ public class PlayerView {
         }
     }
 
+        private Image projectileImage = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "proiettile.png");
+    
+        public void drawProjectiles(Graphics g) {
+            System.out.println("disegna pew pew");
+            List<ProjectileModel> projectiles = model.getProjectiles();
+            for (ProjectileModel projectile : projectiles) {
+                if (projectile.isActive()) {
+                    g.drawImage(projectileImage, projectile.getX(), projectile.getY(), null);
+                    System.out.println(projectile.getY());
+                }
+            }
+        }
+
     public ImageIcon getCurrentWalkFrame() {
         return walkFrames[currentFrame];
     }
@@ -57,5 +71,7 @@ public class PlayerView {
     public void paintComponent(Graphics g) {
         // Disegna l'immagine corrente dell'animazione della camminata del personaggio
             g.drawImage(getCurrentWalkFrame().getImage(), model.getX(), model.getY(), null);
+            // Disegna i proiettili
+            drawProjectiles(g);
     }
 }

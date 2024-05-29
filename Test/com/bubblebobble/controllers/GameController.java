@@ -156,6 +156,9 @@ public class GameController {
         } else if (key == KeyEvent.VK_UP) {
             player.salta();
         }
+        else if (key == KeyEvent.VK_SPACE) {
+            player.shoot();
+        }
         // new EnemyModel();
 
     }

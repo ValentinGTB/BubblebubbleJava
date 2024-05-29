@@ -186,7 +186,6 @@ public class EnemyModel extends PlayerModel {
             //Se la X del nemico + 10 è maggiore o uguale alla X del muro (che è 845) e la X del muro non è 0 (per escludere il muro iniziale)...
             if(xEnemy + 40 >= wm.getWallX() && wm.getWallX() != 0) { 
                 muroCheck = true;
-                
             }
         }
 
