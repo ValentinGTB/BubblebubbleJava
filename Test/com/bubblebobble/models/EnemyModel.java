@@ -10,6 +10,8 @@ public class EnemyModel extends PlayerModel {
 
     private static final int DISTANZA_SALTO_X = 50; // Ad esempio, 50 pixel
     
+    boolean noMuro = true;
+    boolean spostaSx, spostaDx;
     boolean colliding = false;
     boolean inAlto = false;
     int xEnemy = 70;
@@ -58,7 +60,9 @@ public class EnemyModel extends PlayerModel {
         double directionX = deltaX / distance;
         // Aggiorna la posizione del nemico
         if (colliding) {
-            if(!inAlto) xEnemy += directionX * enemySpeed;
+            if(!inAlto) {
+                xEnemy += directionX * enemySpeed;
+            }
 
             if (inAlto) {
                 
@@ -71,26 +75,30 @@ public class EnemyModel extends PlayerModel {
                     if (distanzaX >= DISTANZA_SALTO_X) {
                         // Infine faccio salire il nemico
                         yEnemy -= (enemySpeed + 1);
+                        //Se il nemico non è più sotto il giocatore, non deve più spostarsi a sinistra quindi = false
+                        spostaSx = false;
                     }
                     // Se sei perfettamente sotto il giocatore
                     else
                     {
-                        //Aumenta le X
-                        for(WallModel wm : walls)
+                        //Se c'è un muro a destra...
+                        if(controllaMuro())
                         {
-                            int distanzaMuroX = Math.abs(wm.getWallX() - xEnemy);
-
-                            // Se dove mi trovo + la distanza da percorrere a destra > X del muro
-                            if(Math.abs(wm.getWallX() - xEnemy) <= DISTANZA_SALTO_X)
-                            {
-                                for(int i = 20; i >= 0; i--) {
-                                    
-                                    xEnemy -= enemySpeed; //Salta a SX
-                                }
-                            }
-                            else if(Math.abs(wm.getWallX() - xEnemy) > DISTANZA_SALTO_X) xEnemy += enemySpeed; //Vai più a destra prima di salire
-                            
+                            //Metto spostaSx a true per iniziare lo spostamento
+                            spostaSx = true;  
+                            noMuro = false;      
                         }
+                        else if(controllaMuroSx()) {
+                            spostaDx = true;
+                            noMuro = false;
+                        } 
+                        else {
+                            if(noMuro && !spostaSx && !spostaDx) xEnemy += 1;
+                        }
+
+                        //Finché il nemico è sotto il player, sposta a sinistra
+                        if(spostaSx) xEnemy -= 1;
+                        if(spostaDx) xEnemy += 1;
                     }
                 }
             }
@@ -153,7 +161,37 @@ public class EnemyModel extends PlayerModel {
         return false; // Nessuna collisione rilevata
     }
 
-    
+    // Controlla muro sinistro
+    public boolean controllaMuroSx() {
+        boolean muroCheck = false;
+
+        for(WallModel wm : walls) {
+            // Se la X del nemico - 10 è minore o uguale alla X del muro
+            if(xEnemy - 40 <= wm.getWallX() && wm.getWallX() <= 0) { 
+                muroCheck = true;
+            }
+        }
+
+        return muroCheck;
+    }
+
+
+    //Controlla muro destro
+    public boolean controllaMuro()
+    {
+        boolean muroCheck = false;
+
+        for(WallModel wm : walls)
+        {
+            //Se la X del nemico + 10 è maggiore o uguale alla X del muro (che è 845) e la X del muro non è 0 (per escludere il muro iniziale)...
+            if(xEnemy + 40 >= wm.getWallX() && wm.getWallX() != 0) { 
+                muroCheck = true;
+                
+            }
+        }
+
+        return muroCheck;
+    }
 
     public boolean checkY(int yGiocatore , int yEnemy)
     {

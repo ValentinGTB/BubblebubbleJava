@@ -38,10 +38,12 @@ public class GameController {
         platforms.add(new PlatformModel(25, Constants.MAX_HEIGHT * 0 / 100, Constants.MAX_WIDTH,
                 Constants.ALL_PLATFORMHEIGHT));
 
-
         // piattafroma
         
         platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 75 / 100, Constants.MAX_WIDTH / 2,
+                Constants.ALL_PLATFORMHEIGHT));
+
+        platforms.add(new PlatformModel(100, Constants.MAX_HEIGHT * 75 / 100, 0,
                 Constants.ALL_PLATFORMHEIGHT));
 
         enemy = new EnemyModel(player, walls);
