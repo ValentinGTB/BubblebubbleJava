@@ -4,12 +4,14 @@ import com.bubblebobble.Constants;
 import java.util.ArrayList;
 
 public class EnemyModel extends PlayerModel {
-
+    private boolean inBubble;
     PlayerModel pm;
     ArrayList<WallModel> walls;
 
     private static final int DISTANZA_SALTO_X = 50; // Ad esempio, 50 pixel
     
+    private Constants costanti = new Constants();
+
     boolean noMuro = true;
     boolean spostaSx, spostaDx;
     boolean colliding = false;
@@ -17,40 +19,50 @@ public class EnemyModel extends PlayerModel {
     int xEnemy = 70;
     int yEnemy = 680;
     int DISTANCEPG = 45;
-    double enemySpeed = Constants.SPEED + 1.50;
+    double enemySpeed = Constants.SPEED;
     int xGiocatore;
     int yGiocatore;
     int flipFlop = 0;
- 
+
     public EnemyModel(PlayerModel pm , ArrayList<WallModel> walls) {
         this.pm = pm;
         this.walls = walls;
+        this.inBubble = false;
         MyThread.getInstance().startThread(pm);
     }
 
     public void move() {
 
-        if (xEnemy+1 != xGiocatore || yEnemy-1 != yGiocatore-4) {
-            int deltaX = xGiocatore - xEnemy;
-            int deltaY = yGiocatore - yEnemy;
-            distance(deltaX, deltaY);
-            Constants.colpito = false;
-            flipFlop = 1;
+        if(!inBubble){
+            if (xEnemy+1 != xGiocatore || yEnemy-1 != yGiocatore-4) {
+                int deltaX = xGiocatore - xEnemy;
+                int deltaY = yGiocatore - yEnemy;
+                distance(deltaX, deltaY);
+                Constants.colpito = false;
+                flipFlop = 1;
 
-        } else {
+            } else {
 
-            /*
-             * if(flipFlop == 1) ------ POSSIBILE LOGICA DA POTER USARE PER FAR COLPIRE
-             * SUBITO UNA VOLTA SOLA IL GIOCATORE E POI PASSARE L'AZIONE AL THREAD
-             * {
-             * flipFlop = 0;
-             * }
-             */
-            Constants.colpito = true;
-            // vanish del personaggio per 3 secondi player.vanish(3, 3) sta per 3 secondi e
-            // il frame scompare e riappare per 3 secondi.
+                /*
+                * if(flipFlop == 1) ------ POSSIBILE LOGICA DA POTER USARE PER FAR COLPIRE
+                * SUBITO UNA VOLTA SOLA IL GIOCATORE E POI PASSARE L'AZIONE AL THREAD
+                * {
+                * flipFlop = 0;
+                * }
+                */
+                Constants.colpito = true;
+                // vanish del personaggio per 3 secondi player.vanish(3, 3) sta per 3 secondi e
+                // il frame scompare e riappare per 3 secondi.
+            }
         }
+    }
 
+    public void setInBubble(boolean inBubble) {
+        this.inBubble = inBubble;
+    }
+
+    public boolean isInBubble() {
+        return inBubble;
     }
 
     public void distance(int deltaX, int deltaY) {

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerModel {
-
 	private int x;
 	private int y;
 	int vita = Constants.VITA;
@@ -29,11 +28,7 @@ public class PlayerModel {
 		this.y = y;
 	}
 
-	    // ... esistente codice ...
-
     private List<ProjectileModel> projectiles = new ArrayList<>();
-
-    // ... esistente codice ...
 
     public void shoot() {
         int projectileSpeed = 10; // Imposta la velocità del proiettile

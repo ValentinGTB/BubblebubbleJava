@@ -1,6 +1,5 @@
 package com.bubblebobble;
 
-import com.bubblebobble.Constants;
 import java.awt.*;
 import javax.imageio.ImageIO;
 
@@ -40,7 +39,6 @@ public class Constants {
     public static int MAX_WIDTH = 900;
     public static int MAX_HEIGHT = 800;
 
-
     //Platform
 
     public static int ALL_PLATFORMHEIGHT = 40;
@@ -60,5 +58,4 @@ public class Constants {
     
     public static boolean INGAMEMENUAPERTO = false;
     public static boolean isGamePaused = false;
-
 }

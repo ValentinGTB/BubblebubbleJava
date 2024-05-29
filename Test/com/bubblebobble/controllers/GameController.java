@@ -5,6 +5,7 @@ import com.bubblebobble.models.*;
 import com.bubblebobble.views.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GameController {
     private boolean salta = false;
@@ -65,8 +66,15 @@ public class GameController {
     public void onTick() {
         // qui gestiamo ogni aggiornamento dei nostri modelli
         player.move();
-        enemy.move();
+        if (!enemy.isInBubble()) {
+            enemy.move();
+        } else {
+           // Se il nemico è nella bolla, aggiorna solo la posizione verso l'alto
+           enemy.setEnemyY(enemy.getEnemyY() - 1);
+           System.out.println(enemy.getEnemyY());
+        }
 
+        checkProjectileCollisions();
         BlocchiDirezzionali();
 
         xPlayer = player.getX();
@@ -144,6 +152,17 @@ public class GameController {
         if (player.getX() + player.getXSpeed() >= Constants.MAX_WIDTH - (50 + Constants.WallWidth)) {
             player.setXSpeed(0);
             player.setX(Constants.MAX_WIDTH -  (53 + Constants.WallWidth));
+        }
+    }
+
+    private void checkProjectileCollisions() {
+        List<ProjectileModel> projectiles = player.getProjectiles();
+        for (ProjectileModel projectile : projectiles) {
+            if (projectile.collidesWith(enemy)) {
+                // Gestisci la collisione: ingloba il nemico nella bolla
+                enemy.setInBubble(true);
+                projectile.setVisible(false);  // Nascondi il proiettile
+            }
         }
     }
 

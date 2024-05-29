@@ -2,9 +2,8 @@ package com.bubblebobble.views;
 
 import com.bubblebobble.Constants;
 import com.bubblebobble.models.*;
-import javax.swing.JComponent;
-import java.awt.Graphics;
 import java.awt.*;
+import javax.swing.JComponent;
 
 
 public class EnemyView extends JComponent{
@@ -12,12 +11,17 @@ public class EnemyView extends JComponent{
     EnemyModel enemy;
     int enemyX , enemyY;
     int playerX , playerY;
+    private Image enemyImage;
+    private Image bubbleImage;
     private PlayerModel pm;
     private Image Enemy1 = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "Enemy1.png");
 
     public EnemyView(EnemyModel enemy) {
 
+        this.enemyImage = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "Enemy1.png");
+        this.bubbleImage = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "pallanemica.png");
         this.enemy = enemy;
+        
         if(enemy != null)
         {
             playerX = enemy.getPlayerXEnemy();
@@ -36,12 +40,12 @@ public class EnemyView extends JComponent{
 
         g.drawImage(Enemy1,enemyX, enemyY, null);
 
-        /* DEBUG PER VEDERE SE PRENDE X E Y DEL GIOCATORE
-         * g.setColor(Color.green);
-         * g.fillRect(enemy.getPlayerXEnemy(), enemy.getPlayerYEnemy(), 10, 10);
-        */
-        
-    
+        if (enemy.isInBubble()) {
+            g.drawImage(bubbleImage, enemyX, enemyY, Constants.ALL_PLATFORMHEIGHT, Constants.ALL_PLATFORMHEIGHT, this);
+        } else {
+            g.drawImage(enemyImage, enemyX, enemyY, Constants.ALL_PLATFORMHEIGHT, Constants.ALL_PLATFORMHEIGHT, this);
+        }
+
     }
 
 }
