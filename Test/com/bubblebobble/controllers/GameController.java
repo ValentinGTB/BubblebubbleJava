@@ -13,8 +13,10 @@ public class GameController {
     private EnemyModel enemy;
     private PlayerModel player;
     private GameModel model;
+    boolean dead = false;
     int xPlayer = 0;
     int yPlayer = 0;
+    int newY = 0;
 
     public GameController(int vuoto) {
     }
@@ -31,7 +33,7 @@ public class GameController {
         walls.add(new WallModel(0, 3, Constants.ALL_PLATFORMHEIGHT, Constants.MAX_WIDTH));
         walls.add(new WallModel(Constants.MAX_WIDTH - 55, 0, Constants.ALL_PLATFORMHEIGHT, Constants.MAX_WIDTH));
 
-        // piattagforme top e bottom
+        // piattaforme top e bottom
 
         platforms.add(new PlatformModel(25, Constants.MAX_HEIGHT * 90 / 100, Constants.MAX_WIDTH,
                 Constants.ALL_PLATFORMHEIGHT));
@@ -68,12 +70,20 @@ public class GameController {
         player.move();
         if (!enemy.isInBubble()) {
             enemy.move();
+            newY = enemy.getEnemyY();
         } else {
            // Se il nemico è nella bolla, aggiorna solo la posizione verso l'alto
-           enemy.setEnemyY(enemy.getEnemyY() - 1);
-           System.out.println(enemy.getEnemyY());
+            if(newY >= 40)
+            {
+                newY-=1;  
+                enemy.setEnemyY(newY);
+                enemy.collisionDead();
+            }
+            else if(newY <= 40)
+            {
+                dead = true;
+            }
         }
-
         checkProjectileCollisions();
         BlocchiDirezzionali();
 
@@ -84,10 +94,9 @@ public class GameController {
         enemy.setPlayerY(yPlayer);
 
         ControlloSaltoPlatform();
-        CollisioneEnemy();
+        if(!dead) CollisioneEnemy();
 
     }
-
     public void ControlloSaltoPlatform() {
         for (PlatformModel platform : model.getPlatforms()) {
             if (player.collidesWith(platform)) {

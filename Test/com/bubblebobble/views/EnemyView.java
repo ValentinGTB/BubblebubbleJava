@@ -15,6 +15,7 @@ public class EnemyView extends JComponent{
     private Image bubbleImage;
     private PlayerModel pm;
     private Image Enemy1 = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "Enemy1.png");
+    private Image frutto = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "vita.png");
 
     public EnemyView(EnemyModel enemy) {
 
@@ -40,11 +41,21 @@ public class EnemyView extends JComponent{
 
         g.drawImage(Enemy1,enemyX, enemyY, null);
 
-        if (enemy.isInBubble()) {
+        if (enemy.isInBubble() && !enemy.isDead()) 
+        {
             g.drawImage(bubbleImage, enemyX, enemyY, Constants.ALL_PLATFORMHEIGHT, Constants.ALL_PLATFORMHEIGHT, this);
-        } else {
+        }
+        else if(enemy.isInBubble() && enemy.isDead())
+        {
+            g.drawImage(frutto, enemyX, enemyY, Constants.ALL_PLATFORMHEIGHT, Constants.ALL_PLATFORMHEIGHT, this);
+            System.out.println(enemyY + " " + enemyX);
+        }
+
+        else if(!enemy.isInBubble()) 
+        {
             g.drawImage(enemyImage, enemyX, enemyY, Constants.ALL_PLATFORMHEIGHT, Constants.ALL_PLATFORMHEIGHT, this);
         }
+        
 
     }
 
