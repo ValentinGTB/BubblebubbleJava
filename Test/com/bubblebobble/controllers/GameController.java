@@ -73,17 +73,18 @@ public class GameController {
             newY = enemy.getEnemyY();
         } else {
            // Se il nemico è nella bolla, aggiorna solo la posizione verso l'alto
-            if(newY >= 40)
+            if(newY >= 40 && !enemy.isFruit()) // Se sto salendo (non sono in cima) e NON sono un frutto
             {
                 newY-=1;  
                 enemy.setEnemyY(newY);
                 enemy.collisionDead();
             }
-            else if(newY <= 40)
+            else if(newY <= 40) // Se sono in cima
             {
-                dead = true;
+                dead = true; // Evita che arrivando in cima si attivi il CollisioneEnemy che ti farebbe tornare in basso
             }
         }
+
         checkProjectileCollisions();
         BlocchiDirezzionali();
 
@@ -94,7 +95,10 @@ public class GameController {
         enemy.setPlayerY(yPlayer);
 
         ControlloSaltoPlatform();
-        if(!dead) CollisioneEnemy();
+
+        if(!dead || enemy.isFruit()) { // Se non sono morto oppure sono un frutto, riattiva la caduta
+            CollisioneEnemy(); // Fa ricominciare il nemico a cadere
+        }
 
     }
     public void ControlloSaltoPlatform() {

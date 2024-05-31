@@ -41,14 +41,15 @@ public class EnemyView extends JComponent{
 
         g.drawImage(Enemy1,enemyX, enemyY, null);
 
-        if (enemy.isInBubble() && !enemy.isDead()) 
+        if (enemy.isInBubble() && !enemy.isFruit()) 
         {
             g.drawImage(bubbleImage, enemyX, enemyY, Constants.ALL_PLATFORMHEIGHT, Constants.ALL_PLATFORMHEIGHT, this);
         }
-        else if(enemy.isInBubble() && enemy.isDead())
+        else if(enemy.isInBubble() && enemy.isFruit())
         {
+            g.setColor(Color.black);
+            g.fillRect(enemyX, enemyY, Constants.ALL_PLATFORMHEIGHT, Constants.ALL_PLATFORMHEIGHT);
             g.drawImage(frutto, enemyX, enemyY, Constants.ALL_PLATFORMHEIGHT, Constants.ALL_PLATFORMHEIGHT, this);
-            System.out.println(enemyY + " " + enemyX);
         }
 
         else if(!enemy.isInBubble()) 
@@ -56,6 +57,7 @@ public class EnemyView extends JComponent{
             g.drawImage(enemyImage, enemyX, enemyY, Constants.ALL_PLATFORMHEIGHT, Constants.ALL_PLATFORMHEIGHT, this);
         }
         
+        if(enemy.isEaten() && !enemy.getColliding()) {g.setColor(Color.black); g.fillRect(enemyX, enemyY, Constants.ALL_PLATFORMHEIGHT, Constants.ALL_PLATFORMHEIGHT);}
 
     }
 

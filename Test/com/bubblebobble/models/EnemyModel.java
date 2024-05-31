@@ -12,7 +12,8 @@ public class EnemyModel extends PlayerModel {
     
     private Constants costanti = new Constants();
 
-    boolean isDead = false;
+    boolean isEaten = false;
+    boolean isFruit = false;
     boolean noMuro = true;
     boolean spostaSx, spostaDx;
     boolean colliding = false;
@@ -61,13 +62,23 @@ public class EnemyModel extends PlayerModel {
     public void collisionDead()
     {
         // to fix: X e Y di enemy e player sono prese in modo poco preciso
-        if (xEnemy == xGiocatore || yEnemy == yGiocatore && isDead == false)
+        if (xEnemy == xGiocatore || yEnemy == yGiocatore && isFruit == false)
         {
-            isDead = true;
+            isFruit = true;
         }
+
+        //Se X e Y di giocatore e nemico coincidono e sono un frutto allora il giocatore mangia il nemico
+        if (xEnemy == xGiocatore || yEnemy == yGiocatore && isFruit == true)
+        {
+            System.out.println("MANGIATO");
+            isEaten = true;
+        }
+
     }
 
-    public boolean isDead(){return isDead;}
+
+    public boolean isFruit(){return isFruit;}
+    public boolean isEaten(){return isEaten;}
 
     public void setInBubble(boolean inBubble) {
         this.inBubble = inBubble;
@@ -248,7 +259,6 @@ public class EnemyModel extends PlayerModel {
 
     public void setEnemyY(int yEnemy) {
         this.yEnemy = yEnemy;
-        System.out.println("ENEMY Y IN SET:  " + yEnemy);
     }
 
     public void setEnemyX(int xEnemy) {
@@ -258,6 +268,7 @@ public class EnemyModel extends PlayerModel {
     public void setColliding(boolean colliding) {
         this.colliding = colliding;
     }
+    public boolean getColliding(){return colliding;}
 
     public double getEnemySpeed() {
         return enemySpeed;
