@@ -4,11 +4,13 @@ import com.bubblebobble.Constants;
 import com.bubblebobble.controllers.GameController;
 import com.bubblebobble.models.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.*;
 
-public class PlayerView {
-    
+public class PlayerView extends JPanel { 
+
     GameController gc = new GameController(0);
     GameModel gm; 
     EnemyModel enemyModel;
@@ -16,13 +18,15 @@ public class PlayerView {
     // Array di immagini per l'animazione della camminata
     // private int frameCount = 0; // Conteggio dei frame
     private ImageIcon[] walkFrames;
-    private int currentFrame = 0; // Frame corrente dell'animazione
-    private int totalframe = 4;
+    private int currentFrame = 2; // Frame corrente dell'animazione
+    private int totalframe = 3;
 
     private Image vita = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "vita.png");
     private Image gameOver = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "gameOver.png");
 
     private PlayerModel model;
+    private Timer animationTimer;
+    private int animationDelay = 200; // Time between frame changes in milliseconds
 
     public PlayerView(PlayerModel model) {
         this.model = model;
@@ -32,29 +36,42 @@ public class PlayerView {
         for (int i = 0; i < totalframe; i++) {
             walkFrames[i] = new ImageIcon(getClass().getResource("img/walk_" + i + ".png"));
         }
+
+        // Initialize the timer
+        animationTimer = new Timer(animationDelay, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateFrame();
+            }
+        });
+        animationTimer.start();
     }
 
-        private Image projectileImage = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "proiettile.png");
-    
-        public void drawProjectiles(Graphics g) {
-            List<ProjectileModel> projectiles = model.getProjectiles();
-            for (ProjectileModel projectile : projectiles) {
-                if (projectile.isActive()) {
-                    g.drawImage(projectileImage, projectile.getX(), projectile.getY(), null);
-                }
-            }
-        }
+    private void updateFrame() {
+        currentFrame = (currentFrame + 1) % totalframe; // Cycle through frames
+        repaint(); // Repaint the component to show the new frame
+    }
 
     public ImageIcon getCurrentWalkFrame() {
         return walkFrames[currentFrame];
     }
 
-    public void drawVita(Graphics g) {
-        // Disegna vita
-        int xMassima = 50;
+    private Image projectileImage = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "proiettile.png");
+    
+    public void drawProjectiles(Graphics g) {
+        List<ProjectileModel> projectiles = model.getProjectiles();
+        for (ProjectileModel projectile : projectiles) {
+            if (projectile.isActive()) {
+                g.drawImage(projectileImage, projectile.getX(), projectile.getY(), null);
+            }
+        }
+    }
 
-        // Stampa j volte l'immagine fino ad arrivare alla vitaAttuale // La vitaAttuale
-        // viene decrementata per cui il for arriverà sempre a meno
+    
+
+    public void drawVita(Graphics g) {
+
+        int xMassima = 50;
 
         for (int j = 1; j <= model.getVita(); j++) {
             g.drawImage(vita, xMassima, 50, null);
@@ -66,10 +83,13 @@ public class PlayerView {
         }
     }
 
-    public void paintComponent(Graphics g) {
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
         // Disegna l'immagine corrente dell'animazione della camminata del personaggio
-            g.drawImage(getCurrentWalkFrame().getImage(), model.getX(), model.getY(), null);
-            // Disegna i proiettili
-            drawProjectiles(g);
+        g.drawImage(getCurrentWalkFrame().getImage(), model.getX(), model.getY(), null);
+        // Disegna i proiettili
+        drawProjectiles(g);
     }
 }
+    
