@@ -99,12 +99,12 @@ public class EnemyView extends JComponent {
         } 
         
 
-        if (!enemy.isFruit() && !enemy.isInBubble()) {
+        if (!enemy.isFruit() && !enemy.isInBubble()) { //Se è vivo normalmente
             g.drawImage(walkFrames[currentFrame], enemyX, enemyY, Constants.ALL_PLATFORMHEIGHT, Constants.ALL_PLATFORMHEIGHT, this);
         }
 
         if (enemy.isEaten() && !enemy.getColliding()) {
-            g.setColor(Color.black);
+            g.setColor(Color.white);
             g.fillRect(enemyX, enemyY, Constants.ALL_PLATFORMHEIGHT, Constants.ALL_PLATFORMHEIGHT);
         }
     }

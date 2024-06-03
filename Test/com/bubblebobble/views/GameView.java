@@ -6,9 +6,8 @@ import com.bubblebobble.models.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-
-import javax.swing.*;
 import java.util.List;
+import javax.swing.*;
 
 public class GameView extends JPanel {
     private PlayerView player;
@@ -17,13 +16,17 @@ public class GameView extends JPanel {
     private ProjectileModel projModel;
     private EnemyView enemyV;
     private ScoreModel scoreModel;
+    private PowerUpView pwupview;
+    private PowerUpModel powerUp;
 
     public GameView(GameModel model, ScoreModel scoreModel) {
+        pwupview = new PowerUpView(model.getPwupModel());
         player = new PlayerView(model.getPlayer());
         platforms = model.getPlatforms().stream().map(PlatformView::new).toList();
         walls = model.getWallModels().stream().map(WallView::new).toList();
         enemyV = new EnemyView(model.getEnemyModel());
         projModel = new ProjectileModel(300, 800, 0);
+        powerUp = model.getPwupModel();
         this.scoreModel = scoreModel;
     }
 
@@ -42,11 +45,23 @@ public class GameView extends JPanel {
             player.drawVita(g);
             // Disegna punteggio
             drawScore(g);
+            //Disegna powerup
+            pwupview.paintComponent(g);
+
         } else {
             g.setColor(Color.white);
             g.fillRect(0, 0, Constants.MAX_WIDTH, Constants.MAX_HEIGHT);
         }
+
+            // Disegna il power-up
+        
+        if (!powerUp.isActive()) {
+            g.setColor(Color.GREEN);
+            g.fillRect(powerUp.getX(), powerUp.getY(), powerUp.getWidth(), powerUp.getHeight());
+        }
     }
+
+    
 
     private void drawScore(Graphics g) {
         // Carica il font personalizzato da un file TTF

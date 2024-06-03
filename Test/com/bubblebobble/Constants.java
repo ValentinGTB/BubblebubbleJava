@@ -58,4 +58,7 @@ public class Constants {
     
     public static boolean INGAMEMENUAPERTO = false;
     public static boolean isGamePaused = false;
+
+    //Costante livello attuale
+    public static int livelloAttuale = 0;
 }

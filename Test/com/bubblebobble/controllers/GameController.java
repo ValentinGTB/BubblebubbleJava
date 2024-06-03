@@ -14,6 +14,9 @@ public class GameController {
     private PlayerModel player;
     private GameModel model;
     private ScoreModel scoreModel;
+    private PowerUpModel pwupModel;
+    private static final int POWER_UP_SPEED_BOOST = 5; // Aumento della velocità con il power-up
+    private boolean isPowerUpActive = false;
     boolean dead = false;
     int xPlayer = 0;
     int yPlayer = 0;
@@ -47,8 +50,9 @@ public class GameController {
                 Constants.ALL_PLATFORMHEIGHT));
 
         enemy = new EnemyModel(player, walls);
-        model = new GameModel(player, platforms, enemy, walls);
         scoreModel = new ScoreModel();
+        pwupModel = new PowerUpModel(300 , 600 , 40 , 40);
+        model = new GameModel(player, platforms, enemy, walls , pwupModel);
         game = new GameView(model, scoreModel);
     }
 
@@ -95,6 +99,35 @@ public class GameController {
             CollisioneEnemy(); // Fa ricominciare il nemico a cadere
         }
 
+        if (pwupModel.isExpired() && isPowerUpActive) {
+            deactivatePowerUp();
+        }
+
+        checkPowerUpCollisions();
+
+    }
+
+    private void checkPowerUpCollisions() {
+        if (!pwupModel.isActive() && player.getX() < pwupModel.getX() + pwupModel.getWidth() &&
+            player.getX() + 40 > pwupModel.getX() &&
+            player.getY() < pwupModel.getY() + pwupModel.getHeight() &&
+            player.getY() + 40 > pwupModel.getY()) {
+            pwupModel.activate();
+            activatePowerUp();
+        }
+    }
+
+    private void activatePowerUp() {
+        player.setXSpeed(Constants.SPEED * 2);
+        isPowerUpActive = true;
+        System.out.println("ATTIVA");
+    }
+
+    private void deactivatePowerUp() {
+        player.setXSpeed(0);
+        isPowerUpActive = false;
+        pwupModel.deactivate();
+        System.out.println("DISATTIVA");
     }
 
     public void ControlloSaltoPlatform() {

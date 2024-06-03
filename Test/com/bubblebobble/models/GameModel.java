@@ -7,12 +7,15 @@ public class GameModel {
     private ArrayList<PlatformModel> platforms;
     private EnemyModel enemyMod;
     private ArrayList<WallModel> walls;
+    private PowerUpModel pwupModel;
 
-    public GameModel(PlayerModel player, ArrayList<PlatformModel> platforms , EnemyModel enemyMod, ArrayList<WallModel> walls ) {
+
+    public GameModel(PlayerModel player, ArrayList<PlatformModel> platforms , EnemyModel enemyMod, ArrayList<WallModel> walls , PowerUpModel pwupModel) {
         this.player = player;
         this.platforms = platforms;
         this.enemyMod = enemyMod;
         this.walls = walls;
+        this.pwupModel = pwupModel;
     }
 
     public PlayerModel getPlayer() {
@@ -30,6 +33,11 @@ public class GameModel {
     public EnemyModel getEnemyModel()
     {
         return enemyMod;
+    }
+
+    public PowerUpModel getPwupModel()
+    {
+        return pwupModel;
     }
 
 }

@@ -72,6 +72,7 @@ public class EnemyModel extends PlayerModel {
         {
             System.out.println("MANGIATO");
             isEaten = true;
+            Constants.livelloAttuale = 1;
         }
 
     }
