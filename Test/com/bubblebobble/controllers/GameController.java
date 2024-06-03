@@ -15,6 +15,7 @@ public class GameController {
     private GameModel model;
     private ScoreModel scoreModel;
     private PowerUpModel pwupModel;
+    private PowerUpModel pwupModel2;
     private static final int POWER_UP_SPEED_BOOST = 5; // Aumento della velocità con il power-up
     private boolean isPowerUpActive = false;
     boolean dead = false;
@@ -28,6 +29,7 @@ public class GameController {
     public GameController() {
         ArrayList<PlatformModel> platforms = new ArrayList<>();
         ArrayList<WallModel> walls = new ArrayList<>();
+        ArrayList<PowerUpModel> pwupArray = new ArrayList<>();
 
         // Player
         player = new PlayerModel(Constants.MAX_WIDTH / 3,
@@ -51,7 +53,10 @@ public class GameController {
 
         enemy = new EnemyModel(player, walls);
         scoreModel = new ScoreModel();
-        pwupModel = new PowerUpModel(300 , 600 , 40 , 40);
+        pwupModel = new PowerUpModel(500 , 600 , 40 , 40);
+        pwupArray.add(pwupModel);
+        pwupModel2 = new PowerUpModel(300 , 600 , 40 , 40);
+        pwupArray.add(pwupModel2);
         model = new GameModel(player, platforms, enemy, walls , pwupModel);
         game = new GameView(model, scoreModel);
     }
@@ -118,16 +123,11 @@ public class GameController {
     }
 
     private void activatePowerUp() {
-        player.setXSpeed(Constants.SPEED * 2);
         isPowerUpActive = true;
-        System.out.println("ATTIVA");
     }
 
     private void deactivatePowerUp() {
-        player.setXSpeed(0);
         isPowerUpActive = false;
-        pwupModel.deactivate();
-        System.out.println("DISATTIVA");
     }
 
     public void ControlloSaltoPlatform() {
@@ -201,11 +201,17 @@ public class GameController {
 
     public void onKeyPressed(KeyEvent e) {
         int key = e.getKeyCode();
-        if (key == KeyEvent.VK_LEFT) {
+        if (key == KeyEvent.VK_LEFT && !isPowerUpActive) {
             player.setXSpeed(-Constants.SPEED);
-        } else if (key == KeyEvent.VK_RIGHT) {
+        }else if(key == KeyEvent.VK_LEFT && isPowerUpActive){
+            player.setXSpeed(-Constants.SPEED * 2);
+        }
+        else if (key == KeyEvent.VK_RIGHT && !isPowerUpActive) {
             player.setXSpeed(Constants.SPEED);
-        } else if (key == KeyEvent.VK_UP) {
+        } else if(key == KeyEvent.VK_RIGHT && isPowerUpActive) {
+            player.setXSpeed(Constants.SPEED * 2);
+        } 
+        else if (key == KeyEvent.VK_UP) {
             player.salta();
         } else if (key == KeyEvent.VK_SPACE) {
             player.shoot();

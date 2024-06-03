@@ -55,8 +55,8 @@ public class GameView extends JPanel {
 
             // Disegna il power-up
         
-        if (!powerUp.isActive()) {
-            g.setColor(Color.GREEN);
+        if (powerUp.isActive()) {
+            g.setColor(Color.BLACK);
             g.fillRect(powerUp.getX(), powerUp.getY(), powerUp.getWidth(), powerUp.getHeight());
         }
     }

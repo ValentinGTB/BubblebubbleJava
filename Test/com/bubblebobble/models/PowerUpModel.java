@@ -16,7 +16,7 @@ public class PowerUpModel {
 
     public void activate() {
         isActive = true;
-        activationTime = System.currentTimeMillis();
+        activationTime = System.currentTimeMillis(); // Prendi i secondi attuali all'attivazione del power-up
     }
 
     public void deactivate() {
@@ -28,7 +28,10 @@ public class PowerUpModel {
     }
 
     public boolean isExpired() {
-        return isActive && (System.currentTimeMillis() - activationTime > DURATION);
+        return isActive && (System.currentTimeMillis() - activationTime > DURATION); 
+        /*
+            Se isActive && il tempo attuale - il tempo preso all'attivazione > della durata massima del power-up, torna true.
+        */                                                                                    
     }
 
     public int getX() {
