@@ -26,7 +26,7 @@ public class PlayerView extends JPanel {
 
     private PlayerModel model;
     private Timer animationTimer;
-    private int animationDelay = 200; // Time between frame changes in milliseconds
+    private int animationDelay = 250; // Time between frame changes in milliseconds
 
     public PlayerView(PlayerModel model) {
         this.model = model;
@@ -62,7 +62,7 @@ public class PlayerView extends JPanel {
         List<ProjectileModel> projectiles = model.getProjectiles();
         for (ProjectileModel projectile : projectiles) {
             if (projectile.isActive()) {
-                g.drawImage(projectileImage, projectile.getX(), projectile.getY(), null);
+                g.drawImage(projectileImage, projectile.getX()-15, projectile.getY(), null);
             }
         }
     }

@@ -63,7 +63,7 @@ public class EnemyView extends JComponent {
 
     private void loadFruitImages() {
         fruitImages = new Image[30];
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 29; i++) {
             fruitImages[i] = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "/Frutta/Cibo-" + (i + 1) + ".png");
         }
     }
