@@ -4,6 +4,9 @@ package com.bubblebobble.views;
 import com.bubblebobble.Constants;
 import com.bubblebobble.models.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+
 import javax.swing.*;
 import java.util.List;
 
@@ -46,8 +49,26 @@ public class GameView extends JPanel {
     }
 
     private void drawScore(Graphics g) {
-        g.setFont(new Font("Arial", Font.BOLD, 16));
-        g.setColor(Color.RED);
-        g.drawString("Score: " + scoreModel.getCurrentScore(), 750, 65);
+        // Carica il font personalizzato da un file TTF
+        Font customFont = null;
+        try {
+            customFont = Font.createFont(Font.TRUETYPE_FONT, new File(Constants.BaseURL + "arcade-legacy.ttf"));
+            customFont = customFont.deriveFont(Font.BOLD, 16); // Imposta la dimensione del font
+        } catch (IOException | FontFormatException e) {
+            e.printStackTrace();
+            // Gestisci l'eccezione in modo appropriato
+        }
+        
+        if (customFont != null) {
+            // Utilizza il font personalizzato per disegnare il punteggio
+            g.setFont(customFont);
+            g.setColor(Color.WHITE);
+            g.drawString("Score: " + scoreModel.getCurrentScore(), 180, 65);
+        } else {
+            // Se il caricamento del font fallisce, utilizza un fallback font
+            g.setFont(new Font("Courier New", Font.BOLD, 32));
+            g.setColor(Color.RED);
+            g.drawString("Score: " + scoreModel.getCurrentScore(), 750, 65);
+        }
     }
 }
