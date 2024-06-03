@@ -13,6 +13,7 @@ public class GameController {
     private EnemyModel enemy;
     private PlayerModel player;
     private GameModel model;
+    private ScoreModel scoreModel;
     boolean dead = false;
     int xPlayer = 0;
     int yPlayer = 0;
@@ -34,24 +35,21 @@ public class GameController {
         walls.add(new WallModel(Constants.MAX_WIDTH - 55, 0, Constants.ALL_PLATFORMHEIGHT, Constants.MAX_WIDTH));
 
         // piattaforme top e bottom
-
         platforms.add(new PlatformModel(25, Constants.MAX_HEIGHT * 90 / 100, Constants.MAX_WIDTH,
                 Constants.ALL_PLATFORMHEIGHT));
-
         platforms.add(new PlatformModel(25, Constants.MAX_HEIGHT * 0 / 100, Constants.MAX_WIDTH,
                 Constants.ALL_PLATFORMHEIGHT));
 
-        // piattafroma
-        
+        // piattaforma
         platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 75 / 100, Constants.MAX_WIDTH / 2,
                 Constants.ALL_PLATFORMHEIGHT));
-
         platforms.add(new PlatformModel(100, Constants.MAX_HEIGHT * 75 / 100, 0,
                 Constants.ALL_PLATFORMHEIGHT));
 
         enemy = new EnemyModel(player, walls);
         model = new GameModel(player, platforms, enemy, walls);
-        game = new GameView(model);
+        scoreModel = new ScoreModel();
+        game = new GameView(model, scoreModel);
     }
 
     public GameView getGame() {
@@ -72,15 +70,12 @@ public class GameController {
             enemy.move();
             newY = enemy.getEnemyY();
         } else {
-           // Se il nemico è nella bolla, aggiorna solo la posizione verso l'alto
-            if(newY >= 40 && !enemy.isFruit()) // Se sto salendo (non sono in cima) e NON sono un frutto
-            {
-                newY-=1;  
+            // Se il nemico è nella bolla, aggiorna solo la posizione verso l'alto
+            if (newY >= 40 && !enemy.isFruit()) { // Se sto salendo (non sono in cima) e NON sono un frutto
+                newY -= 1;
                 enemy.setEnemyY(newY);
                 enemy.collisionDead();
-            }
-            else if(newY <= 40) // Se sono in cima
-            {
+            } else if (newY <= 40) { // Se sono in cima
                 dead = true; // Evita che arrivando in cima si attivi il CollisioneEnemy che ti farebbe tornare in basso
             }
         }
@@ -96,11 +91,12 @@ public class GameController {
 
         ControlloSaltoPlatform();
 
-        if(!dead || enemy.isFruit()) { // Se non sono morto oppure sono un frutto, riattiva la caduta
+        if (!dead || enemy.isFruit()) { // Se non sono morto oppure sono un frutto, riattiva la caduta
             CollisioneEnemy(); // Fa ricominciare il nemico a cadere
         }
 
     }
+
     public void ControlloSaltoPlatform() {
         for (PlatformModel platform : model.getPlatforms()) {
             if (player.collidesWith(platform)) {
@@ -110,18 +106,14 @@ public class GameController {
     }
 
     public void CollisioneEnemy() {
-
         for (PlatformModel platform : model.getPlatforms()) {
             if (enemy.collidesWith(platform)) {
                 enemy.setColliding(false);
             } else {
                 enemy.setColliding(true);
                 enemy.setEnemyY(enemy.getEnemyY() + 1); // Gravità
-
             }
-
         }
-
     }
 
     public void BlocchiDirezzionali() {
@@ -130,29 +122,24 @@ public class GameController {
     }
 
     public void blocchiBordiTopBottom() {
-
         if (player.getY() + player.getYSpeed() < 0) {
             player.setYSpeed(Constants.SPEED);
         }
-
         if (player.getY() + player.getYSpeed() >= Constants.MAX_HEIGHT) {
             player.setY(-40);
             player.setYSpeed(-Constants.SPEED);
         }
 
         // Blocco Enemy
-
         if (enemy.getEnemyY() + enemy.getEnemySpeed() < 0) {
             enemy.setEnemySpeed(Constants.SPEED);
             System.out.println("enemyY < enemySpeed");
         }
-
         if (enemy.getEnemyY() + enemy.getEnemySpeed() >= Constants.MAX_HEIGHT) {
             enemy.setEnemyY(-50);
             enemy.setEnemySpeed(-Constants.SPEED);
             System.out.println("enemyY > max height");
         }
-
     }
 
     public void blocchiBordiLeftRight() {
@@ -161,10 +148,9 @@ public class GameController {
             player.setXSpeed(0);
             player.setX(Constants.WallWidth);
         }
-
         if (player.getX() + player.getXSpeed() >= Constants.MAX_WIDTH - (50 + Constants.WallWidth)) {
             player.setXSpeed(0);
-            player.setX(Constants.MAX_WIDTH -  (53 + Constants.WallWidth));
+            player.setX(Constants.MAX_WIDTH - (53 + Constants.WallWidth));
         }
     }
 
@@ -175,6 +161,7 @@ public class GameController {
                 // Gestisci la collisione: ingloba il nemico nella bolla
                 enemy.setInBubble(true);
                 projectile.setVisible(false);  // Nascondi il proiettile
+                scoreModel.addPoints(100); // Aggiungi punti quando il nemico viene colpito
             }
         }
     }
@@ -187,17 +174,12 @@ public class GameController {
             player.setXSpeed(Constants.SPEED);
         } else if (key == KeyEvent.VK_UP) {
             player.salta();
-        }
-        else if (key == KeyEvent.VK_SPACE) {
+        } else if (key == KeyEvent.VK_SPACE) {
             player.shoot();
         }
-        // new EnemyModel();
-
     }
 
     public void onKeyReleased(KeyEvent e) {
-        // TODO: evitare numeri magici.
-        // usare constants, ma dentro player.
         int key = e.getKeyCode();
         if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_RIGHT) {
             player.setXSpeed(0);
@@ -205,5 +187,4 @@ public class GameController {
             player.setYSpeed(0);
         }
     }
-
 }
