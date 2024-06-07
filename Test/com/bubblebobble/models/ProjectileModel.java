@@ -27,6 +27,10 @@ public class ProjectileModel {
                y >= enemy.getEnemyY() && y <= enemy.getEnemyY() + 40;
     }
 
+    public boolean collidesWithWalls(int wallLeft, int wallRight) {
+        return x <= wallLeft || x >= wallRight;
+    }
+
     public int getX() {
         return x;
     }

@@ -10,7 +10,6 @@ public class EnemyModel extends PlayerModel {
 
     private static final int DISTANZA_SALTO_X = 50; // Ad esempio, 50 pixel
     
-    private Constants costanti = new Constants();
 
     boolean isEaten = false;
     boolean isFruit = false;

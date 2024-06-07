@@ -35,6 +35,9 @@ public class Constants {
 
 
     //GameSize
+
+    public static final int WALL_LEFT = 60;
+    public static final int WALL_RIGHT = 840;
     
     public static int MAX_WIDTH = 900;
     public static int MAX_HEIGHT = 800;

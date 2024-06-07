@@ -73,7 +73,7 @@ public class GameController {
         ArrayList<Object> pwupArray3 = creaArray(pwupModel3, pwupModel3.getX(), pwupModel3.getY(), pwupModel3.getWidth(), pwupModel3.getHeight(), pwupModel3.getImmagine());
         pwupHash.put("superjump" , pwupArray3);
 
-        PowerUpModel pwupModel4 = new PowerUpModel(500 , 700 , 40 , 40 , null);
+        PowerUpModel pwupModel4 = new PowerUpModel(500 , 400 , 40 , 40 , null);
         ArrayList<Object> pwupArray4 = creaArray(pwupModel4, pwupModel4.getX(), pwupModel4.getY(), pwupModel4.getWidth(), pwupModel4.getHeight(), pwupModel4.getImmagine());
         pwupHash.put("doppipunti" , pwupArray4);
 
@@ -250,8 +250,12 @@ public class GameController {
 
                 }
 
-                projectile.setVisible(false);  // Nascondi il proiettile
-                scoreModel.addPoints(100); // Aggiungi punti quando il nemico viene colpito
+                projectile.deactivate();
+            }
+
+            else if(projectile.collidesWithWalls(Constants.WALL_LEFT, Constants.WALL_RIGHT) && projectile.isActive()){
+                scoreModel.addPoints(10);
+                projectile.deactivate();
             }
         }
     }
