@@ -38,6 +38,8 @@ public class PowerUpView extends JComponent{
             {
                 if(key.equals("velocita"))
                 {
+                    // --- CAMBIARE QUESTO CODICE CON L'IMMAGINE DEL POWERUP ---
+
                     g.setColor(Color.BLUE);
                     g.fillRect(valModel.getX(), valModel.getY(), width, height);
                 }

@@ -25,11 +25,13 @@ public class EnemyModel extends PlayerModel {
     int xGiocatore;
     int yGiocatore;
     int flipFlop = 0;
+    ArrayList<PlatformModel> platformArray;
 
-    public EnemyModel(PlayerModel pm , ArrayList<WallModel> walls) {
+    public EnemyModel(PlayerModel pm , ArrayList<WallModel> walls , ArrayList<PlatformModel> platformArray) {
         this.pm = pm;
         this.walls = walls;
         this.inBubble = false;
+        this.platformArray = platformArray;
         MyThread.getInstance().startThread(pm);
     }
 
@@ -101,16 +103,21 @@ public class EnemyModel extends PlayerModel {
             }
 
             if (inAlto) {
-                
                 // Logica per far saltare il nemico lungo la piattaforma
-                // Logica per far saltare il nemico lungo la piattaforma
+
                 if(checkY(yGiocatore, yEnemy))
                 { 
+                    boolean havePlatOnTop = false;
                     int distanzaX = Math.abs(xGiocatore - xEnemy);                    
                     // Se sei già distante dal giocatore orizzontalmente
                     if (distanzaX >= DISTANZA_SALTO_X) {
+                        for(PlatformModel platModel : platformArray)
+                        {
+                            if(yEnemy - 100 <= platModel.getPlatformY() && xEnemy >= platModel.getPlatformX()) havePlatOnTop = true;                            
+                            else havePlatOnTop = false;
+                        }
                         // Infine faccio salire il nemico
-                        yEnemy -= (enemySpeed + 1);
+                        if(havePlatOnTop) yEnemy -= (enemySpeed + 4);
                         //Se il nemico non è più sotto il giocatore, non deve più spostarsi a sinistra quindi = false
                         spostaSx = false;
                     }
@@ -278,6 +285,12 @@ public class EnemyModel extends PlayerModel {
     public void setEnemySpeed(int enemySpeed)
     {
         this.enemySpeed = enemySpeed;
+    }
+
+    public void instaKill()
+    {
+        isFruit = true;
+        inBubble = true;
     }
 
 }

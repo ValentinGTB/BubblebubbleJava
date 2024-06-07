@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GameController {
     private boolean salta = false;
@@ -25,6 +26,8 @@ public class GameController {
     int xPlayer = 0;
     int yPlayer = 0;
     int newY = 0;
+    int normalSpeed;
+    int boostedSpeed;
 
     public GameController(int vuoto) {
     }
@@ -33,6 +36,9 @@ public class GameController {
         ArrayList<PlatformModel> platforms = new ArrayList<>();
         ArrayList<WallModel> walls = new ArrayList<>();
         pwupHash = new HashMap<>();
+
+        normalSpeed = Constants.SPEED;
+        boostedSpeed = Constants.SPEED * 2;
 
         // Player
         player = new PlayerModel(Constants.MAX_WIDTH / 3,
@@ -54,21 +60,21 @@ public class GameController {
         platforms.add(new PlatformModel(100, Constants.MAX_HEIGHT * 75 / 100, 0,
                 Constants.ALL_PLATFORMHEIGHT));
 
-        enemy = new EnemyModel(player, walls);
+        enemy = new EnemyModel(player, walls , platforms);
         scoreModel = new ScoreModel();
 
         // --- Spostare la costruzione della hashmap nel model del powerup e non nel gamecontroller --- 
 
-        pwupModel = new PowerUpModel(500 , 400 , 40 , 40 , null);
+        pwupModel = new PowerUpModel(500 , 500 , 40 , 40 , null);
         ArrayList<Object> pwupArray = creaArray(pwupModel, pwupModel.getX(), pwupModel.getY(), pwupModel.getWidth(), pwupModel.getHeight(), pwupModel.getImmagine());
-        
         pwupHash.put("velocita" , pwupArray);
 
-        pwupModel2 = new PowerUpModel(300 , 600 , 40 , 40 , null);
+        pwupModel2 = new PowerUpModel(100 , 600 , 40 , 40 , null);
         ArrayList<Object> pwupArray2 = creaArray(pwupModel2, pwupModel2.getX(), pwupModel2.getY(), pwupModel2.getWidth(), pwupModel2.getHeight(), pwupModel2.getImmagine());
         pwupHash.put("instakill" , pwupArray2);
         
         model = new GameModel(player, platforms, enemy, walls , pwupModel);
+        
         game = new GameView(model, scoreModel , pwupHash);
     }
 
@@ -121,14 +127,13 @@ public class GameController {
             if (pwupModel.isExpired() && isPowerUpActive) {
                 deactivatePowerUp();
             }
+
+            checkPowerUpCollisions(pwupModel);
         }
             
-
-        checkPowerUpCollisions();
-
     }
 
-    private void checkPowerUpCollisions() {
+    private void checkPowerUpCollisions(PowerUpModel pwupModel) {
         if (!pwupModel.isActive() && player.getX() < pwupModel.getX() + pwupModel.getWidth() &&
             player.getX() + 40 > pwupModel.getX() &&
             player.getY() < pwupModel.getY() + pwupModel.getHeight() &&
@@ -182,12 +187,10 @@ public class GameController {
         // Blocco Enemy
         if (enemy.getEnemyY() + enemy.getEnemySpeed() < 0) {
             enemy.setEnemySpeed(Constants.SPEED);
-            System.out.println("enemyY < enemySpeed");
         }
         if (enemy.getEnemyY() + enemy.getEnemySpeed() >= Constants.MAX_HEIGHT) {
             enemy.setEnemyY(-50);
             enemy.setEnemySpeed(-Constants.SPEED);
-            System.out.println("enemyY > max height");
         }
     }
 
@@ -208,7 +211,23 @@ public class GameController {
         for (ProjectileModel projectile : projectiles) {
             if (projectile.collidesWith(enemy)) {
                 // Gestisci la collisione: ingloba il nemico nella bolla
-                enemy.setInBubble(true);
+                for(Map.Entry<String, ArrayList<Object>> entry : pwupHash.entrySet())
+                {
+                String key = entry.getKey();
+                PowerUpModel valModel = (PowerUpModel) entry.getValue().get(0);
+                
+                // Se il player NON ha raccolto il powerup INSTAKILL
+
+                if(key.equals("instakill"))
+                {
+                    if(!valModel.isActive()) enemy.setInBubble(true);
+                    else{enemy.instaKill();}
+                }
+                
+
+                }
+                    
+                
                 projectile.setVisible(false);  // Nascondi il proiettile
                 scoreModel.addPoints(100); // Aggiungi punti quando il nemico viene colpito
             }
@@ -216,17 +235,16 @@ public class GameController {
     }
 
     public void onKeyPressed(KeyEvent e) {
+        
         int key = e.getKeyCode();
-        if (key == KeyEvent.VK_LEFT && !isPowerUpActive) {
-            player.setXSpeed(-Constants.SPEED);
-        }else if(key == KeyEvent.VK_LEFT && isPowerUpActive){
-            player.setXSpeed(-Constants.SPEED * 2);
+
+        int currentSpeed = pwupModel.isActive() && !pwupModel.isExpired() ? boostedSpeed : normalSpeed;
+
+        if (key == KeyEvent.VK_LEFT) {
+            player.setXSpeed(-currentSpeed);
+        } else if (key == KeyEvent.VK_RIGHT) {
+            player.setXSpeed(currentSpeed);
         }
-        else if (key == KeyEvent.VK_RIGHT && !isPowerUpActive) {
-            player.setXSpeed(Constants.SPEED);
-        } else if(key == KeyEvent.VK_RIGHT && isPowerUpActive) {
-            player.setXSpeed(Constants.SPEED * 2);
-        } 
         else if (key == KeyEvent.VK_UP) {
             player.salta();
         } else if (key == KeyEvent.VK_SPACE) {

@@ -1,7 +1,6 @@
 package com.bubblebobble.models;
 
 import java.awt.Image;
-import java.util.ArrayList;
 
 public class PowerUpModel {
     private Image immagine;
@@ -11,7 +10,6 @@ public class PowerUpModel {
     private static final int DURATION = 5000; // Durata del power-up in millisecondi
 
     public PowerUpModel(int x, int y, int width, int height , Image immagine) {
-        ArrayList<Object> pwupArray = new ArrayList<>();
 
         this.x = x;
         this.y = y;
