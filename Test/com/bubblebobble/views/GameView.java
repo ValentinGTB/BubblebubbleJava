@@ -12,6 +12,7 @@ import java.util.List;
 import javax.swing.*;
 
 public class GameView extends JPanel {
+    private ArrayList<EnemyModel> enemyArray;
     private PlayerView player;
     private List<PlatformView> platforms;
     private List<WallView> walls;
@@ -21,14 +22,16 @@ public class GameView extends JPanel {
     private PowerUpView pwupview;
     private PowerUpModel powerUp;
 
-    public GameView(GameModel model, ScoreModel scoreModel , HashMap<String , ArrayList<Object>> pwupHash) {
+    public GameView(GameModel model, ScoreModel scoreModel , HashMap<String , ArrayList<Object>> pwupHash , ArrayList<EnemyModel> enemyArray) {
         pwupview = new PowerUpView(model.getPwupModel() , pwupHash);
         player = new PlayerView(model.getPlayer());
         platforms = model.getPlatforms().stream().map(PlatformView::new).toList();
         walls = model.getWallModels().stream().map(WallView::new).toList();
-        enemyV = new EnemyView(model.getEnemyModel());
+        this.enemyArray = enemyArray;
+        enemyV = new EnemyView(enemyArray);
         projModel = new ProjectileModel(300, 800, 0);
         powerUp = model.getPwupModel();
+        
         this.scoreModel = scoreModel;
     }
 

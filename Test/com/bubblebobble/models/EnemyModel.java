@@ -18,8 +18,8 @@ public class EnemyModel extends PlayerModel {
     boolean spostaSx, spostaDx;
     boolean colliding = false;
     boolean inAlto = false;
-    int xEnemy = 70;
-    int yEnemy = 680;
+    int xEnemy;
+    int yEnemy;
     int DISTANCEPG = 45;
     double enemySpeed = Constants.SPEED;
     int xGiocatore;
@@ -27,18 +27,23 @@ public class EnemyModel extends PlayerModel {
     int flipFlop = 0;
     ArrayList<PlatformModel> platformArray;
 
-    public EnemyModel(PlayerModel pm , ArrayList<WallModel> walls , ArrayList<PlatformModel> platformArray) {
+    public EnemyModel(PlayerModel pm , ArrayList<WallModel> walls , ArrayList<PlatformModel> platformArray , int xEnemy , int yEnemy) {
         this.pm = pm;
         this.walls = walls;
         this.inBubble = false;
         this.platformArray = platformArray;
+        this.xEnemy = xEnemy;
+        this.yEnemy = yEnemy;
         MyThread.getInstance().startThread(pm);
     }
 
     public void move() {
 
+        boolean diffX = (xEnemy+1 != xGiocatore);
+        boolean diffY = (yEnemy != yGiocatore-2);
+
         if(!inBubble){
-            if (xEnemy+1 != xGiocatore || yEnemy-1 != yGiocatore-4) {
+            if (diffX || diffY) {
                 int deltaX = xGiocatore - xEnemy;
                 int deltaY = yGiocatore - yEnemy;
                 distance(deltaX, deltaY);

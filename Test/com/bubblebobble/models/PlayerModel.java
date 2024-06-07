@@ -2,9 +2,12 @@ package com.bubblebobble.models;
 
 import com.bubblebobble.Constants;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PlayerModel {
+	private HashMap<String , ArrayList<Object>> pwupHash;
 	private int x;
 	private int y;
 	int vita = Constants.VITA;
@@ -23,9 +26,10 @@ public class PlayerModel {
 
 	public PlayerModel(){}
 
-	public PlayerModel(int x, int y) {
+	public PlayerModel(int x, int y, HashMap<String , ArrayList<Object>> pwupHash) {
 		this.x = x;
 		this.y = y;
+		this.pwupHash = pwupHash;
 	}
 
     private List<ProjectileModel> projectiles = new ArrayList<>();
@@ -90,8 +94,30 @@ public class PlayerModel {
 
 	public void setJumping(boolean jumping) {
 		if (jumping) {
-			ySpeed = -15;
-			isJumping = true;
+			
+			for(Map.Entry<String, ArrayList<Object>> entry : pwupHash.entrySet())
+            {
+                String key = entry.getKey();
+                PowerUpModel valModel = (PowerUpModel) entry.getValue().get(0);
+
+				if(key.equals("superjump"))
+				{
+					
+					if(valModel.isActive() && !valModel.isExpired())
+					{
+						ySpeed = -20;
+						isJumping = true;
+					}
+					else
+					{
+						ySpeed = -15;	
+						isJumping = true;
+					}
+				}
+
+			}
+			
+			
 		} else {
 			ySpeed = 0;
 			isJumping = false;

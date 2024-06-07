@@ -50,6 +50,18 @@ public class PowerUpView extends JComponent{
                     g.fillRect(valModel.getX(), valModel.getY(), width, height);
                 }
 
+                if(key.equals("superjump"))
+                {
+                    g.setColor(Color.red);
+                    g.fillRect(valModel.getX(), valModel.getY(), width, height);
+                }
+
+                if(key.equals("doppipunti"))
+                {
+                    g.setColor(Color.pink);
+                    g.fillRect(valModel.getX(), valModel.getY(), width, height);
+                }
+
             }
         }
     
