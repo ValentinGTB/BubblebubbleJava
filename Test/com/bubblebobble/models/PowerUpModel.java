@@ -1,17 +1,24 @@
 package com.bubblebobble.models;
 
+import java.awt.Image;
+import java.util.ArrayList;
+
 public class PowerUpModel {
+    private Image immagine;
     private int x, y, width, height;
     private boolean isActive;
     private long activationTime;
     private static final int DURATION = 5000; // Durata del power-up in millisecondi
 
-    public PowerUpModel(int x, int y, int width, int height) {
+    public PowerUpModel(int x, int y, int width, int height , Image immagine) {
+        ArrayList<Object> pwupArray = new ArrayList<>();
+
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.isActive = false;
+        this.immagine = immagine;
     }
 
     public void activate() {
@@ -34,6 +41,8 @@ public class PowerUpModel {
         */                                                                                    
     }
 
+    // --- GETTER E SETTER --- 
+
     public int getX() {
         return x;
     }
@@ -49,4 +58,6 @@ public class PowerUpModel {
     public int getHeight() {
         return height;
     }
+
+    public Image getImmagine(){return immagine;}
 }

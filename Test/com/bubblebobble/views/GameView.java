@@ -6,6 +6,8 @@ import com.bubblebobble.models.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.swing.*;
 
@@ -19,8 +21,8 @@ public class GameView extends JPanel {
     private PowerUpView pwupview;
     private PowerUpModel powerUp;
 
-    public GameView(GameModel model, ScoreModel scoreModel) {
-        pwupview = new PowerUpView(model.getPwupModel());
+    public GameView(GameModel model, ScoreModel scoreModel , HashMap<String , ArrayList<Object>> pwupHash) {
+        pwupview = new PowerUpView(model.getPwupModel() , pwupHash);
         player = new PlayerView(model.getPlayer());
         platforms = model.getPlatforms().stream().map(PlatformView::new).toList();
         walls = model.getWallModels().stream().map(WallView::new).toList();

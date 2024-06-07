@@ -3,8 +3,10 @@ package com.bubblebobble.controllers;
 import com.bubblebobble.Constants;
 import com.bubblebobble.models.*;
 import com.bubblebobble.views.*;
+import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class GameController {
@@ -18,6 +20,7 @@ public class GameController {
     private PowerUpModel pwupModel2;
     private static final int POWER_UP_SPEED_BOOST = 5; // Aumento della velocità con il power-up
     private boolean isPowerUpActive = false;
+    private HashMap<String , ArrayList<Object>> pwupHash;
     boolean dead = false;
     int xPlayer = 0;
     int yPlayer = 0;
@@ -29,7 +32,7 @@ public class GameController {
     public GameController() {
         ArrayList<PlatformModel> platforms = new ArrayList<>();
         ArrayList<WallModel> walls = new ArrayList<>();
-        ArrayList<PowerUpModel> pwupArray = new ArrayList<>();
+        pwupHash = new HashMap<>();
 
         // Player
         player = new PlayerModel(Constants.MAX_WIDTH / 3,
@@ -53,12 +56,20 @@ public class GameController {
 
         enemy = new EnemyModel(player, walls);
         scoreModel = new ScoreModel();
-        pwupModel = new PowerUpModel(500 , 600 , 40 , 40);
-        pwupArray.add(pwupModel);
-        pwupModel2 = new PowerUpModel(300 , 600 , 40 , 40);
-        pwupArray.add(pwupModel2);
+
+        // --- Spostare la costruzione della hashmap nel model del powerup e non nel gamecontroller --- 
+
+        pwupModel = new PowerUpModel(500 , 400 , 40 , 40 , null);
+        ArrayList<Object> pwupArray = creaArray(pwupModel, pwupModel.getX(), pwupModel.getY(), pwupModel.getWidth(), pwupModel.getHeight(), pwupModel.getImmagine());
+        
+        pwupHash.put("velocita" , pwupArray);
+
+        pwupModel2 = new PowerUpModel(300 , 600 , 40 , 40 , null);
+        ArrayList<Object> pwupArray2 = creaArray(pwupModel2, pwupModel2.getX(), pwupModel2.getY(), pwupModel2.getWidth(), pwupModel2.getHeight(), pwupModel2.getImmagine());
+        pwupHash.put("instakill" , pwupArray2);
+        
         model = new GameModel(player, platforms, enemy, walls , pwupModel);
-        game = new GameView(model, scoreModel);
+        game = new GameView(model, scoreModel , pwupHash);
     }
 
     public GameView getGame() {
@@ -104,9 +115,14 @@ public class GameController {
             CollisioneEnemy(); // Fa ricominciare il nemico a cadere
         }
 
-        if (pwupModel.isExpired() && isPowerUpActive) {
-            deactivatePowerUp();
+        for(ArrayList<Object> pwupArray : pwupHash.values())
+        {
+            PowerUpModel pwupModel = (PowerUpModel) pwupArray.get(0);
+            if (pwupModel.isExpired() && isPowerUpActive) {
+                deactivatePowerUp();
+            }
         }
+            
 
         checkPowerUpCollisions();
 
@@ -225,5 +241,18 @@ public class GameController {
         } else if (key == KeyEvent.VK_UP || key == KeyEvent.VK_DOWN) {
             player.setYSpeed(0);
         }
+    }
+
+    public ArrayList<Object> creaArray(PowerUpModel pwupModel, int x , int y , int width ,int height ,Image image)
+    {
+        ArrayList<Object> pwupArray = new ArrayList<>();
+        pwupArray.add(pwupModel);
+        pwupArray.add(x);
+        pwupArray.add(y);
+        pwupArray.add(width);
+        pwupArray.add(height);
+        pwupArray.add(image);
+
+        return pwupArray;
     }
 }
