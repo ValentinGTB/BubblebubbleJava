@@ -108,40 +108,56 @@ public class EnemyModel extends PlayerModel {
                 if(checkY(yGiocatore, yEnemy))
                 { 
                     boolean havePlatOnTop = false;
-                    int distanzaX = Math.abs(xGiocatore - xEnemy);                    
-                    // Se sei già distante dal giocatore orizzontalmente
-                    if (distanzaX >= DISTANZA_SALTO_X) {
-                        for(PlatformModel platModel : platformArray)
-                        {
-                            if(yEnemy - 100 <= platModel.getPlatformY() && xEnemy >= platModel.getPlatformX()) havePlatOnTop = true;                            
-                            else havePlatOnTop = false;
+                    int distanzaX = Math.abs(xGiocatore - xEnemy);         
+                    havePlatOnTop = isPlatformAbove();
+                    
+                    if(havePlatOnTop){
+                        // Se sei già distante dal giocatore orizzontalmente
+                        if (distanzaX >= DISTANZA_SALTO_X) {
+                            
+                            // Infine faccio salire il nemico
+                            yEnemy -= (enemySpeed + 4);
+                            //Se il nemico non è più sotto il giocatore, non deve più spostarsi a sinistra quindi = false
+                            spostaSx = false;
                         }
-                        // Infine faccio salire il nemico
-                        if(havePlatOnTop) yEnemy -= (enemySpeed + 4);
-                        //Se il nemico non è più sotto il giocatore, non deve più spostarsi a sinistra quindi = false
-                        spostaSx = false;
+                        // Se sei perfettamente sotto il giocatore
+                        else
+                        {
+                            //Se c'è un muro a destra...
+                            if(controllaMuro())
+                            {
+                                //Metto spostaSx a true per iniziare lo spostamento
+                                spostaSx = true;  
+                            }
+                            else if(controllaMuroSx()) {
+                                spostaDx = true;
+                            } 
+                            else {
+                                if(!spostaSx && !spostaDx) xEnemy += 1;
+                            }
+
+                            //Finché il nemico è sotto il player, sposta a sinistra
+                            if(spostaSx) xEnemy -= 1;
+                            if(spostaDx) xEnemy += 1;
+                        }
                     }
-                    // Se sei perfettamente sotto il giocatore
                     else
                     {
-                        //Se c'è un muro a destra...
                         if(controllaMuro())
-                        {
-                            //Metto spostaSx a true per iniziare lo spostamento
-                            spostaSx = true;  
-                            noMuro = false;      
-                        }
-                        else if(controllaMuroSx()) {
-                            spostaDx = true;
-                            noMuro = false;
-                        } 
-                        else {
-                            if(noMuro && !spostaSx && !spostaDx) xEnemy += 1;
-                        }
+                            {
+                                //Metto spostaSx a true per iniziare lo spostamento
+                                spostaSx = true;  
+                            }
+                            else if(controllaMuroSx()) {
+                                spostaDx = true;
+                            } 
+                            else {
+                                if(!spostaSx && !spostaDx) xEnemy += 1;
+                            }
 
-                        //Finché il nemico è sotto il player, sposta a sinistra
-                        if(spostaSx) xEnemy -= 1;
-                        if(spostaDx) xEnemy += 1;
+                            //Finché il nemico è sotto il player, sposta a sinistra
+                            if(spostaSx) xEnemy -= 1;
+                            if(spostaDx) xEnemy += 1;
                     }
                 }
             }
@@ -233,6 +249,17 @@ public class EnemyModel extends PlayerModel {
         }
 
         return muroCheck;
+    }
+
+    public boolean isPlatformAbove() {
+        for (PlatformModel platModel : platformArray) {
+            // Controlla se c'è una piattaforma sopra il nemico
+            if (xEnemy >= platModel.getPlatformX() && xEnemy <= platModel.getPlatformX() + platModel.getPlatformWidth() 
+                && yEnemy-100 < platModel.getPlatformY() && platModel.getPlatformX() != 25) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean checkY(int yGiocatore , int yEnemy)
