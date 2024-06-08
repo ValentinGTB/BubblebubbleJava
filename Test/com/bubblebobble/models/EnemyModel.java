@@ -37,7 +37,7 @@ public class EnemyModel extends CharacterModel {
     public void move() {
 
         boolean diffX = (getX()+1 != pm.getX());
-        boolean diffY = (getY() != pm.getY()-2);
+        boolean diffY = (getY() != pm.getY()-3);
 
         if(!inBubble){
             if (diffX || diffY) {

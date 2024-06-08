@@ -1,6 +1,8 @@
 package com.bubblebobble.controllers;
 
 import com.bubblebobble.Constants;
+import com.bubblebobble.levels.Level;
+import com.bubblebobble.levels.Level01;
 import com.bubblebobble.models.*;
 import com.bubblebobble.views.*;
 import java.awt.Image;
@@ -12,93 +14,15 @@ import java.util.Map;
 
 public class GameController {
     private GameView game;
-    private PlayerModel player;
     private GameModel model;
-    private ScoreModel scoreModel;
-    private PowerUpModel pwupModel;
-    private PowerUpModel pwupModel2;
+
     private static final int POWER_UP_SPEED_BOOST = 5; // Aumento della velocità con il power-up
     private boolean isPowerUpActive = false;
-    private HashMap<String , PowerUpModel> pwupHash;
-    private ArrayList<EnemyModel> enemyArray;
     boolean dead = false;
-    int xPlayer = 0;
-    int yPlayer = 0;
-    int newY = 0;
-    int normalSpeed;
-    int boostedSpeed;
+    int newY = 0; // TODO: da rimuovere.
 
     public GameController() {
-        ArrayList<PlatformModel> platforms = new ArrayList<>();
-        ArrayList<WallModel> walls = new ArrayList<>();
-        enemyArray = new ArrayList<>();
-        pwupHash = new HashMap<>();
-
-        normalSpeed = Constants.SPEED;
-        boostedSpeed = Constants.SPEED * 2;
-
-        // muri esterni
-        walls.add(new WallModel(0, 0, Constants.ALL_PLATFORMHEIGHT, Constants.MAX_WIDTH));
-        walls.add(new WallModel(Constants.MAX_WIDTH - 55, 0, Constants.ALL_PLATFORMHEIGHT, Constants.MAX_WIDTH));
-
-        // piattaforme top e bottom
-        platforms.add(new PlatformModel(25, Constants.MAX_HEIGHT * 90 / 100, Constants.MAX_WIDTH,
-                Constants.ALL_PLATFORMHEIGHT));
-        platforms.add(new PlatformModel(25, Constants.MAX_HEIGHT * 0 / 100, Constants.MAX_WIDTH,
-                Constants.ALL_PLATFORMHEIGHT));
-
-        // piattaforma
-        platforms.add(new PlatformModel(500, Constants.MAX_HEIGHT * 75 / 100, Constants.MAX_WIDTH / 2,
-                Constants.ALL_PLATFORMHEIGHT));
-        platforms.add(new PlatformModel(100, Constants.MAX_HEIGHT * 75 / 100, 0,
-                Constants.ALL_PLATFORMHEIGHT));
-
-        
-
-        // --- Spostare la costruzione della hashmap nel model del powerup e non nel gamecontroller --- 
-
-        pwupModel = new PowerUpModel(500 , 500 , 40 , 40 , null);
-        pwupHash.put("velocita" , pwupModel);
-
-        pwupModel2 = new PowerUpModel(100 , 600 , 40 , 40 , null);       
-        pwupHash.put("instakill" , pwupModel2);
-
-        PowerUpModel pwupModel3 = new PowerUpModel(700 , 600 , 40 , 40 , null);
-        pwupHash.put("superjump" , pwupModel3);
-
-        PowerUpModel pwupModel4 = new PowerUpModel(500 , 700 , 40 , 40 , null);
-        pwupHash.put("doppipunti" , pwupModel4);
-
-        PowerUpModel pwupModel5 = new PowerUpModel(500 , 400 , 40 , 40 , null);
-        pwupHash.put("killthemall" , pwupModel5);
-
-        PowerUpModel pwupModel6 = new PowerUpModel(700 , 500 , 40 , 40 , null);
-        pwupHash.put("freeze" , pwupModel6);
-
-        PowerUpModel pwupModel7 = new PowerUpModel(700 , 700 , 40 , 40 , null);
-        pwupHash.put("freezeAndKill" , pwupModel7);
-
-        PowerUpModel pwupModel8 = new PowerUpModel(200 , 700 , 40 , 40 , null);
-        pwupHash.put("jumpPoints" , pwupModel8);
-
-        
-        // Player
-        player = new PlayerModel(Constants.MAX_WIDTH / 3,
-        Constants.MAX_HEIGHT * 70 / 100 - Constants.ALL_PLATFORMHEIGHT , pwupHash);
-        
-        EnemyModel enemy = new EnemyModel(player, walls, platforms , 70 , 680);
-        enemyArray.add(enemy);
-        
-        EnemyModel enemy2 = new EnemyModel(player, walls, platforms , 90 , 400);
-        enemyArray.add(enemy2);
-
-        EnemyModel enemy3 = new EnemyModel(player, walls, platforms , 100 , 300);
-        enemyArray.add(enemy3);
-
-        model = new GameModel(player, platforms, enemy, walls , pwupModel, pwupHash);
-        scoreModel = new ScoreModel(model);
-        
-        game = new GameView(model, scoreModel , pwupHash , enemyArray);
+        model = GameModel.getInstance();
     }
 
     public GameView getGame() {
@@ -109,61 +33,75 @@ public class GameController {
         return model;
     }
 
+    public void startGame() {
+        game = new GameView(model);
+        changeLevel(new Level01());
+    }
+
+    public void changeLevel(Level level) {
+        model.loadLevel(level);
+        game.onChangeLevel();
+    }
+
     // eseguito ad ogni frame
     // qui dobbiamo sia aggiornare i modelli (es. fare il move) che fare il render
     // della view
     public void onTick() {
 
-        for(EnemyModel enemy : enemyArray)
-        {
+        updateProjectiles();
 
-                // qui gestiamo ogni aggiornamento dei nostri modelli
-                player.move();
-                if (!enemy.isInBubble()) {
-                    enemy.move();
-                    newY = enemy.getY();
-                } else {
-                    // Se il nemico è nella bolla, aggiorna solo la posizione verso l'alto
-                    if (newY >= 40 && !enemy.isFruit()) { // Se sto salendo (non sono in cima) e NON sono un frutto
-                        newY -= 1;
-                        enemy.setY(newY);
-                        enemy.collisionDead();
-                    } else if (newY <= 40) { // Se sono in cima
-                        dead = true; // Evita che arrivando in cima si attivi il CollisioneEnemy che ti farebbe tornare in basso
-                    }
+        for (EnemyModel enemy : model.getEnemies()) {
+
+            // qui gestiamo ogni aggiornamento dei nostri modelli
+            model.getPlayer().move();
+            if (!enemy.isInBubble()) {
+                enemy.move();
+                newY = enemy.getY();
+            } else {
+                // Se il nemico è nella bolla, aggiorna solo la posizione verso l'alto
+                if (newY >= 40 && !enemy.isFruit()) { // Se sto salendo (non sono in cima) e NON sono un frutto
+                    newY -= 1;
+                    enemy.setY(newY);
+                    enemy.collisionDead();
+                } else if (newY <= 40) { // Se sono in cima
+                    dead = true; // Evita che arrivando in cima si attivi il CollisioneEnemy che ti farebbe
+                                 // tornare in basso
                 }
-    
-                checkProjectileCollisions(enemy);
-                BlocchiDirezzionali(enemy);
-                ControlloSaltoPlatform();
-    
-                if (!dead || enemy.isFruit()) { // Se non sono morto oppure sono un frutto, riattiva la caduta
-                    CollisioneEnemy(enemy); // Fa ricominciare il nemico a cadere
-                }
+            }
+
+            checkProjectileCollisions(enemy);
+            BlocchiDirezzionali(enemy);
+            ControlloSaltoPlatform();
+
+            if (!dead || enemy.isFruit()) { // Se non sono morto oppure sono un frutto, riattiva la caduta
+                CollisioneEnemy(enemy); // Fa ricominciare il nemico a cadere
+            }
 
         }
-        
-        for(PowerUpModel pwupModel : pwupHash.values())
-        {
+
+        for (PowerUpModel pwupModel : model.getPowerUps().values()) {
             if (pwupModel.isExpired() && isPowerUpActive) {
                 deactivatePowerUp();
             }
 
             checkPowerUpCollisions(pwupModel);
         }
-            
+
     }
 
     private void checkPowerUpCollisions(PowerUpModel pwupModel) {
-        if (!pwupModel.isActive() && player.getX() < pwupModel.getX() + pwupModel.getWidth() &&
-            player.getX() + 40 > pwupModel.getX() &&
-            player.getY() < pwupModel.getY() + pwupModel.getHeight() &&
-            player.getY() + 40 > pwupModel.getY()) {
+        if (!pwupModel.isActive() && model.getPlayer().getX() < pwupModel.getX() + pwupModel.getWidth() &&
+                model.getPlayer().getX() + 40 > pwupModel.getX() &&
+                model.getPlayer().getY() < pwupModel.getY() + pwupModel.getHeight() &&
+                model.getPlayer().getY() + 40 > pwupModel.getY()) {
             pwupModel.activate();
             activatePowerUp();
-            if(pwupModel == pwupHash.get("killthemall")) Constants.killthemall = true;
-            if(pwupModel == pwupHash.get("freeze")) Constants.freeze = true;
-            if(pwupModel == pwupHash.get("freezeAndKill")) Constants.freezeAndKill = true;
+            if (pwupModel == model.getPowerUps().get("killthemall"))
+                Constants.killthemall = true;
+            if (pwupModel == model.getPowerUps().get("freeze"))
+                Constants.freeze = true;
+            if (pwupModel == model.getPowerUps().get("freezeAndKill"))
+                Constants.freezeAndKill = true;
         }
     }
 
@@ -177,8 +115,8 @@ public class GameController {
 
     public void ControlloSaltoPlatform() {
         for (PlatformModel platform : model.getPlatforms()) {
-            if (player.collidesWith(platform)) {
-                player.setJumping(false);
+            if (model.getPlayer().collidesWith(platform)) {
+                model.getPlayer().setJumping(false);
             }
         }
     }
@@ -200,12 +138,12 @@ public class GameController {
     }
 
     public void blocchiBordiTopBottom(EnemyModel enemy) {
-        if (player.getY() + player.getYSpeed() < 0) {
-            player.setYSpeed(Constants.SPEED);
+        if (model.getPlayer().getY() + model.getPlayer().getYSpeed() < 0) {
+            model.getPlayer().setYSpeed(Constants.SPEED);
         }
-        if (player.getY() + player.getYSpeed() >= Constants.MAX_HEIGHT) {
-            player.setY(-40);
-            player.setYSpeed(-Constants.SPEED);
+        if (model.getPlayer().getY() + model.getPlayer().getYSpeed() >= Constants.MAX_HEIGHT) {
+            model.getPlayer().setY(-40);
+            model.getPlayer().setYSpeed(-Constants.SPEED);
         }
 
         // Blocco Enemy
@@ -219,95 +157,91 @@ public class GameController {
     }
 
     public void blocchiBordiLeftRight() {
-        if (player.getX() + player.getXSpeed() < Constants.WallWidth) {
+        if (model.getPlayer().getX() + model.getPlayer().getXSpeed() < Constants.WallWidth) {
             System.err.println(Constants.WallWidth + "Wall width");
-            player.setXSpeed(0);
-            player.setX(Constants.WallWidth);
+            model.getPlayer().setXSpeed(0);
+            model.getPlayer().setX(Constants.WallWidth);
         }
-        if (player.getX() + player.getXSpeed() >= Constants.MAX_WIDTH - (50 + Constants.WallWidth)) {
-            player.setXSpeed(0);
-            player.setX(Constants.MAX_WIDTH - (53 + Constants.WallWidth));
+        if (model.getPlayer().getX() + model.getPlayer().getXSpeed() >= Constants.MAX_WIDTH
+                - (50 + Constants.WallWidth)) {
+            model.getPlayer().setXSpeed(0);
+            model.getPlayer().setX(Constants.MAX_WIDTH - (53 + Constants.WallWidth));
         }
     }
 
     private void checkProjectileCollisions(EnemyModel enemy) {
-        List<ProjectileModel> projectiles = player.getProjectiles();
+        List<ProjectileModel> projectiles = model.getProjectiles();
         for (ProjectileModel projectile : projectiles) {
             if (projectile.collidesWith(enemy)) {
                 // Gestisci la collisione: ingloba il nemico nella bolla
-                for(Map.Entry<String, PowerUpModel> entry : pwupHash.entrySet())
-                {
-                String key = entry.getKey();
-                PowerUpModel valModel = (PowerUpModel) entry.getValue();
-                
-                // Se il player NON ha raccolto il powerup INSTAKILL
+                for (Map.Entry<String, PowerUpModel> entry : model.getPowerUps().entrySet()) {
+                    String key = entry.getKey();
+                    PowerUpModel valModel = (PowerUpModel) entry.getValue();
 
-                if(key.equals("instakill"))
-                {
-                    if(!valModel.isActive()) enemy.setInBubble(true);
-                    else{enemy.instaKill();}
-                }
-                
+                    // Se il player NON ha raccolto il powerup INSTAKILL
+
+                    if (key.equals("instakill")) {
+                        if (!valModel.isActive())
+                            enemy.setInBubble(true);
+                        else {
+                            enemy.instaKill();
+                        }
+                    }
 
                 }
 
                 projectile.deactivate();
             }
 
-            else if(projectile.collidesWithWalls(Constants.WALL_LEFT, Constants.WALL_RIGHT) && projectile.isActive()){
+            else if (projectile.collidesWithWalls(Constants.WALL_LEFT, Constants.WALL_RIGHT) && projectile.isActive()) {
                 int points = 10;
 
-                if (model.isPowerupActive("doppipunti"))
+                if (model.hasPowerup("doppipunti"))
                     points *= 2;
 
-                scoreModel.addPoints(points);
+                model.getScore().addPoints(points);
                 projectile.deactivate();
             }
         }
     }
 
+    public void updateProjectiles() {
+		for (ProjectileModel projectile : model.getProjectiles()) {
+			if (projectile.isActive()) {
+				projectile.move();
+				// Puoi aggiungere la logica per disattivare il proiettile se esce dallo schermo
+				// projectile.deactivate() se il proiettile esce dallo schermo
+			}
+		}
+	}
+
     public void onKeyPressed(KeyEvent e) {
-        
+
         int key = e.getKeyCode();
 
-        int currentSpeed = pwupModel.isActive() && !pwupModel.isExpired() ? boostedSpeed : normalSpeed;
+        int currentSpeed = model.hasPowerup("velocita") ? Constants.BOOSTED_SPEED : Constants.SPEED;
 
         if (key == KeyEvent.VK_LEFT) {
-            player.setXSpeed(-currentSpeed);
+            model.getPlayer().setXSpeed(-currentSpeed);
         } else if (key == KeyEvent.VK_RIGHT) {
-            player.setXSpeed(currentSpeed);
-        }
-        else if (key == KeyEvent.VK_UP) {
-            player.salta();
-            if(pwupHash.get("jumpPoints").isActive() && isPowerUpActive)
-            {
-                scoreModel.addPoints(100);
+            model.getPlayer().setXSpeed(currentSpeed);
+        } else if (key == KeyEvent.VK_UP) {
+            model.getPlayer().salta();
+            if (model.getPowerUps().get("jumpPoints").isActive() && isPowerUpActive) {
+                model.getScore().addPoints(100);
             }
 
         } else if (key == KeyEvent.VK_SPACE) {
-            player.shoot();
+            model.getPlayer().shoot();
         }
     }
 
     public void onKeyReleased(KeyEvent e) {
         int key = e.getKeyCode();
         if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_RIGHT) {
-            player.setXSpeed(0);
+            model.getPlayer().setXSpeed(0);
         } else if (key == KeyEvent.VK_UP || key == KeyEvent.VK_DOWN) {
-            player.setYSpeed(0);
+            model.getPlayer().setYSpeed(0);
         }
-    }
-
-    public ArrayList<Object> creaArray(PowerUpModel pwupModel, int x , int y , int width ,int height ,Image image)
-    {
-        ArrayList<Object> pwupArray = new ArrayList<>();
-        pwupArray.add(pwupModel);
-        pwupArray.add(x);
-        pwupArray.add(y);
-        pwupArray.add(width);
-        pwupArray.add(height);
-        pwupArray.add(image);
-
-        return pwupArray;
     }
 }

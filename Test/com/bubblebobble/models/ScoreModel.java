@@ -5,12 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ScoreModel {
-    GameModel game;
-
-    public ScoreModel(GameModel game) {
-        this.game = game;
-    }
-
     private int currentScore;
 
     public int getCurrentScore() {

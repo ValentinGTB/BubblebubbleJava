@@ -6,6 +6,8 @@ import javax.imageio.ImageIO;
 
 public class Constants {
 
+    public static String FONT_NAME = "arcade-legacy.ttf";
+
     public static Image immagineBottoneInizia;
     public static Image immagineBottoneEsci;
 
@@ -54,6 +56,8 @@ public class Constants {
     
     public static int VITA = 5;
     public static int SPEED = 2;
+    public static int BOOSTED_SPEED = 4;
+    public static int PROJECTILE_SPEED = 10;
 
     //Mantieni menu aperto fin quando è true
     //Quando si avvia il gioco, questa viene messa a false

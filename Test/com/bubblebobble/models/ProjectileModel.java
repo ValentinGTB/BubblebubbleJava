@@ -1,17 +1,18 @@
 package com.bubblebobble.models;
 
-public class ProjectileModel {
-    private int x;
-    private int y;
+import com.bubblebobble.contansts.Direction;
+
+public class ProjectileModel extends EntityModel {
     private int speed;
     private boolean active;
     private boolean visible;
+    private Direction direction;
 
-    public ProjectileModel(int x, int y, int speed) {
-        this.x = x;
-        this.y = y;
+    public ProjectileModel(int x, int y, int speed, Direction direction) {
+        super(x, y);
         this.speed = speed;
         this.active = true;
+        this.direction = direction;
     }
 
     public void setVisible(boolean visible) {
@@ -19,24 +20,17 @@ public class ProjectileModel {
     }
 
     public void move() {
-        x += speed;
+        int delta = direction == Direction.LEFT ? -1 : 1;
+        moveX(delta * speed);
     }
 
     public boolean collidesWith(EnemyModel enemy) {
-        return x >= enemy.getX() && x <= enemy.getX() + 40 &&
-               y >= enemy.getY() && y <= enemy.getY() + 40;
+        return getX() >= enemy.getX() && getX() <= enemy.getX() + 40 &&
+               getY() >= enemy.getY() && getY() <= enemy.getY() + 40;
     }
 
     public boolean collidesWithWalls(int wallLeft, int wallRight) {
-        return x <= wallLeft || x >= wallRight;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
+        return getX() <= wallLeft || getX() >= wallRight;
     }
 
     public boolean isActive() {

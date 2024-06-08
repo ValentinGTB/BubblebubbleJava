@@ -3,6 +3,7 @@ import javax.swing.*;
 
 import com.bubblebobble.controllers.*;
 import com.bubblebobble.menu.MenuFrame;
+import com.bubblebobble.models.GameModel;
 import com.bubblebobble.views.*;
 
 import java.awt.*;
@@ -82,6 +83,8 @@ public class Main extends JFrame {
     		menu = null;
 
     		controller = new GameController();
+            controller.startGame();
+
             JPanel gamePanel = controller.getGame();
     		gamePanel.setBackground(Color.BLACK); // Imposta lo sfondo nero per il JPanel del gioco
             
@@ -89,7 +92,7 @@ public class Main extends JFrame {
     		add(controller.getGame());
     		setLocation(300, 100); // Imposta le coordinate manualmente
     		setFocusable(true);
-    		requestFocus(); 
+    		requestFocus();
     		startEngine();
     	}
     	
