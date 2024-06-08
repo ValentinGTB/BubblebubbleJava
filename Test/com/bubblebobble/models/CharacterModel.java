@@ -1,9 +1,6 @@
 package com.bubblebobble.models;
 
-public class CharacterModel {
-    private int x;
-	private int y;
-    
+public class CharacterModel extends EntityModel {
     private int xSpeed = 0;
 	private int ySpeed = 0;
 
@@ -13,33 +10,13 @@ public class CharacterModel {
     }
 
     public CharacterModel(int x, int y) {
-        this.x = x;
-        this.y = y;
+        super(x, y);
     }
-
-    public void setX(int x) {
-		this.x = x;
-	}
-
-	// Restituisce la posizione x del personaggio
-	public int getX() {
-		//System.out.println("X aggiornate --> " + x);
-		return x;
-	}
-
-	public void setY(int y) {
-		this.y = y;
-	}
-
-	// Restituisce la posizione y del personaggio
-	public int getY() {
-		return y;
-	}
 
     // Muove il personaggio
 	public void move() {
-		x += xSpeed;
-		y += ySpeed;
+        moveX(xSpeed);
+        moveY(ySpeed);
 		ySpeed += gravity;
 	}
 
