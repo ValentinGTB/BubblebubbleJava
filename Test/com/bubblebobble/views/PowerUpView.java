@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JComponent;
 
-public class PowerUpView extends JComponent{
+public class PowerUpView extends JComponent {
 
     private int x , y , width , height;
     PowerUpModel pwupModel;

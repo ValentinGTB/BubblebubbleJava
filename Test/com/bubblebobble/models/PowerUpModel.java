@@ -2,17 +2,15 @@ package com.bubblebobble.models;
 
 import java.awt.Image;
 
-public class PowerUpModel {
+public class PowerUpModel extends EntityModel {
     private Image immagine;
-    private int x, y, width, height;
+    private int width, height;
     private boolean isActive;
     private long activationTime;
     private static final int DURATION = 5000; // Durata del power-up in millisecondi
 
     public PowerUpModel(int x, int y, int width, int height , Image immagine) {
-
-        this.x = x;
-        this.y = y;
+        super(x, y);
         this.width = width;
         this.height = height;
         this.isActive = false;
@@ -40,14 +38,6 @@ public class PowerUpModel {
     }
 
     // --- GETTER E SETTER --- 
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
 
     public int getWidth() {
         return width;
