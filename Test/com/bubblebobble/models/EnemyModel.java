@@ -2,6 +2,7 @@ package com.bubblebobble.models;
 
 import com.bubblebobble.Constants;
 import java.util.ArrayList;
+import java.util.stream.IntStream;
 
 public class EnemyModel extends PlayerModel {
     private boolean inBubble;
@@ -41,29 +42,54 @@ public class EnemyModel extends PlayerModel {
 
         boolean diffX = (xEnemy+1 != xGiocatore);
         boolean diffY = (yEnemy != yGiocatore-2);
+    
+        
 
-        if(!inBubble){
-            if (diffX || diffY) {
-                int deltaX = xGiocatore - xEnemy;
-                int deltaY = yGiocatore - yEnemy;
-                distance(deltaX, deltaY);
-                Constants.colpito = false;
-                flipFlop = 1;
 
-            } else {
+        if(!Constants.killthemall)
+        {
+            if(!inBubble)
+            {
+                if(!Constants.freeze)
+                {
+                    if (diffX || diffY) 
+                    {
+                        int deltaX = xGiocatore - xEnemy;
+                        int deltaY = yGiocatore - yEnemy;
+                        distance(deltaX, deltaY);
+                        Constants.colpito = false;
+                        flipFlop = 1;
+                    }
+                    else
+                    {
+                        Constants.colpito = true;
+                    }
+                }
+                if(Constants.freezeAndKill)
+                {
+                    Constants.freeze = true;
+                    boolean isInRangeX = IntStream.rangeClosed(xEnemy-10, xEnemy+10).anyMatch(n -> n == xGiocatore);
+                    if(isInRangeX)
+                    {
+                        instaKill();
+                    }
+                } 
+                //else {
 
-                /*
-                * if(flipFlop == 1) ------ POSSIBILE LOGICA DA POTER USARE PER FAR COLPIRE
-                * SUBITO UNA VOLTA SOLA IL GIOCATORE E POI PASSARE L'AZIONE AL THREAD
-                * {
-                * flipFlop = 0;
-                * }
-                */
-                Constants.colpito = true;
-                // vanish del personaggio per 3 secondi player.vanish(3, 3) sta per 3 secondi e
-                // il frame scompare e riappare per 3 secondi.
+                    /*
+                    * if(flipFlop == 1) ------ POSSIBILE LOGICA DA POTER USARE PER FAR COLPIRE
+                    * SUBITO UNA VOLTA SOLA IL GIOCATORE E POI PASSARE L'AZIONE AL THREAD
+                    * {
+                    * flipFlop = 0;
+                    * }
+                    */
+                    //Constants.colpito = true;
+                    // vanish del personaggio per 3 secondi player.vanish(3, 3) sta per 3 secondi e
+                    // il frame scompare e riappare per 3 secondi.
+                //}
             }
         }
+        else instaKill();
     }
 
     public void collisionDead()

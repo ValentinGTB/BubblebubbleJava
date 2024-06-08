@@ -61,4 +61,10 @@ public class Constants {
 
     //Costante livello attuale
     public static int livelloAttuale = 0;
+
+    //Power Up (Le costanti sono usate solo per i power up che devono uccidere il nemico e non venire più riusati per tutto il livello)
+
+    public static boolean killthemall = false;
+    public static boolean freeze = false;
+    public static boolean freezeAndKill = false;
 }

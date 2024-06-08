@@ -22,7 +22,7 @@ public class GameView extends JPanel {
     private PowerUpView pwupview;
     private PowerUpModel powerUp;
 
-    public GameView(GameModel model, ScoreModel scoreModel , HashMap<String , ArrayList<Object>> pwupHash , ArrayList<EnemyModel> enemyArray) {
+    public GameView(GameModel model, ScoreModel scoreModel , HashMap<String , PowerUpModel> pwupHash , ArrayList<EnemyModel> enemyArray) {
         pwupview = new PowerUpView(model.getPwupModel() , pwupHash);
         player = new PlayerView(model.getPlayer());
         platforms = model.getPlatforms().stream().map(PlatformView::new).toList();

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public class PlayerModel {
-	private HashMap<String , ArrayList<Object>> pwupHash;
+	private HashMap<String , PowerUpModel> pwupHash;
 	private int x;
 	private int y;
 	int vita = Constants.VITA;
@@ -26,7 +26,7 @@ public class PlayerModel {
 
 	public PlayerModel(){}
 
-	public PlayerModel(int x, int y, HashMap<String , ArrayList<Object>> pwupHash) {
+	public PlayerModel(int x, int y, HashMap<String , PowerUpModel> pwupHash) {
 		this.x = x;
 		this.y = y;
 		this.pwupHash = pwupHash;
@@ -84,8 +84,7 @@ public class PlayerModel {
 	}
 
 	public void salta() {
-		if (!isJumping)
-			setJumping(true);
+		if (!isJumping) setJumping(true);
 	}
 
 	public boolean isJumping() {
@@ -95,10 +94,10 @@ public class PlayerModel {
 	public void setJumping(boolean jumping) {
 		if (jumping) {
 			
-			for(Map.Entry<String, ArrayList<Object>> entry : pwupHash.entrySet())
+			for(Map.Entry<String, PowerUpModel> entry : pwupHash.entrySet())
             {
                 String key = entry.getKey();
-                PowerUpModel valModel = (PowerUpModel) entry.getValue().get(0);
+                PowerUpModel valModel = (PowerUpModel) entry.getValue();
 
 				if(key.equals("superjump"))
 				{

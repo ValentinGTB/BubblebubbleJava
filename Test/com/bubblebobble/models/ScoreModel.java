@@ -1,12 +1,11 @@
 package com.bubblebobble.models;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ScoreModel {
 
-    HashMap<String, ArrayList<Object>> pwupHash;
+    HashMap<String, PowerUpModel> pwupHash;
 
     public ScoreModel(HashMap pwupHash)
     {
@@ -21,10 +20,10 @@ public class ScoreModel {
 
     public void addPoints(int points) {
         
-        for(Map.Entry<String, ArrayList<Object>> entry : pwupHash.entrySet())
+        for(Map.Entry<String, PowerUpModel> entry : pwupHash.entrySet())
             {
                 String key = entry.getKey();
-                PowerUpModel valModel = (PowerUpModel) entry.getValue().get(0);
+                PowerUpModel valModel = entry.getValue();
 
                 if(key.equals("doppipunti"))
                 {

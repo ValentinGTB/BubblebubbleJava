@@ -20,7 +20,7 @@ public class GameController {
     private PowerUpModel pwupModel2;
     private static final int POWER_UP_SPEED_BOOST = 5; // Aumento della velocità con il power-up
     private boolean isPowerUpActive = false;
-    private HashMap<String , ArrayList<Object>> pwupHash;
+    private HashMap<String , PowerUpModel> pwupHash;
     private ArrayList<EnemyModel> enemyArray;
     boolean dead = false;
     int xPlayer = 0;
@@ -62,20 +62,28 @@ public class GameController {
         // --- Spostare la costruzione della hashmap nel model del powerup e non nel gamecontroller --- 
 
         pwupModel = new PowerUpModel(500 , 500 , 40 , 40 , null);
-        ArrayList<Object> pwupArray = creaArray(pwupModel, pwupModel.getX(), pwupModel.getY(), pwupModel.getWidth(), pwupModel.getHeight(), pwupModel.getImmagine());
-        pwupHash.put("velocita" , pwupArray);
+        pwupHash.put("velocita" , pwupModel);
 
-        pwupModel2 = new PowerUpModel(100 , 600 , 40 , 40 , null);
-        ArrayList<Object> pwupArray2 = creaArray(pwupModel2, pwupModel2.getX(), pwupModel2.getY(), pwupModel2.getWidth(), pwupModel2.getHeight(), pwupModel2.getImmagine());
-        pwupHash.put("instakill" , pwupArray2);
+        pwupModel2 = new PowerUpModel(100 , 600 , 40 , 40 , null);       
+        pwupHash.put("instakill" , pwupModel2);
 
         PowerUpModel pwupModel3 = new PowerUpModel(700 , 600 , 40 , 40 , null);
-        ArrayList<Object> pwupArray3 = creaArray(pwupModel3, pwupModel3.getX(), pwupModel3.getY(), pwupModel3.getWidth(), pwupModel3.getHeight(), pwupModel3.getImmagine());
-        pwupHash.put("superjump" , pwupArray3);
+        pwupHash.put("superjump" , pwupModel3);
 
         PowerUpModel pwupModel4 = new PowerUpModel(500 , 700 , 40 , 40 , null);
-        ArrayList<Object> pwupArray4 = creaArray(pwupModel4, pwupModel4.getX(), pwupModel4.getY(), pwupModel4.getWidth(), pwupModel4.getHeight(), pwupModel4.getImmagine());
-        pwupHash.put("doppipunti" , pwupArray4);
+        pwupHash.put("doppipunti" , pwupModel4);
+
+        PowerUpModel pwupModel5 = new PowerUpModel(500 , 400 , 40 , 40 , null);
+        pwupHash.put("killthemall" , pwupModel5);
+
+        PowerUpModel pwupModel6 = new PowerUpModel(700 , 500 , 40 , 40 , null);
+        pwupHash.put("freeze" , pwupModel6);
+
+        PowerUpModel pwupModel7 = new PowerUpModel(700 , 700 , 40 , 40 , null);
+        pwupHash.put("freezeAndKill" , pwupModel7);
+
+        PowerUpModel pwupModel8 = new PowerUpModel(200 , 700 , 40 , 40 , null);
+        pwupHash.put("jumpPoints" , pwupModel8);
 
         scoreModel = new ScoreModel(pwupHash);
 
@@ -89,7 +97,8 @@ public class GameController {
         EnemyModel enemy2 = new EnemyModel(player, walls, platforms , 90 , 400);
         enemyArray.add(enemy2);
 
-
+        EnemyModel enemy3 = new EnemyModel(player, walls, platforms , 100 , 300);
+        enemyArray.add(enemy3);
 
         model = new GameModel(player, platforms, enemy, walls , pwupModel);
         game = new GameView(model, scoreModel , pwupHash , enemyArray);
@@ -144,9 +153,8 @@ public class GameController {
 
         }
         
-        for(ArrayList<Object> pwupArray : pwupHash.values())
+        for(PowerUpModel pwupModel : pwupHash.values())
         {
-            PowerUpModel pwupModel = (PowerUpModel) pwupArray.get(0);
             if (pwupModel.isExpired() && isPowerUpActive) {
                 deactivatePowerUp();
             }
@@ -163,6 +171,9 @@ public class GameController {
             player.getY() + 40 > pwupModel.getY()) {
             pwupModel.activate();
             activatePowerUp();
+            if(pwupModel == pwupHash.get("killthemall")) Constants.killthemall = true;
+            if(pwupModel == pwupHash.get("freeze")) Constants.freeze = true;
+            if(pwupModel == pwupHash.get("freezeAndKill")) Constants.freezeAndKill = true;
         }
     }
 
@@ -234,10 +245,10 @@ public class GameController {
         for (ProjectileModel projectile : projectiles) {
             if (projectile.collidesWith(enemy)) {
                 // Gestisci la collisione: ingloba il nemico nella bolla
-                for(Map.Entry<String, ArrayList<Object>> entry : pwupHash.entrySet())
+                for(Map.Entry<String, PowerUpModel> entry : pwupHash.entrySet())
                 {
                 String key = entry.getKey();
-                PowerUpModel valModel = (PowerUpModel) entry.getValue().get(0);
+                PowerUpModel valModel = (PowerUpModel) entry.getValue();
                 
                 // Se il player NON ha raccolto il powerup INSTAKILL
 
@@ -269,6 +280,11 @@ public class GameController {
         }
         else if (key == KeyEvent.VK_UP) {
             player.salta();
+            if(pwupHash.get("jumpPoints").isActive() && isPowerUpActive)
+            {
+                scoreModel.addPoints(100);
+            }
+
         } else if (key == KeyEvent.VK_SPACE) {
             player.shoot();
         }
