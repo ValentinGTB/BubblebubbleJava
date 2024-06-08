@@ -6,17 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PlayerModel {
+public class PlayerModel extends CharacterModel {
 	private HashMap<String , ArrayList<Object>> pwupHash;
-	private int x;
-	private int y;
 	int vita = Constants.VITA;
 
-	private int xSpeed = 0;
-	private int ySpeed = 0;
-
 	private int DISTANCEPG = 40;
-	private double gravity = 1;
 
 	private boolean isJumping;
 
@@ -24,11 +18,13 @@ public class PlayerModel {
 
 	
 
-	public PlayerModel(){}
+	public PlayerModel()
+	{
+		super();
+	}
 
 	public PlayerModel(int x, int y, HashMap<String , ArrayList<Object>> pwupHash) {
-		this.x = x;
-		this.y = y;
+		super(x, y);
 		this.pwupHash = pwupHash;
 	}
 
@@ -36,7 +32,7 @@ public class PlayerModel {
 
     public void shoot() {
         int projectileSpeed = 10; // Imposta la velocità del proiettile
-        projectiles.add(new ProjectileModel(x + DISTANCEPG, y + DISTANCEPG - 80 / 2, projectileSpeed));
+        projectiles.add(new ProjectileModel(getX() + DISTANCEPG, getY() + DISTANCEPG - 80 / 2, projectileSpeed));
     }
 
     public List<ProjectileModel> getProjectiles() {
@@ -52,25 +48,6 @@ public class PlayerModel {
             }
         }
     }
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	// Restituisce la posizione x del personaggio
-	public int getX() {
-		//System.out.println("X aggiornate --> " + x);
-		return x;
-	}
-
-	public void setY(int y) {
-		this.y = y;
-	}
-
-	// Restituisce la posizione y del personaggio
-	public int getY() {
-		return y;
-	}
 
 	public void setVita()
 	{
@@ -105,12 +82,12 @@ public class PlayerModel {
 					
 					if(valModel.isActive() && !valModel.isExpired())
 					{
-						ySpeed = -20;
+						setYSpeed(-20);
 						isJumping = true;
 					}
 					else
 					{
-						ySpeed = -15;	
+						setYSpeed(-15);
 						isJumping = true;
 					}
 				}
@@ -119,7 +96,7 @@ public class PlayerModel {
 			
 			
 		} else {
-			ySpeed = 0;
+			setYSpeed(0);
 			isJumping = false;
 		}
 	}
@@ -127,19 +104,19 @@ public class PlayerModel {
 	public boolean collidesWith(PlatformModel platform) {
 		// Controlla se il personaggio è sopra la piattaforma e se la parte inferiore del personaggio è al di sopra del punto superiore della piattaforma
 	
-		if (ySpeed >= 0 
-			&& y + DISTANCEPG >= platform.getPlatformY() 
-			&& y <= platform.getPlatformY() + platform.getPlatformHeight()
-			&& x + DISTANCEPG >= platform.getPlatformX() 
-			&& x <= platform.getPlatformX() + platform.getPlatformWidth()
-			&& y + DISTANCEPG <= platform.getPlatformY() + platform.getPlatformHeight()) {
+		if (getYSpeed() >= 0 
+			&& getY() + DISTANCEPG >= platform.getPlatformY() 
+			&& getY() <= platform.getPlatformY() + platform.getPlatformHeight()
+			&& getX() + DISTANCEPG >= platform.getPlatformX() 
+			&& getX() <= platform.getPlatformX() + platform.getPlatformWidth()
+			&& getY() + DISTANCEPG <= platform.getPlatformY() + platform.getPlatformHeight()) {
 			// La parte inferiore del personaggio è sopra il punto superiore della piattaforma
 			// La parte superiore del personaggio è al di sotto della piattaforma
 			// Il personaggio sta scendendo
 	
 			// Regola la posizione del personaggio per farlo rimanere sulla piattaforma
-			y = platform.getPlatformY() - DISTANCEPG;
-			ySpeed = 0; // Imposta la velocità verticale a 0 per fermare il movimento verso il basso
+			setY(platform.getPlatformY() - DISTANCEPG);
+			setYSpeed(0);; // Imposta la velocità verticale a 0 per fermare il movimento verso il basso
 			setJumping(false); // Imposta lo stato del salto a falso
 			return true; // Collisione rilevata
 		}
@@ -149,28 +126,9 @@ public class PlayerModel {
 
 
 	// Muove il personaggio
+	@Override
 	public void move() {
-		x += xSpeed;
-		y += ySpeed;
-		ySpeed += gravity;
+		super.move();
 		updateProjectiles();
-	}
-
-	// Imposta la velocità x del personaggio
-	public void setXSpeed(int speed) {
-		xSpeed = speed;
-	}
-
-	public int getXSpeed() {
-		return xSpeed;
-	}
-
-	// Imposta la velocità y del personaggio
-	public void setYSpeed(int speed) {
-		ySpeed = speed;
-	}
-
-	public int getYSpeed() {
-		return ySpeed;
 	}
 }
