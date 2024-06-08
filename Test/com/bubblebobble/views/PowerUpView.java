@@ -39,44 +39,44 @@ public class PowerUpView extends JComponent {
                 {
                     // --- CAMBIARE QUESTO CODICE CON L'IMMAGINE DEL POWERUP ---
 
-                    //g.setColor(Color.BLUE);
-                    //g.fillRect(valModel.getX(), valModel.getY(), width, height);
+                    g.setColor(Color.BLUE);
+                    g.fillRect(valModel.getX(), valModel.getY(), width, height);
                 }
 
                 if(key.equals("instakill"))
                 {
-                    //g.setColor(Color.green);
-                    //g.fillRect(valModel.getX(), valModel.getY(), width, height);
+                    g.setColor(Color.green);
+                    g.fillRect(valModel.getX(), valModel.getY(), width, height);
                 }
 
                 if(key.equals("superjump"))
                 {
-                    //g.setColor(Color.red);
-                    //g.fillRect(valModel.getX(), valModel.getY(), width, height);
+                    g.setColor(Color.red);
+                    g.fillRect(valModel.getX(), valModel.getY(), width, height);
                 }
 
                 if(key.equals("doppipunti"))
                 {
-                    //g.setColor(Color.pink);
-                    //g.fillRect(valModel.getX(), valModel.getY(), width, height);
+                    g.setColor(Color.pink);
+                    g.fillRect(valModel.getX(), valModel.getY(), width, height);
                 }
 
                 if (key.equals("killthemall"))
                 {
-                    //g.setColor(Color.gray);
-                    //g.fillRect(valModel.getX(), valModel.getY(), width, height);
+                    g.setColor(Color.gray);
+                    g.fillRect(valModel.getX(), valModel.getY(), width, height);
                 }
 
                 if(key.equals("freeze"))
                 {
-                    //g.setColor(Color.cyan);
-                    //g.fillRect(valModel.getX(), valModel.getY(), width, height);
+                    g.setColor(Color.cyan);
+                    g.fillRect(valModel.getX(), valModel.getY(), width, height);
                 }
 
                 if(key.equals("freezeAndKill"))
                 {
-                    //g.setColor(Color.MAGENTA);
-                    //g.fillRect(valModel.getX(), valModel.getY(), width, height);
+                    g.setColor(Color.MAGENTA);
+                    g.fillRect(valModel.getX(), valModel.getY(), width, height);
                 }
 
                 if(key.equals("jumpPoints"))
