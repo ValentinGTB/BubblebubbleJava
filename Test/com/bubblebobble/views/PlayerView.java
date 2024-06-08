@@ -11,7 +11,6 @@ import javax.swing.*;
 
 public class PlayerView extends JPanel { 
 
-    GameController gc = new GameController(0);
     GameModel gm; 
     EnemyModel enemyModel;
 

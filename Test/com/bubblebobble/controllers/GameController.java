@@ -28,9 +28,6 @@ public class GameController {
     int normalSpeed;
     int boostedSpeed;
 
-    public GameController(int vuoto) {
-    }
-
     public GameController() {
         ArrayList<PlatformModel> platforms = new ArrayList<>();
         ArrayList<WallModel> walls = new ArrayList<>();
