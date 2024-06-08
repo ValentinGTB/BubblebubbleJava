@@ -4,14 +4,13 @@ import com.bubblebobble.Constants;
 import java.util.ArrayList;
 import java.util.stream.IntStream;
 
-public class EnemyModel extends PlayerModel {
+public class EnemyModel extends CharacterModel {
     private boolean inBubble;
     PlayerModel pm;
     ArrayList<WallModel> walls;
 
     private static final int DISTANZA_SALTO_X = 50; // Ad esempio, 50 pixel
     
-    private Constants costanti = new Constants();
 
     boolean isEaten = false;
     boolean isFruit = false;
@@ -19,32 +18,34 @@ public class EnemyModel extends PlayerModel {
     boolean spostaSx, spostaDx;
     boolean colliding = false;
     boolean inAlto = false;
-    int xEnemy;
     int yEnemy;
     int DISTANCEPG = 45;
     double enemySpeed = Constants.SPEED;
-    int xGiocatore;
-    int yGiocatore;
     int flipFlop = 0;
     ArrayList<PlatformModel> platformArray;
 
-    public EnemyModel(PlayerModel pm , ArrayList<WallModel> walls , ArrayList<PlatformModel> platformArray , int xEnemy , int yEnemy) {
+    public EnemyModel(PlayerModel pm , ArrayList<WallModel> walls , ArrayList<PlatformModel> platformArray , int x , int y) {
+        super(x, y);
+
         this.pm = pm;
         this.walls = walls;
         this.inBubble = false;
         this.platformArray = platformArray;
-        this.xEnemy = xEnemy;
-        this.yEnemy = yEnemy;
         MyThread.getInstance().startThread(pm);
     }
 
     public void move() {
 
-        boolean diffX = (xEnemy+1 != xGiocatore);
-        boolean diffY = (yEnemy != yGiocatore-2);
-    
-        
+        boolean diffX = (getX()+1 != pm.getX());
+        boolean diffY = (getY() != pm.getY()-2);
 
+        if(!inBubble){
+            if (diffX || diffY) {
+                int deltaX = pm.getX() - getX();
+                int deltaY = pm.getY() - getY();
+                distance(deltaX, deltaY);
+                Constants.colpito = false;
+                flipFlop = 1;
 
         if(!Constants.killthemall)
         {
@@ -95,13 +96,13 @@ public class EnemyModel extends PlayerModel {
     public void collisionDead()
     {
         // to fix: X e Y di enemy e player sono prese in modo poco preciso
-        if (xEnemy == xGiocatore || yEnemy == yGiocatore && isFruit == false)
+        if (getX() == pm.getX() || getY() == pm.getY() && isFruit == false)
         {
             isFruit = true;
         }
 
         //Se X e Y di giocatore e nemico coincidono e sono un frutto allora il giocatore mangia il nemico
-        if (xEnemy == xGiocatore || yEnemy == yGiocatore && isFruit == true)
+        if (getX() == pm.getX() || getY() == pm.getY() && isFruit == true)
         {
             System.out.println("MANGIATO");
             isEaten = true;
@@ -130,16 +131,16 @@ public class EnemyModel extends PlayerModel {
         // Aggiorna la posizione del nemico
         if (colliding) {
             if(!inAlto) {
-                xEnemy += directionX * enemySpeed;
+                setX(getX() + (int)(directionX * enemySpeed));
             }
 
             if (inAlto) {
                 // Logica per far saltare il nemico lungo la piattaforma
 
-                if(checkY(yGiocatore, yEnemy))
+                if(checkY(pm.getY(), getY()))
                 { 
                     boolean havePlatOnTop = false;
-                    int distanzaX = Math.abs(xGiocatore - xEnemy);         
+                    int distanzaX = Math.abs(pm.getX() - getX());         
                     havePlatOnTop = isPlatformAbove();
                     
                     if(havePlatOnTop){
@@ -147,7 +148,7 @@ public class EnemyModel extends PlayerModel {
                         if (distanzaX >= DISTANZA_SALTO_X) {
                             
                             // Infine faccio salire il nemico
-                            yEnemy -= (enemySpeed + 4);
+                            setY(getY() - (int)(enemySpeed + 4));
                             //Se il nemico non è più sotto il giocatore, non deve più spostarsi a sinistra quindi = false
                             spostaSx = false;
                         }
@@ -164,12 +165,13 @@ public class EnemyModel extends PlayerModel {
                                 spostaDx = true;
                             } 
                             else {
-                                if(!spostaSx && !spostaDx) xEnemy += 1;
+                                if(!spostaSx && !spostaDx)
+                                    setX(getX() + 1);
                             }
 
                             //Finché il nemico è sotto il player, sposta a sinistra
-                            if(spostaSx) xEnemy -= 1;
-                            if(spostaDx) xEnemy += 1;
+                            if(spostaSx) setX(getX() - 1);
+                            if(spostaDx) setX(getX() + 1);
                         }
                     }
                     else
@@ -183,12 +185,12 @@ public class EnemyModel extends PlayerModel {
                                 spostaDx = true;
                             } 
                             else {
-                                if(!spostaSx && !spostaDx) xEnemy += 1;
+                                if(!spostaSx && !spostaDx) setX(getX() + 1);
                             }
 
                             //Finché il nemico è sotto il player, sposta a sinistra
-                            if(spostaSx) xEnemy -= 1;
-                            if(spostaDx) xEnemy += 1;
+                            if(spostaSx) setX(getX() - 1);
+                            if(spostaDx) setX(getX() + 1);
                     }
                 }
             }
@@ -200,28 +202,27 @@ public class EnemyModel extends PlayerModel {
 
     }
 
-    @Override
     public boolean collidesWith(PlatformModel platform) {
         // Controlla se il personaggio è sopra la piattaforma e se la parte inferiore
         // del personaggio è al di sopra del punto superiore della piattaforma
 
         if (enemySpeed >= 0
-                && yEnemy + DISTANCEPG >= platform.getPlatformY()
-                && yEnemy <= platform.getPlatformY() + platform.getPlatformHeight()
-                && xEnemy + DISTANCEPG >= platform.getPlatformX()
-                && xEnemy <= platform.getPlatformX() + platform.getPlatformWidth()
-                && yEnemy + DISTANCEPG <= platform.getPlatformY() + platform.getPlatformHeight()) {
+                && getY() + DISTANCEPG >= platform.getPlatformY()
+                && getY() <= platform.getPlatformY() + platform.getPlatformHeight()
+                && getX() + DISTANCEPG >= platform.getPlatformX()
+                && getX() <= platform.getPlatformX() + platform.getPlatformWidth()
+                && getY() + DISTANCEPG <= platform.getPlatformY() + platform.getPlatformHeight()) {
             // La parte inferiore del personaggio è sopra il punto superiore della
             // piattaforma
             // La parte superiore del personaggio è al di sotto della piattaforma
 
             // Regola la posizione del personaggio per farlo rimanere sulla piattaforma
-            yEnemy = platform.getPlatformY() - DISTANCEPG;
+            setY(platform.getPlatformY() - DISTANCEPG);
 
             // --- Se sono a terra, controllo se il giocatore sta più sopra di me ---
             // Il -20 serve a rimediare alla distanza di Y tra player e enemy
            
-            if (checkY(yGiocatore, yEnemy)) {
+            if (checkY(pm.getY(), getY())) {
                 // --- Controllo se sono alla fine della piattaforma ---
                 // Sottraggo 35 di offset per far pensare all'enemy di essere a fine piattaforma
                 // prima di arrivare al margine vero
@@ -231,7 +232,7 @@ public class EnemyModel extends PlayerModel {
                 }
 
                 // Se sono alla fine della piattaforma
-                if (xEnemy == platform.getPlatformWidth() - 15) {}
+                if (getX() == platform.getPlatformWidth() - 15) {}
    
             }
             // --- Altrimenti, se il giocatore è sulla mia stessa piattaforma ---
@@ -257,7 +258,7 @@ public class EnemyModel extends PlayerModel {
 
         for(WallModel wm : walls) {
             // Se la X del nemico - 10 è minore o uguale alla X del muro
-            if(xEnemy - 40 <= wm.getWallX() && wm.getWallX() <= 0) { 
+            if(getX() - 40 <= wm.getWallX() && wm.getWallX() <= 0) { 
                 muroCheck = true;
             }
         }
@@ -274,7 +275,7 @@ public class EnemyModel extends PlayerModel {
         for(WallModel wm : walls)
         {
             //Se la X del nemico + 10 è maggiore o uguale alla X del muro (che è 845) e la X del muro non è 0 (per escludere il muro iniziale)...
-            if(xEnemy + 40 >= wm.getWallX() && wm.getWallX() != 0) { 
+            if(getX() + 40 >= wm.getWallX() && wm.getWallX() != 0) { 
                 muroCheck = true;
             }
         }
@@ -285,8 +286,8 @@ public class EnemyModel extends PlayerModel {
     public boolean isPlatformAbove() {
         for (PlatformModel platModel : platformArray) {
             // Controlla se c'è una piattaforma sopra il nemico
-            if (xEnemy >= platModel.getPlatformX() && xEnemy <= platModel.getPlatformX() + platModel.getPlatformWidth() 
-                && yEnemy-100 < platModel.getPlatformY() && platModel.getPlatformX() != 25) {
+            if (getX() >= platModel.getPlatformX() && getX() <= platModel.getPlatformX() + platModel.getPlatformWidth() 
+                && getY()-100 < platModel.getPlatformY() && platModel.getPlatformX() != 25) {
                 return true;
             }
         }
@@ -297,38 +298,6 @@ public class EnemyModel extends PlayerModel {
     {
         if (yEnemy - 35 > yGiocatore) return true;
         else return false;
-    }
-
-    public void setPlayerX(int x) {
-        this.xGiocatore = x;
-    }
-
-    public void setPlayerY(int y) {
-        this.yGiocatore = y;
-    }
-
-    public int getPlayerXEnemy() {
-        return xGiocatore;
-    }
-
-    public int getPlayerYEnemy() {
-        return yGiocatore;
-    }
-
-    public int getEnemyX() {
-        return xEnemy;
-    }
-
-    public int getEnemyY() {
-        return yEnemy;
-    }
-
-    public void setEnemyY(int yEnemy) {
-        this.yEnemy = yEnemy;
-    }
-
-    public void setEnemyX(int xEnemy) {
-        this.xEnemy = xEnemy;
     }
 
     public void setColliding(boolean colliding) {

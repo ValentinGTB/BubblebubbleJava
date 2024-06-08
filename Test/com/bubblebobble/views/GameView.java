@@ -58,8 +58,7 @@ public class GameView extends JPanel {
             g.fillRect(0, 0, Constants.MAX_WIDTH, Constants.MAX_HEIGHT);
         }
 
-            // Disegna il power-up
-        
+        // Disegna il power-up
         if (powerUp.isActive()) {
             g.setColor(Color.BLACK);
             g.fillRect(powerUp.getX(), powerUp.getY(), powerUp.getWidth(), powerUp.getHeight());

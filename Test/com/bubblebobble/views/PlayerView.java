@@ -9,10 +9,9 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.*;
 
-public class PlayerView extends JPanel { 
+public class PlayerView extends JPanel {
 
-    GameController gc = new GameController(0);
-    GameModel gm; 
+    GameModel gm;
     EnemyModel enemyModel;
 
     // Array di immagini per l'animazione della camminata
@@ -23,6 +22,7 @@ public class PlayerView extends JPanel {
 
     private Image vita = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "vita.png");
     private Image gameOver = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "gameOver.png");
+    private Image projectileImage = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "proiettile.png");
 
     private PlayerModel model;
     private Timer animationTimer;
@@ -56,18 +56,14 @@ public class PlayerView extends JPanel {
         return walkFrames[currentFrame];
     }
 
-    private Image projectileImage = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "proiettile.png");
-    
     public void drawProjectiles(Graphics g) {
         List<ProjectileModel> projectiles = model.getProjectiles();
         for (ProjectileModel projectile : projectiles) {
             if (projectile.isActive()) {
-                g.drawImage(projectileImage, projectile.getX()-15, projectile.getY(), null);
+                g.drawImage(projectileImage, projectile.getX() - 15, projectile.getY(), null);
             }
         }
     }
-
-    
 
     public void drawVita(Graphics g) {
 
@@ -92,4 +88,3 @@ public class PlayerView extends JPanel {
         drawProjectiles(g);
     }
 }
-    

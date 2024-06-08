@@ -23,8 +23,12 @@ public class ProjectileModel {
     }
 
     public boolean collidesWith(EnemyModel enemy) {
-        return x >= enemy.getEnemyX() && x <= enemy.getEnemyX() + 40 &&
-               y >= enemy.getEnemyY() && y <= enemy.getEnemyY() + 40;
+        return x >= enemy.getX() && x <= enemy.getX() + 40 &&
+               y >= enemy.getY() && y <= enemy.getY() + 40;
+    }
+
+    public boolean collidesWithWalls(int wallLeft, int wallRight) {
+        return x <= wallLeft || x >= wallRight;
     }
 
     public int getX() {
