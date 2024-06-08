@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public class PlayerModel extends CharacterModel {
-	private HashMap<String , ArrayList<Object>> pwupHash;
+	private HashMap<String , PowerUpModel> pwupHash;
 	int vita = Constants.VITA;
 
 	private int DISTANCEPG = 40;
@@ -23,7 +23,7 @@ public class PlayerModel extends CharacterModel {
 		super();
 	}
 
-	public PlayerModel(int x, int y, HashMap<String , ArrayList<Object>> pwupHash) {
+	public PlayerModel(int x, int y, HashMap<String , PowerUpModel> pwupHash) {
 		super(x, y);
 		this.pwupHash = pwupHash;
 	}

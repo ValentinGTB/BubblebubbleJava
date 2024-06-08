@@ -46,6 +46,8 @@ public class EnemyModel extends CharacterModel {
                 distance(deltaX, deltaY);
                 Constants.colpito = false;
                 flipFlop = 1;
+            }
+        }
 
         if(!Constants.killthemall)
         {
@@ -55,8 +57,8 @@ public class EnemyModel extends CharacterModel {
                 {
                     if (diffX || diffY) 
                     {
-                        int deltaX = xGiocatore - xEnemy;
-                        int deltaY = yGiocatore - yEnemy;
+                        int deltaX = pm.getX() - getX();
+                        int deltaY = pm.getY() - getY();
                         distance(deltaX, deltaY);
                         Constants.colpito = false;
                         flipFlop = 1;
@@ -69,7 +71,7 @@ public class EnemyModel extends CharacterModel {
                 if(Constants.freezeAndKill)
                 {
                     Constants.freeze = true;
-                    boolean isInRangeX = IntStream.rangeClosed(xEnemy-10, xEnemy+10).anyMatch(n -> n == xGiocatore);
+                    boolean isInRangeX = IntStream.rangeClosed(getX()-10, getX()+10).anyMatch(n -> n == pm.getX());
                     if(isInRangeX)
                     {
                         instaKill();
@@ -90,7 +92,8 @@ public class EnemyModel extends CharacterModel {
                 //}
             }
         }
-        else instaKill();
+        else
+            instaKill();
     }
 
     public void collisionDead()

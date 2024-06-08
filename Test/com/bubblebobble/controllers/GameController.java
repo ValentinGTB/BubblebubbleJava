@@ -81,22 +81,23 @@ public class GameController {
         PowerUpModel pwupModel8 = new PowerUpModel(200 , 700 , 40 , 40 , null);
         pwupHash.put("jumpPoints" , pwupModel8);
 
-        scoreModel = new ScoreModel(pwupHash);
-
+        
         // Player
         player = new PlayerModel(Constants.MAX_WIDTH / 3,
         Constants.MAX_HEIGHT * 70 / 100 - Constants.ALL_PLATFORMHEIGHT , pwupHash);
-
+        
         EnemyModel enemy = new EnemyModel(player, walls, platforms , 70 , 680);
         enemyArray.add(enemy);
-
+        
         EnemyModel enemy2 = new EnemyModel(player, walls, platforms , 90 , 400);
         enemyArray.add(enemy2);
 
         EnemyModel enemy3 = new EnemyModel(player, walls, platforms , 100 , 300);
         enemyArray.add(enemy3);
 
-        model = new GameModel(player, platforms, enemy, walls , pwupModel);
+        model = new GameModel(player, platforms, enemy, walls , pwupModel, pwupHash);
+        scoreModel = new ScoreModel(model);
+        
         game = new GameView(model, scoreModel , pwupHash , enemyArray);
     }
 
@@ -254,7 +255,12 @@ public class GameController {
             }
 
             else if(projectile.collidesWithWalls(Constants.WALL_LEFT, Constants.WALL_RIGHT) && projectile.isActive()){
-                scoreModel.addPoints(10);
+                int points = 10;
+
+                if (model.isPowerupActive("doppipunti"))
+                    points *= 2;
+
+                scoreModel.addPoints(points);
                 projectile.deactivate();
             }
         }
