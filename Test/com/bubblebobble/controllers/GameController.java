@@ -111,12 +111,12 @@ public class GameController {
                 player.move();
                 if (!enemy.isInBubble()) {
                     enemy.move();
-                    newY = enemy.getEnemyY();
+                    newY = enemy.getY();
                 } else {
                     // Se il nemico è nella bolla, aggiorna solo la posizione verso l'alto
                     if (newY >= 40 && !enemy.isFruit()) { // Se sto salendo (non sono in cima) e NON sono un frutto
                         newY -= 1;
-                        enemy.setEnemyY(newY);
+                        enemy.setY(newY);
                         enemy.collisionDead();
                     } else if (newY <= 40) { // Se sono in cima
                         dead = true; // Evita che arrivando in cima si attivi il CollisioneEnemy che ti farebbe tornare in basso
@@ -125,13 +125,6 @@ public class GameController {
     
                 checkProjectileCollisions(enemy);
                 BlocchiDirezzionali(enemy);
-    
-                xPlayer = player.getX();
-                enemy.setPlayerX(xPlayer);
-    
-                yPlayer = player.getY();
-                enemy.setPlayerY(yPlayer);
-    
                 ControlloSaltoPlatform();
     
                 if (!dead || enemy.isFruit()) { // Se non sono morto oppure sono un frutto, riattiva la caduta
@@ -184,7 +177,7 @@ public class GameController {
                 enemy.setColliding(false);
             } else {
                 enemy.setColliding(true);
-                enemy.setEnemyY(enemy.getEnemyY() + 1); // Gravità
+                enemy.setY(enemy.getY() + 1); // Gravità
             }
         }
     }
@@ -204,11 +197,11 @@ public class GameController {
         }
 
         // Blocco Enemy
-        if (enemy.getEnemyY() + enemy.getEnemySpeed() < 0) {
+        if (enemy.getY() + enemy.getEnemySpeed() < 0) {
             enemy.setEnemySpeed(Constants.SPEED);
         }
-        if (enemy.getEnemyY() + enemy.getEnemySpeed() >= Constants.MAX_HEIGHT) {
-            enemy.setEnemyY(-50);
+        if (enemy.getY() + enemy.getEnemySpeed() >= Constants.MAX_HEIGHT) {
+            enemy.setY(-50);
             enemy.setEnemySpeed(-Constants.SPEED);
         }
     }

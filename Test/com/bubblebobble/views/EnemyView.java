@@ -10,7 +10,6 @@ import java.util.Random;
 import javax.swing.*;
 
 public class EnemyView extends JComponent {
-    int playerX, playerY;
     private Image enemyImage;
     private Image bubbleImage;
     private Image[] fruitImages;
@@ -46,17 +45,7 @@ public class EnemyView extends JComponent {
                 }
             });
             animationTimer.start(); // Avvia il timer
-
-
-
-            if (enemy != null) {
-                playerX = enemy.getPlayerXEnemy();
-                playerY = enemy.getPlayerYEnemy();
-            }
-
         }
-
-        
     }
     
     private void updateFrame() {
@@ -88,8 +77,8 @@ public class EnemyView extends JComponent {
         for(EnemyModel enemy: enemyArray)
         {
 
-            int enemyX = enemy.getEnemyX();
-            int enemyY = enemy.getEnemyY();
+            int enemyX = enemy.getX();
+            int enemyY = enemy.getY();
             super.paintComponent(g);
 
             g.drawImage(Enemy1, enemyX , enemyY, null);
