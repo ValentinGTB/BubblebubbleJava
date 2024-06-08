@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 public class GameController {
-    private boolean salta = false;
     private GameView game;
     private PlayerModel player;
     private GameModel model;
