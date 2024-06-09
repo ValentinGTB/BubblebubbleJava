@@ -60,12 +60,12 @@ public class PlayerView extends JPanel {
     public void drawVita(Graphics g) {
         int xMassima = 50;
 
-        for (int j = 1; j <= model.getVita(); j++) {
+        for (int j = 1; j <= model.getLives(); j++) {
             g.drawImage(vita, xMassima, 50, null);
             xMassima += 20; // Stampa i cuori a 20 di distanza da destra a sinistra togliendo 20 dalla dist
                             // massima ad ogni ciclata
         }
-        if (model.getVita() <= 0) {
+        if (model.getLives() <= 0) {
             g.drawImage(gameOver, 50, 50, null);
         }
     }

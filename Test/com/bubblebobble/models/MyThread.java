@@ -45,9 +45,9 @@ public class MyThread extends Thread {
         while (true) {
             if(Constants.colpito)
             {
-                if (pm.getVita() > 0) {
-                    pm.setVita();
-                }
+                // if (pm.getVita() > 0) {
+                //     pm.setVita();
+                // }
             }
 
             try {

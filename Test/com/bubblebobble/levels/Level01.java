@@ -53,6 +53,9 @@ public class Level01 implements Level {
 
         PowerUpModel pwupModel8 = new PowerUpModel(200, 700, 40, 40, null);
         game.addPowerUp("jumpPoints", pwupModel8);
+
+        PowerUpModel pwupModel9 = new PowerUpModel(200, 650, 40, 40, null);
+        game.addPowerUp("fastshoot", pwupModel9);
     }
 
     private void loadEnemies(GameModel game)
@@ -63,8 +66,8 @@ public class Level01 implements Level {
         EnemyModel enemy2 = new EnemyModel(game.getPlayer(), game.getWalls(), game.getPlatforms(), 90, 400);
         game.addEnemy(enemy2);
 
-        EnemyModel enemy3 = new EnemyModel(game.getPlayer(), game.getWalls(), game.getPlatforms(), 100, 300);
-        game.addEnemy(enemy3);
+        // EnemyModel enemy3 = new EnemyModel(game.getPlayer(), game.getWalls(), game.getPlatforms(), 100, 300);
+        // game.addEnemy(enemy3);
     }
 
     public void load(GameModel game) {

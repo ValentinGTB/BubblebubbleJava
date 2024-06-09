@@ -7,12 +7,14 @@ public class ProjectileModel extends EntityModel {
     private boolean active;
     private boolean visible;
     private Direction direction;
+    private long activationTime;
 
     public ProjectileModel(int x, int y, int speed, Direction direction) {
-        super(x, y);
+        super(x, y, 40, 40);
         this.speed = speed;
         this.active = true;
         this.direction = direction;
+        this.activationTime = System.currentTimeMillis();
     }
 
     public void setVisible(boolean visible) {
@@ -24,20 +26,15 @@ public class ProjectileModel extends EntityModel {
         moveX(delta * speed);
     }
 
-    public boolean collidesWith(EnemyModel enemy) {
-        return getX() >= enemy.getX() && getX() <= enemy.getX() + 40 &&
-               getY() >= enemy.getY() && getY() <= enemy.getY() + 40;
-    }
-
-    public boolean collidesWithWalls(int wallLeft, int wallRight) {
-        return getX() <= wallLeft || getX() >= wallRight;
-    }
-
     public boolean isActive() {
         return active;
     }
 
     public void deactivate() {
         active = false;
+    }
+
+    public long getActivationTime() {
+        return activationTime;
     }
 }

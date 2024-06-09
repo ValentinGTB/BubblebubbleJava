@@ -25,6 +25,6 @@ public class PlatformView {
         // }
 
         g.setColor(Color.PINK);
-        g.fillRect(model.getPlatformX(), model.getPlatformY(), model.getPlatformWidth(), model.getPlatformHeight());
+        g.fillRect(model.getX(), model.getY(), model.getWidth(), model.getHeight());
     }
 }

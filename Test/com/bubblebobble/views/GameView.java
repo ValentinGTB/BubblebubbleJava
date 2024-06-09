@@ -5,6 +5,8 @@ import com.bubblebobble.Constants;
 import com.bubblebobble.ResourceManager;
 import com.bubblebobble.models.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,8 +27,21 @@ public class GameView extends JPanel {
     private Image projectileImage = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "proiettile.png");
 
     public GameView(GameModel model) {
-        player = new PlayerView(model.getPlayer());
         game = model;
+        player = new PlayerView(model.getPlayer());
+        game.addSubscriber("removeEnemy", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                onRemoveEnemy();
+            }
+        });
+
+        game.addSubscriber("addPoints", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("What???");
+            }
+        });
     }
 
     @Override
@@ -37,7 +52,7 @@ public class GameView extends JPanel {
             drawPlatforms(g);
             drawPowerUps(g);
             drawScore(g);
-            
+
             drawEnemies(g);
             drawPlayer(g);
 
@@ -55,9 +70,17 @@ public class GameView extends JPanel {
         // }
     }
 
-    // TODO: creare un evento onChangeLevel, che aggiorna le proprietà "walls", "platforms", etc. e ricrea le view.
-    public void onChangeLevel()
-    {
+    // TODO: creare un evento onChangeLevel, che aggiorna le proprietà "walls",
+    // "platforms", etc. e ricrea le view.
+    public void onChangeLevel() {
+        update();
+    }
+
+    public void onRemoveEnemy() {
+        update();
+    }
+
+    private void update() {
         // ricrea le view
         walls = game.getWalls().stream().map(WallView::new).toList();
         enemies = game.getEnemies().stream().map(EnemyView::new).toList();
@@ -137,6 +160,11 @@ public class GameView extends JPanel {
 
                 if (key.equals("jumpPoints")) {
                     g.setColor(Color.BLUE);
+                    g.fillRect(valModel.getX(), valModel.getY(), valModel.getWidth(), valModel.getHeight());
+                }
+
+                if (key.equals("fastshoot")) {
+                    g.setColor(Color.ORANGE);
                     g.fillRect(valModel.getX(), valModel.getY(), valModel.getWidth(), valModel.getHeight());
                 }
             }

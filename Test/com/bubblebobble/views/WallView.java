@@ -19,7 +19,7 @@ public class WallView {
         int numberOfImages = Constants.MAX_HEIGHT / imageWidth;
 
         for (int i = 0; i <= numberOfImages; i++) {
-            g.drawImage(lv1Image, model.getWallX(), model.getWallY() + i * imageHeight, null);
+            g.drawImage(lv1Image, model.getX(), model.getY() + i * imageHeight, null);
         }
 
         //g.drawImage(lv1Image,model.getWallX(), model.getWallY(), null);

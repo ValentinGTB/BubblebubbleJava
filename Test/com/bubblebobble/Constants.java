@@ -6,7 +6,7 @@ import javax.imageio.ImageIO;
 
 public class Constants {
 
-    public static String FONT_NAME = "arcade-legacy.ttf";
+    public static final String FONT_NAME = "arcade-legacy.ttf";
 
     public static Image immagineBottoneInizia;
     public static Image immagineBottoneEsci;
@@ -74,4 +74,7 @@ public class Constants {
     public static boolean killthemall = false;
     public static boolean freeze = false;
     public static boolean freezeAndKill = false;
+
+    public static final int SHOOT_DELAY = 1000 / 3;
+    public static final int SHORT_SHOOT_DELAY = 1000 / 6;
 }
