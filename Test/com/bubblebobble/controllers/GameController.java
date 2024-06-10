@@ -67,20 +67,24 @@ public class GameController {
                 break;
 
             case KillThemAll:
-                Constants.killthemall = true;
-                break;
-
-            case Freeze:
-                Constants.freeze = true;
-                break;
-
-            case FreezeAndKill:
-                Constants.freezeAndKill = true;
+                killAllEnemies();
                 break;
         
             default:
                 model.activatePowerUp(new ActivePowerUpModel(powerUpType));
                 break;
+        }
+    }
+
+    private void freezeEnemies() {
+        for (EnemyModel enemy : model.getEnemies()) {
+            enemy.instaKill();
+        }
+    }
+
+    private void killAllEnemies() {
+        for (EnemyModel enemy : model.getEnemies()) {
+            enemy.instaKill();
         }
     }
 
@@ -275,6 +279,12 @@ public class GameController {
 
     private void checkPlayerCollisions(EnemyModel enemy) {
         if (player.collidesWith(enemy)) {
+            // se ho il powerup freeze and kill il nemico muore quando viene toccato
+            if (model.hasPowerup(PowerUpType.FreezeAndKill)) {
+                enemy.instaKill();
+                eatEnemy(enemy);
+            }
+
             // se il nemico è vivo, il giocatore perde la vita
             if (!enemy.isFruit() && !enemy.isInBubble() && !model.hasPowerup(PowerUpType.Invincibility)) {
                 player.decreaseLife();
@@ -289,18 +299,25 @@ public class GameController {
 
             // se non è una bolla ma è un frutto, facciamo sparire il nemico e guadagniamo
             // dei punti
-            else if (!enemy.isInBubble() && enemy.isFruit()) {
-                enemy.setEaten(true);
-                model.getScore().addPoints(100);
+            else if (!enemy.isInBubble() && enemy.isFruit() && !enemy.isEaten()) {
+               eatEnemy(enemy);
             }
         }
+    }
+
+    private void eatEnemy(EnemyModel enemy) {
+        if (enemy.isEaten()) {
+            throw new RuntimeException("Il nemico è stto già mangiato una volta");
+        }
+
+        enemy.setEaten(true);
+        model.getScore().addPoints(100);
     }
 
     private void checkProjectileCollisions(EnemyModel enemy) {
         List<ProjectileModel> projectiles = model.getProjectiles();
         for (ProjectileModel projectile : projectiles) {
             if (projectile.collidesWith(enemy) && !enemy.isFruit()) {
-
                 if (model.hasPowerup(PowerUpType.Instakill)) {
                     enemy.instaKill();
                 } else {
@@ -310,8 +327,7 @@ public class GameController {
                 projectile.deactivate();
             }
 
-            else if (projectile.isActive()
-                    && model.getWalls().stream().anyMatch(wall -> projectile.collidesWith(wall))) {
+            else if (projectile.isActive() && model.getWalls().stream().anyMatch(wall -> wall.collidesWith(projectile))) {
                 model.getScore().addPoints(10);
                 projectile.deactivate();
             }

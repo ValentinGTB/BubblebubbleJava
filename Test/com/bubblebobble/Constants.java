@@ -45,16 +45,12 @@ public class Constants {
     public static boolean INGAMEMENUAPERTO = false;
     public static boolean isGamePaused = false;
     
-    //Power Up (Le costanti sono usate solo per i power up che devono uccidere il nemico e non venire più riusati per tutto il livello)
+
+
+
+
+
     
-    public static boolean killthemall = false;
-    public static boolean freeze = false;
-    public static boolean freezeAndKill = false;
-
-
-
-
-
     // === Window
     public static int MAX_WIDTH = 1000;
     public static int MAX_HEIGHT = 800;

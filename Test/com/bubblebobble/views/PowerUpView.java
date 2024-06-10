@@ -40,10 +40,10 @@ public class PowerUpView extends JPanel {
             g.fillRect(model.getX(), model.getY(), model.getWidth(), model.getHeight());
         }
 
-        // if (model.is(PowerUpType.KillThemAll)) {
-        //     g.setColor(Color.gray);
-        //     g.fillRect(model.getX(), model.getY(), model.getWidth(), model.getHeight());
-        // }
+        if (model.is(PowerUpType.KillThemAll)) {
+            g.setColor(Color.gray);
+            g.fillRect(model.getX(), model.getY(), model.getWidth(), model.getHeight());
+        }
 
         if (model.is(PowerUpType.Freeze)) {
             g.setColor(Color.cyan);

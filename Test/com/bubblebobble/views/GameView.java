@@ -109,7 +109,7 @@ public class GameView extends JPanel {
         List<ProjectileModel> projectiles = game.getProjectiles();
         for (ProjectileModel projectile : projectiles) {
             if (projectile.isActive()) {
-                g.drawImage(projectileImage, projectile.getX() - 15, projectile.getY(), null);
+                g.drawImage(projectileImage, projectile.getX(), projectile.getY(), projectile.getWidth(), projectile.getHeight(), null);
             }
         }
     }

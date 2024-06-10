@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import com.bubblebobble.Constants;
+import com.bubblebobble.contansts.Direction;
 import com.bubblebobble.contansts.PowerUpType;
 import com.bubblebobble.levels.Level;
 
