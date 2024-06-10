@@ -299,7 +299,7 @@ public class GameController {
     private void checkProjectileCollisions(EnemyModel enemy) {
         List<ProjectileModel> projectiles = model.getProjectiles();
         for (ProjectileModel projectile : projectiles) {
-            if (projectile.collidesWith(enemy)) {
+            if (projectile.collidesWith(enemy) && !enemy.isFruit()) {
 
                 if (model.hasPowerup(PowerUpType.Instakill)) {
                     enemy.instaKill();
