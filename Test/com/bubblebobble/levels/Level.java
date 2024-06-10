@@ -6,5 +6,6 @@ import com.bubblebobble.models.GameModel;
 // utile sia nel caso si cominci un nuovo livello, che quando il player muore (lo si può riposizione nel punto iniziale)
 
 public interface Level {
+    public int getLevel();
     public void load(GameModel game);
 }

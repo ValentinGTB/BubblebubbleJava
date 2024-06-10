@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.bubblebobble.contansts.PowerUpType;
+
 public class ScoreModel {
     private int currentScore;
 
@@ -13,7 +15,7 @@ public class ScoreModel {
     }
 
     public void addPoints(int points) {
-        if (GameModel.getInstance().hasPowerup("doppipunti"))
+        if (GameModel.getInstance().hasPowerup(PowerUpType.DoublePoints))
             points *= 2;
 
         GameModel.getInstance().notify("addPoints", new ActionEvent(this, 0, "addPoints"));

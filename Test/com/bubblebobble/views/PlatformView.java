@@ -6,25 +6,23 @@ import java.awt.*;
 
 public class PlatformView {
     private PlatformModel model;
-    private Image lv1Image = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "Livelli/lv1.png");
-
+    private Image image;
 
     public PlatformView(PlatformModel model) {
         this.model = model;
+        this.image = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "Platforms/lv" + GameModel.getInstance().getCurrentLevel().getLevel() + ".png");
     }
 
     public void paintComponent(Graphics g) {
+        int imageWidth = image.getWidth(null);
+        int imageHeight = image.getHeight(null);
+        int numberOfImages = model.getWidth() / imageWidth;
 
-        // int imageWidth = lv1Image.getWidth(null);
-        // int imageHeight = lv1Image.getHeight(null);
-
-        // int numberOfImages = Constants.MAX_HEIGHT / imageWidth;
-
-        // for (int i = 0; i <= numberOfImages; i++) {
-        //     g.drawImage(lv1Image, model.getPlatformX() + i * imageWidth, model.getPlatformY(), null);
-        // }
-
-        g.setColor(Color.PINK);
-        g.fillRect(model.getX(), model.getY(), model.getWidth(), model.getHeight());
+        int widthToFill = model.getWidth();
+        for (int i = 0; i <= numberOfImages; i++) {
+            int width = Math.min(widthToFill, imageWidth);
+            widthToFill -= width;
+            g.drawImage(image, model.getX() + i * imageWidth, model.getY(), width, imageHeight, null);
+        }
     }
 }

@@ -8,9 +8,9 @@ import com.bubblebobble.models.PlatformModel;
 import com.bubblebobble.models.PowerUpModel;
 import com.bubblebobble.models.WallModel;
 
-public class Level01 implements Level {
+public class Level02 implements Level {
     public int getLevel() {
-        return 1;
+        return 2;
     }
 
     private void loadBorders(GameModel game) {
@@ -27,39 +27,38 @@ public class Level01 implements Level {
 
     private void loadPlatforms(GameModel game) {
         // piattaforma
-        game.addPlatform(new PlatformModel(Constants.MAX_WIDTH - Constants.PLATFORM_WIDTH * 10 - Constants.PLATFORM_WIDTH, Constants.MAX_HEIGHT * 80 / 100, 40 * 10,
+        game.addPlatform(new PlatformModel(500, Constants.MAX_HEIGHT * 75 / 100, Constants.MAX_WIDTH / 2 - 105,
                 Constants.PLATFORM_HEIGHT));
 
-        game.addPlatform(new PlatformModel(40, Constants.MAX_HEIGHT * 80 / 100, 40, Constants.PLATFORM_HEIGHT));
+        game.addPlatform(new PlatformModel(100, Constants.MAX_HEIGHT * 60 / 100, Constants.MAX_WIDTH / 2 - 105,
+                Constants.PLATFORM_HEIGHT));
     }
 
-    private void loadPowerUps(GameModel game) {
+    private void loadPowerUps(GameModel game)
+    {
         // game.addPowerUp(new PowerUpModel(PowerUpType.Speed, 500, 500, 40, 40));
         // game.addPowerUp(new PowerUpModel(PowerUpType.Instakill, 150, 680, 40, 40));
-        // game.addPowerUp(new PowerUpModel(PowerUpType.SuperJump, 700, 600, 40, 40));
-        // game.addPowerUp(new PowerUpModel(PowerUpType.DoublePoints, 500, 700, 40,
-        // 40));
+        game.addPowerUp(new PowerUpModel(PowerUpType.SuperJump, 700, 600, 40, 40));
+        // game.addPowerUp(new PowerUpModel(PowerUpType.DoublePoints, 500, 700, 40, 40));
         // game.addPowerUp(new PowerUpModel(PowerUpType.KillThemAll, 500, 400, 40, 40));
         // game.addPowerUp(new PowerUpModel(PowerUpType.Freeze, 700, 500, 40, 40));
-        // game.addPowerUp(new PowerUpModel(PowerUpType.FreezeAndKill, 700, 700, 40,
-        // 40));
+        // game.addPowerUp(new PowerUpModel(PowerUpType.FreezeAndKill, 700, 700, 40, 40));
         // game.addPowerUp(new PowerUpModel(PowerUpType.JumpPoints, 200, 700, 40, 40));
         // game.addPowerUp(new PowerUpModel(PowerUpType.FastShoot, 200, 650, 40, 40));
         // game.addPowerUp(new PowerUpModel(PowerUpType.Health, 150, 680, 40, 40));
-        // game.addPowerUp(new PowerUpModel(PowerUpType.Invincibility, 150, 680, 40,
-        // 40));
+        // game.addPowerUp(new PowerUpModel(PowerUpType.Invincibility, 150, 680, 40, 40));
         game.addPowerUp(new PowerUpModel(PowerUpType.RandomPowerUp, 150, 680, 40, 40));
     }
 
-    private void loadEnemies(GameModel game) {
+    private void loadEnemies(GameModel game)
+    {
         EnemyModel enemy = new EnemyModel(70, 680);
         game.addEnemy(enemy);
 
-        EnemyModel enemy2 = new EnemyModel(90, 400);
-        game.addEnemy(enemy2);
+        // EnemyModel enemy2 = new EnemyModel(90, 400);
+        // game.addEnemy(enemy2);
 
-        // EnemyModel enemy3 = new EnemyModel(game.getPlayer(), game.getWalls(),
-        // game.getPlatforms(), 100, 300);
+        // EnemyModel enemy3 = new EnemyModel(game.getPlayer(), game.getWalls(), game.getPlatforms(), 100, 300);
         // game.addEnemy(enemy3);
     }
 

@@ -7,20 +7,25 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import com.bubblebobble.Constants;
+import com.bubblebobble.contansts.PowerUpType;
 import com.bubblebobble.levels.Level;
 
 public class GameModel {
     private ScoreModel score;
     private PlayerModel player;
+    private Level currentLevel;
 
     private ArrayList<WallModel> walls;
     private ArrayList<EnemyModel> enemies;
+    private ArrayList<PowerUpModel> powerUps;
     private ArrayList<PlatformModel> platforms;
     private ArrayList<ProjectileModel> projectiles;
-    private HashMap<String, PowerUpModel> powerUps;
+
+    private ArrayList<ActivePowerUpModel> activePowerUps;
 
     private Map<String, Set<ActionListener>> subscribersTopicMap;
 
@@ -30,7 +35,7 @@ public class GameModel {
         score = new ScoreModel();
         subscribersTopicMap = new HashMap<String,Set<ActionListener>>();
         player = new PlayerModel(Constants.MAX_WIDTH / 3,
-                Constants.MAX_HEIGHT * 70 / 100 - Constants.ALL_PLATFORMHEIGHT);
+                Constants.MAX_HEIGHT * 70 / 100 - Constants.PLATFORM_HEIGHT);
     }
 
     public static GameModel getInstance() {
@@ -43,17 +48,22 @@ public class GameModel {
     public void loadLevel(Level level) {
         // azzerriamo gli oggetti del vecchio livello
         walls = new ArrayList<>();
-        powerUps = new HashMap<>();
         enemies = new ArrayList<>();
+        powerUps = new ArrayList<>();
         platforms = new ArrayList<>();
         projectiles = new ArrayList<>();
+        
+        // azzerriamo i powerup attivi
+        activePowerUps = new ArrayList<>();
 
         // carichiamo la nuova mappa
         level.load(this);
 
         // riposizioniamo il giocatore nel punto iniziale
         player.setX(Constants.MAX_WIDTH / 3);
-        player.setY(Constants.MAX_HEIGHT * 70 / 100 - Constants.ALL_PLATFORMHEIGHT);
+        player.setY(Constants.MAX_HEIGHT * 70 / 100 - Constants.PLATFORM_HEIGHT);
+    
+        currentLevel = level;
     }
 
     // === Player
@@ -110,27 +120,42 @@ public class GameModel {
     }
 
     // === PowerUps
-    public HashMap<String, PowerUpModel> getPowerUps() {
+    public ArrayList<PowerUpModel> getPowerUps() {
         return this.powerUps;
     }
 
-    public GameModel addPowerUp(String codice, PowerUpModel powerUp) {
-        powerUps.put(codice, powerUp);
+    public GameModel addPowerUp(PowerUpModel powerUp) {
+        powerUps.add(powerUp);
         return this;
     }
 
-    public void removePowerUp(String codice) throws RuntimeException {
-        PowerUpModel powerUp = powerUps.get(codice);
+    public void removePowerUp(PowerUpModel model) throws RuntimeException {
+        Optional<PowerUpModel> powerUp = powerUps.stream().filter(pwup -> pwup.equals(model)).findFirst();
 
-        if (powerUp == null)
-            throw new RuntimeException("PowerUp non disponibile.");
+        if (!powerUp.isPresent())
+            throw new RuntimeException("PowerUp non accessibile.");
 
-        powerUps.remove(codice);
+        powerUps.remove(powerUp.get());
     }
 
-    public boolean hasPowerup(String codice) {
-        PowerUpModel pwup = powerUps.get(codice);
-        return pwup != null && pwup.isActive() && !pwup.isExpired();
+    public boolean hasPowerup(PowerUpType powerUpType) {
+        Optional<ActivePowerUpModel> model = activePowerUps.stream().filter(pwup -> pwup.is(powerUpType)).findFirst();
+        return model.isPresent() && model.get().isActive() && !model.get().isExpired();
+    }
+
+    public GameModel activatePowerUp(ActivePowerUpModel powerUpModel) {
+        // attiva l'effetto del powerup
+        activePowerUps.add(powerUpModel);
+        return this;
+    }
+
+    public List<ActivePowerUpModel> getActivePowerUpModels() {
+        return activePowerUps;
+    }
+
+    public GameModel removePowerUp(ActivePowerUpModel powerUpModel) {
+        activePowerUps.remove(powerUpModel);
+        return this;
     }
 
     // === Score
@@ -158,5 +183,10 @@ public class GameModel {
         for (ActionListener actionListener : subscribers) {
             actionListener.actionPerformed(message);
         }
+    }
+
+    // === Level
+    public Level getCurrentLevel() {
+        return currentLevel;
     }
 }

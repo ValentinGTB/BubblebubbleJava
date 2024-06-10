@@ -75,17 +75,17 @@ public class EnemyView extends JComponent {
         int enemyY = model.getY();
 
         if (model.isInBubble()) {
-            g.drawImage(bubbleImage, enemyX, enemyY, Constants.ALL_PLATFORMHEIGHT, Constants.ALL_PLATFORMHEIGHT, this);
+            g.drawImage(bubbleImage, enemyX, enemyY, Constants.PLATFORM_HEIGHT, Constants.PLATFORM_HEIGHT, this);
         } else if (model.isFruit()) {
             if (currentFruitImage == null) {
                 selectRandomFruit();
             }
             g.setColor(Color.black);
-            g.drawImage(currentFruitImage, enemyX, enemyY, Constants.ALL_PLATFORMHEIGHT, Constants.ALL_PLATFORMHEIGHT,
+            g.drawImage(currentFruitImage, enemyX, enemyY, Constants.PLATFORM_HEIGHT, Constants.PLATFORM_HEIGHT,
                     this);
         } else {
-            g.drawImage(walkFrames[currentFrame], enemyX, enemyY, Constants.ALL_PLATFORMHEIGHT,
-                    Constants.ALL_PLATFORMHEIGHT, this);
+            g.drawImage(walkFrames[currentFrame], enemyX, enemyY, Constants.PLATFORM_HEIGHT,
+                    Constants.PLATFORM_HEIGHT, this);
         }
     }
 }

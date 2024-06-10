@@ -10,39 +10,39 @@ import java.util.stream.IntStream;
 import javax.swing.Timer;
 
 public class EnemyModel extends CharacterModel {
-    private boolean inBubble;
-    PlayerModel pm;
-    ArrayList<WallModel> walls;
+    private boolean inBubble = false;
+    private boolean isEaten = false;
+    private boolean isFruit = false;
+    private boolean inAlto = false; // TODO: da rimuovere?
+    private boolean noMuro = true; // TODO: da rimuovere?
+    private boolean spostaSx, spostaDx; // TODO: da rimuovere?
+    private boolean colliding = false; // TODO da rimuovere?
+    private int flipFlop = 0; // TODO: da rimuovere?
 
+    // TODO: da rimuovere.
     private static final int DISTANZA_SALTO_X = 50; // Ad esempio, 50 pixel
-
-    boolean isEaten = false;
-    boolean isFruit = false;
-    boolean noMuro = true;
-    boolean spostaSx, spostaDx;
-    boolean colliding = false;
-    boolean inAlto = false;
-    int yEnemy;
     int DISTANCEPG = 45;
-    double enemySpeed = Constants.SPEED;
-    int flipFlop = 0;
-    ArrayList<PlatformModel> platformArray;
 
+
+    /// Allo scattare del tempo, il nemico che si trova in una bolla diventa una frutta
     private Timer bubbleTimer;
 
-    public EnemyModel(PlayerModel pm, ArrayList<WallModel> walls, ArrayList<PlatformModel> platformArray, int x,
-            int y) {
-        super(x, y);
-
-        this.pm = pm;
-        this.walls = walls;
-        this.inBubble = false;
-        this.platformArray = platformArray;
-        // MyThread.getInstance().startThread(pm);
+    public EnemyModel(int x, int y) {
+        super(x, y, Constants.ENEMY_WIDTH, Constants.ENEMY_HEIGHT);
     }
 
-    public void move() {
+    public void followCharacter(EntityModel entity) {
+        // TODO: es. di logica da implementare che segue il personaggio in input.
+    }
+
+    public void update() {
         super.move();
+    }
+
+    public void update1() {
+        super.move();
+
+        PlayerModel pm = GameModel.getInstance().getPlayer();
 
         boolean diffX = (getX() + 1 != pm.getX());
         boolean diffY = (getY() != pm.getY() - 3);
@@ -144,13 +144,14 @@ public class EnemyModel extends CharacterModel {
 
     public void distance(int deltaX, int deltaY) {
         double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY); // Formula per avvicinare il nemico al giocatore
+        PlayerModel pm = GameModel.getInstance().getPlayer();
 
         // Normalizza il vettore
         double directionX = deltaX / distance;
         // Aggiorna la posizione del nemico
         if (colliding) {
             if (!inAlto) {
-                setX(getX() + (int) (directionX * enemySpeed));
+                setX(getX() + (int) (directionX * getXSpeed()));
             }
 
             if (inAlto) {
@@ -166,7 +167,7 @@ public class EnemyModel extends CharacterModel {
                         if (distanzaX >= DISTANZA_SALTO_X) {
 
                             // Infine faccio salire il nemico
-                            setY(getY() - (int) (enemySpeed + 4));
+                            setY(getY() - (int) (getYSpeed() + 4));
                             // Se il nemico non è più sotto il giocatore, non deve più spostarsi a sinistra
                             // quindi = false
                             spostaSx = false;
@@ -221,7 +222,9 @@ public class EnemyModel extends CharacterModel {
         // Controlla se il personaggio è sopra la piattaforma e se la parte inferiore
         // del personaggio è al di sopra del punto superiore della piattaforma
 
-        if (enemySpeed >= 0
+        PlayerModel pm = GameModel.getInstance().getPlayer();
+
+        if (getXSpeed() >= 0
                 && getY() + DISTANCEPG >= platform.getY()
                 && getY() <= platform.getY() + platform.getHeight()
                 && getX() + DISTANCEPG >= platform.getX()
@@ -270,7 +273,7 @@ public class EnemyModel extends CharacterModel {
     public boolean controllaMuroSx() {
         boolean muroCheck = false;
 
-        for (WallModel wm : walls) {
+        for (WallModel wm : GameModel.getInstance().getWalls()) {
             // Se la X del nemico - 10 è minore o uguale alla X del muro
             if (getX() - 40 <= wm.getX() && wm.getX() <= 0) {
                 muroCheck = true;
@@ -284,7 +287,7 @@ public class EnemyModel extends CharacterModel {
     public boolean controllaMuro() {
         boolean muroCheck = false;
 
-        for (WallModel wm : walls) {
+        for (WallModel wm : GameModel.getInstance().getWalls()) {
             // Se la X del nemico + 10 è maggiore o uguale alla X del muro (che è 845) e la
             // X del muro non è 0 (per escludere il muro iniziale)...
             if (getX() + 40 >= wm.getX() && wm.getX() != 0) {
@@ -295,8 +298,9 @@ public class EnemyModel extends CharacterModel {
         return muroCheck;
     }
 
+    // TODO: da rimuvore.
     public boolean isPlatformAbove() {
-        for (PlatformModel platModel : platformArray) {
+        for (PlatformModel platModel : GameModel.getInstance().getPlatforms()) {
             // Controlla se c'è una piattaforma sopra il nemico
             if (getX() >= platModel.getX() && getX() <= platModel.getX() + platModel.getWidth()
                     && getY() - 100 < platModel.getY() && platModel.getX() != 25) {
@@ -319,14 +323,6 @@ public class EnemyModel extends CharacterModel {
 
     public boolean getColliding() {
         return colliding;
-    }
-
-    public double getEnemySpeed() {
-        return enemySpeed;
-    }
-
-    public void setEnemySpeed(int enemySpeed) {
-        this.enemySpeed = enemySpeed;
     }
 
     public void kill() {

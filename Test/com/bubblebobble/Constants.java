@@ -33,31 +33,10 @@ public class Constants {
     public static String IMMAGINESTART2 =  BaseURL + "start2.png";
 
     //Valore per sapere se il player è stato colpito
-    public static boolean colpito = false;
+    public static boolean colpito = false; // TODO: da rimuovere
 
 
-    //GameSize
-
-    public static final int WALL_LEFT = 60;
-    public static final int WALL_RIGHT = 840;
     
-    public static int MAX_WIDTH = 900;
-    public static int MAX_HEIGHT = 800;
-
-    //Platform
-
-    public static int ALL_PLATFORMHEIGHT = 40;
-    
-    // Wall
-    public static int  WallWidth = 40;
-
-
-    // Player 
-    
-    public static int VITA = 5;
-    public static int SPEED = 2;
-    public static int BOOSTED_SPEED = 4;
-    public static int PROJECTILE_SPEED = 10;
 
     //Mantieni menu aperto fin quando è true
     //Quando si avvia il gioco, questa viene messa a false
@@ -65,16 +44,44 @@ public class Constants {
     
     public static boolean INGAMEMENUAPERTO = false;
     public static boolean isGamePaused = false;
-
-    //Costante livello attuale
-    public static int livelloAttuale = 0;
-
+    
     //Power Up (Le costanti sono usate solo per i power up che devono uccidere il nemico e non venire più riusati per tutto il livello)
-
+    
     public static boolean killthemall = false;
     public static boolean freeze = false;
     public static boolean freezeAndKill = false;
 
+
+
+
+
+    // === Window
+    public static int MAX_WIDTH = 1000;
+    public static int MAX_HEIGHT = 800;
+    
+    // === Player
+    public static final int PLAYER_WIDTH = 40;
+    public static final int PLAYER_HEIGHT = 40;
+    
+    public static final int PLAYER_LIVES = 5;
+    public static final int PLAYER_DEFAULT_SPEED = 2;
+    public static final int PLAYER_BOOSTED_SPEED = 4;
+
+    public static final int PROJECTILE_SPEED = 10;
     public static final int SHOOT_DELAY = 1000 / 3;
     public static final int SHORT_SHOOT_DELAY = 1000 / 6;
+    
+    // === Enemy
+    public static final int ENEMY_WIDTH = 40;
+    public static final int ENEMY_HEIGHT = 40;
+
+    public static final int ENEMY_BUBBLE_SPEED = 2;
+
+    // === Platform
+    public static final int PLATFORM_WIDTH = 40;
+    public static final int PLATFORM_HEIGHT = 40;
+
+    // === Wall
+    public static final int WALL_WIDTH = 40;
+    public static final int WALL_HEIGHT = 40;
 }

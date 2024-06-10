@@ -14,14 +14,10 @@ public class WallView {
     public void paintComponent(Graphics g) {
         int imageWidth = lv1Image.getWidth(null);
         int imageHeight = lv1Image.getHeight(null);
-        
-
         int numberOfImages = Constants.MAX_HEIGHT / imageWidth;
 
         for (int i = 0; i <= numberOfImages; i++) {
             g.drawImage(lv1Image, model.getX(), model.getY() + i * imageHeight, null);
         }
-
-        //g.drawImage(lv1Image,model.getWallX(), model.getWallY(), null);
     }
 }

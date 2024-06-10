@@ -16,8 +16,8 @@ public class CharacterModel extends EntityModel {
     public CharacterModel() {
     }
 
-    public CharacterModel(int x, int y) {
-        super(x, y, 40, 40);
+    public CharacterModel(int x, int y, int width, int height) {
+        super(x, y, width, height);
     }
 
     // Muove il personaggio

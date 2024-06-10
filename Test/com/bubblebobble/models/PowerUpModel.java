@@ -2,37 +2,21 @@ package com.bubblebobble.models;
 
 import java.awt.Image;
 
+import com.bubblebobble.contansts.PowerUpType;
+
 public class PowerUpModel extends EntityModel {
-    private Image immagine;
-    private boolean isActive;
-    private long activationTime;
-    private static final int DURATION = 5000; // Durata del power-up in millisecondi
+    private PowerUpType powerUpType;
 
-    public PowerUpModel(int x, int y, int width, int height , Image immagine) {
+    public PowerUpModel(PowerUpType powerUpType, int x, int y, int width, int height) {
         super(x, y, width, height);
-        this.isActive = false;
-        this.immagine = immagine;
+        this.powerUpType = powerUpType;
+    }
+    
+    public PowerUpType getPowerUpType() {
+        return powerUpType;
     }
 
-    public void activate() {
-        isActive = true;
-        activationTime = System.currentTimeMillis(); // Prendi i secondi attuali all'attivazione del power-up
+    public boolean is(PowerUpType type) {
+        return getPowerUpType() == type;
     }
-
-    public void deactivate() {
-        isActive = false;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public boolean isExpired() {
-        return isActive && (System.currentTimeMillis() - activationTime > DURATION); 
-        /*
-            Se isActive && il tempo attuale - il tempo preso all'attivazione > della durata massima del power-up, torna true.
-        */                                                                                    
-    }
-
-    public Image getImmagine(){return immagine;}
 }

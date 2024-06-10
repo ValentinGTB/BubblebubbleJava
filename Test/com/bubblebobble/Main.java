@@ -72,7 +72,7 @@ public class Main extends JFrame {
     	setLocationRelativeTo(null); 
     	setResizable(false);
     	setVisible(true); 
-    	setSize(Constants.MAX_WIDTH, Constants.MAX_HEIGHT); 
+    	setSize(Constants.MAX_WIDTH + 15, Constants.MAX_HEIGHT + 38); 
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
         
     	if(Constants.MENUAPERTO == false) {
@@ -130,12 +130,14 @@ public class Main extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
             	
-            	if(isPaused == false) 
+            	if(!Constants.isGamePaused) 
             	{
+                    inGamePanel.setVisible(false);
                     controller.onTick();
                     repaint();
-            	}
-
+            	} else {
+                    inGamePanel.setVisible(true);
+                }
             }  
         });
 

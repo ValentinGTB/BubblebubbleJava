@@ -3,6 +3,7 @@ package com.bubblebobble.views;
 
 import com.bubblebobble.Constants;
 import com.bubblebobble.ResourceManager;
+import com.bubblebobble.contansts.PowerUpType;
 import com.bubblebobble.models.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -22,6 +23,7 @@ public class GameView extends JPanel {
 
     private List<WallView> walls;
     private List<EnemyView> enemies;
+    private List<PowerUpView> powerUps;
     private List<PlatformView> platforms;
 
     private Image projectileImage = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "proiettile.png");
@@ -29,17 +31,21 @@ public class GameView extends JPanel {
     public GameView(GameModel model) {
         game = model;
         player = new PlayerView(model.getPlayer());
+        setupNotificationn();
+    }
+
+    private void setupNotificationn() {
         game.addSubscriber("removeEnemy", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                onRemoveEnemy();
+                enemies = game.getEnemies().stream().map(EnemyView::new).toList();
             }
         });
 
-        game.addSubscriber("addPoints", new ActionListener() {
+        game.addSubscriber("collectPowerUp", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("What???");
+                powerUps = game.getPowerUps().stream().map(PowerUpView::new).toList();
             }
         });
     }
@@ -57,10 +63,11 @@ public class GameView extends JPanel {
             drawPlayer(g);
 
             drawProjectiles(g);
-        } else {
-            g.setColor(Color.white);
-            g.fillRect(0, 0, Constants.MAX_WIDTH, Constants.MAX_HEIGHT);
         }
+        // else {
+        //     g.setColor(Color.white);
+        //     g.fillRect(0, 0, Constants.MAX_WIDTH, Constants.MAX_HEIGHT);
+        // }
 
         // Disegna il power-up
         // if (powerUp.isActive()) {
@@ -76,14 +83,11 @@ public class GameView extends JPanel {
         update();
     }
 
-    public void onRemoveEnemy() {
-        update();
-    }
-
     private void update() {
         // ricrea le view
         walls = game.getWalls().stream().map(WallView::new).toList();
         enemies = game.getEnemies().stream().map(EnemyView::new).toList();
+        powerUps = game.getPowerUps().stream().map(PowerUpView::new).toList();
         platforms = game.getPlatforms().stream().map(PlatformView::new).toList();
     }
 
@@ -117,58 +121,7 @@ public class GameView extends JPanel {
 
     private void drawPowerUps(Graphics g) {
         // Disegna PowerUp
-        for (Map.Entry<String, PowerUpModel> entry : game.getPowerUps().entrySet()) {
-            String key = entry.getKey();
-            PowerUpModel valModel = (PowerUpModel) entry.getValue();
-
-            if (!valModel.isActive()) {
-                if (key.equals("velocita")) {
-                    // --- CAMBIARE QUESTO CODICE CON L'IMMAGINE DEL POWERUP ---
-                    g.setColor(Color.BLUE);
-                    g.fillRect(valModel.getX(), valModel.getY(), valModel.getWidth(), valModel.getHeight());
-                }
-
-                if (key.equals("instakill")) {
-                    g.setColor(Color.green);
-                    g.fillRect(valModel.getX(), valModel.getY(), valModel.getWidth(), valModel.getHeight());
-                }
-
-                if (key.equals("superjump")) {
-                    g.setColor(Color.red);
-                    g.fillRect(valModel.getX(), valModel.getY(), valModel.getWidth(), valModel.getHeight());
-                }
-
-                if (key.equals("doppipunti")) {
-                    g.setColor(Color.pink);
-                    g.fillRect(valModel.getX(), valModel.getY(), valModel.getWidth(), valModel.getHeight());
-                }
-
-                if (key.equals("killthemall")) {
-                    g.setColor(Color.gray);
-                    g.fillRect(valModel.getX(), valModel.getY(), valModel.getWidth(), valModel.getHeight());
-                }
-
-                if (key.equals("freeze")) {
-                    g.setColor(Color.cyan);
-                    g.fillRect(valModel.getX(), valModel.getY(), valModel.getWidth(), valModel.getHeight());
-                }
-
-                if (key.equals("freezeAndKill")) {
-                    g.setColor(Color.MAGENTA);
-                    g.fillRect(valModel.getX(), valModel.getY(), valModel.getWidth(), valModel.getHeight());
-                }
-
-                if (key.equals("jumpPoints")) {
-                    g.setColor(Color.BLUE);
-                    g.fillRect(valModel.getX(), valModel.getY(), valModel.getWidth(), valModel.getHeight());
-                }
-
-                if (key.equals("fastshoot")) {
-                    g.setColor(Color.ORANGE);
-                    g.fillRect(valModel.getX(), valModel.getY(), valModel.getWidth(), valModel.getHeight());
-                }
-            }
-        }
+        powerUps.forEach(pwup -> pwup.paintComponent(g));
     }
 
     private void drawScore(Graphics g) {
