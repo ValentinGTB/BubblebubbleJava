@@ -3,7 +3,9 @@ package com.bubblebobble.levels;
 import com.bubblebobble.Constants;
 import com.bubblebobble.contansts.PowerUpType;
 import com.bubblebobble.models.EnemyModel;
+import com.bubblebobble.models.FastEnemyModel;
 import com.bubblebobble.models.GameModel;
+import com.bubblebobble.models.GhostEnemyModel;
 import com.bubblebobble.models.PlatformModel;
 import com.bubblebobble.models.PowerUpModel;
 import com.bubblebobble.models.WallModel;
@@ -27,10 +29,26 @@ public class Level01 implements Level {
 
     private void loadPlatforms(GameModel game) {
         // piattaforma
-        game.addPlatform(new PlatformModel(Constants.MAX_WIDTH - Constants.PLATFORM_WIDTH * 10 - Constants.PLATFORM_WIDTH, Constants.MAX_HEIGHT * 80 / 100, 40 * 10,
-                Constants.PLATFORM_HEIGHT));
+        // game.addPlatform(new PlatformModel(Constants.MAX_WIDTH/2- Constants.PLATFORM_WIDTH * 10 - Constants.PLATFORM_WIDTH, Constants.MAX_HEIGHT * 80 / 100, 40 * 10,
+        //         Constants.PLATFORM_HEIGHT));
 
-        game.addPlatform(new PlatformModel(40, Constants.MAX_HEIGHT * 80 / 100, 40, Constants.PLATFORM_HEIGHT));
+        // left platfroms
+        game.addPlatform(new PlatformModel(40, Constants.MAX_HEIGHT - Constants.PLATFORM_HEIGHT * 2 - Constants.PLATFORM_HEIGHT * 2, 120, Constants.PLATFORM_HEIGHT));
+        game.addPlatform(new PlatformModel(40, Constants.MAX_HEIGHT - Constants.PLATFORM_HEIGHT * 2 - Constants.PLATFORM_HEIGHT * 5, 120, Constants.PLATFORM_HEIGHT));
+        game.addPlatform(new PlatformModel(40, Constants.MAX_HEIGHT - Constants.PLATFORM_HEIGHT * 2 - Constants.PLATFORM_HEIGHT * 8, 120, Constants.PLATFORM_HEIGHT));
+        game.addPlatform(new PlatformModel(40, Constants.MAX_HEIGHT - Constants.PLATFORM_HEIGHT * 2 - Constants.PLATFORM_HEIGHT * 11, 120, Constants.PLATFORM_HEIGHT));
+        
+        // middle plattoforms
+        game.addPlatform(new PlatformModel(280, Constants.MAX_HEIGHT - Constants.PLATFORM_HEIGHT * 2 - Constants.PLATFORM_HEIGHT * 2, Constants.MAX_WIDTH - 280* 2, Constants.PLATFORM_HEIGHT));
+        game.addPlatform(new PlatformModel(280, Constants.MAX_HEIGHT - Constants.PLATFORM_HEIGHT * 2 - Constants.PLATFORM_HEIGHT * 5, Constants.MAX_WIDTH - 280* 2, Constants.PLATFORM_HEIGHT));
+        game.addPlatform(new PlatformModel(280, Constants.MAX_HEIGHT - Constants.PLATFORM_HEIGHT * 2 - Constants.PLATFORM_HEIGHT * 8, Constants.MAX_WIDTH - 280* 2, Constants.PLATFORM_HEIGHT));
+        game.addPlatform(new PlatformModel(280, Constants.MAX_HEIGHT - Constants.PLATFORM_HEIGHT * 2 - Constants.PLATFORM_HEIGHT * 11, Constants.MAX_WIDTH -280 * 2, Constants.PLATFORM_HEIGHT));
+        
+        // right platforms
+        game.addPlatform(new PlatformModel(Constants.MAX_WIDTH - Constants.PLATFORM_WIDTH - 120, Constants.MAX_HEIGHT - Constants.PLATFORM_HEIGHT * 2 - Constants.PLATFORM_HEIGHT * 2, 120, Constants.PLATFORM_HEIGHT));
+        game.addPlatform(new PlatformModel(Constants.MAX_WIDTH - Constants.PLATFORM_WIDTH - 120, Constants.MAX_HEIGHT - Constants.PLATFORM_HEIGHT * 2 - Constants.PLATFORM_HEIGHT * 5, 120, Constants.PLATFORM_HEIGHT));
+        game.addPlatform(new PlatformModel(Constants.MAX_WIDTH - Constants.PLATFORM_WIDTH - 120, Constants.MAX_HEIGHT - Constants.PLATFORM_HEIGHT * 2 - Constants.PLATFORM_HEIGHT * 8, 120, Constants.PLATFORM_HEIGHT));
+        game.addPlatform(new PlatformModel(Constants.MAX_WIDTH - Constants.PLATFORM_WIDTH - 120, Constants.MAX_HEIGHT - Constants.PLATFORM_HEIGHT * 2 - Constants.PLATFORM_HEIGHT * 11, 120, Constants.PLATFORM_HEIGHT));
     }
 
     private void loadPowerUps(GameModel game) {
@@ -48,15 +66,21 @@ public class Level01 implements Level {
         // game.addPowerUp(new PowerUpModel(PowerUpType.Health, 150, 680, 40, 40));
         // game.addPowerUp(new PowerUpModel(PowerUpType.Invincibility, 150, 680, 40,
         // 40));
-        game.addPowerUp(new PowerUpModel(PowerUpType.RandomPowerUp, 150, 680, 40, 40));
+        // game.addPowerUp(new PowerUpModel(PowerUpType.RandomPowerUp, 150, 680, 40, 40));
+
+
+        game.addPowerUp(new PowerUpModel(PowerUpType.Freeze, 250, 700, 40, 40));
     }
 
     private void loadEnemies(GameModel game) {
         EnemyModel enemy = new EnemyModel(70, 680);
         game.addEnemy(enemy);
 
-        EnemyModel enemy2 = new EnemyModel(90, 400);
+        EnemyModel enemy2 = new FastEnemyModel(150, 400);
         game.addEnemy(enemy2);
+
+        EnemyModel enemy3 = new GhostEnemyModel(150, 400);
+        game.addEnemy(enemy3);
 
         // EnemyModel enemy3 = new EnemyModel(game.getPlayer(), game.getWalls(),
         // game.getPlatforms(), 100, 300);

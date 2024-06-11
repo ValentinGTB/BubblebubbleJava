@@ -155,7 +155,7 @@ public class GameController {
     private void checkGravity() {
         // Regola la posizione del personaggio per farlo rimanere sulla piattaforma
         ArrayList<CharacterModel> entities = new ArrayList<>();
-        entities.addAll(model.getEnemies());
+        entities.addAll(model.getEnemies().stream().filter(e -> !(e instanceof GhostEnemyModel)).toList());
         entities.add(player);
 
         for (CharacterModel entity : entities) {
@@ -216,7 +216,6 @@ public class GameController {
     }
 
     public void onKeyPressed(KeyEvent e) {
-
         int key = e.getKeyCode();
 
         int currentSpeed = model.hasPowerup(PowerUpType.Speed) ? Constants.PLAYER_BOOSTED_SPEED : Constants.PLAYER_DEFAULT_SPEED;
@@ -226,7 +225,7 @@ public class GameController {
         } else if (key == KeyEvent.VK_RIGHT) {
             player.setXSpeed(currentSpeed);
         } else if (key == KeyEvent.VK_UP) {
-            player.jump(model.hasPowerup(PowerUpType.SuperJump) ? 20 : 15);
+            player.jump(model.hasPowerup(PowerUpType.SuperJump) ? 23 : 18);
             if (model.hasPowerup(PowerUpType.JumpPoints)) {
                 model.getScore().addPoints(100);
             }
@@ -248,33 +247,11 @@ public class GameController {
     private void updateEnemies() {
         for (EnemyModel enemy : model.getEnemies()) {
             enemy.update();
-            updateEnemyPosition(enemy);
             checkPlayerCollisions(enemy);
             checkProjectileCollisions(enemy);
         }
 
         removeEatenEnemies();
-    }
-
-    private void updateEnemyPosition(EnemyModel enemy) {
-        
-        // sposta la il nemico trasformato in bolla verso l'alto
-        if (enemy.isInBubble()) {
-            boolean isBelowPlatform = false;
-            for (PlatformModel platform : model.getPlatforms()) {
-                isBelowPlatform = platform.collidesWith(enemy) && platform.getY() <= enemy.getY();
-
-                if (isBelowPlatform) {
-                    enemy.setY(platform.getY() + platform.getHeight());
-                    break;
-                }
-            }
-
-            if (!isBelowPlatform) enemy.setYSpeed(-Constants.ENEMY_BUBBLE_SPEED);
-            else enemy.setYSpeed(0);
-        }
-
-        // blocchiDirezzionali(enemy);
     }
 
     private void checkPlayerCollisions(EnemyModel enemy) {
@@ -290,6 +267,7 @@ public class GameController {
                 player.decreaseLife();
                 player.setX(Constants.MAX_WIDTH / 3);
                 player.setY(Constants.MAX_HEIGHT * 70 / 100 - Constants.PLATFORM_HEIGHT);
+                model.activatePowerUp(new ActivePowerUpModel(PowerUpType.Invincibility));
             }
 
             // se il nemico è in una bolla ma non è un frutto, divennta un frutto
@@ -336,7 +314,7 @@ public class GameController {
 
     private void removeEatenEnemies() {
         List<EnemyModel> eatenEnemies = model.getEnemies().stream().filter(EnemyModel::isEaten).toList();
-        if (eatenEnemies.size() > 0) {
+        if (!eatenEnemies.isEmpty()) {
             // rimuove il nemico dal gioco
             for (EnemyModel enemyModel : eatenEnemies) {
                 model.removeEnemy(enemyModel);

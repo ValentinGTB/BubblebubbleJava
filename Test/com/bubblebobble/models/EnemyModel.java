@@ -6,6 +6,8 @@ import com.bubblebobble.contansts.PowerUpType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 import javax.swing.Timer;
@@ -20,16 +22,26 @@ public class EnemyModel extends CharacterModel {
     private boolean colliding = false; // TODO da rimuovere?
     private int flipFlop = 0; // TODO: da rimuovere?
 
+    public int speed;
+
+    /**
+     * se true, muovi il nemico sopra la piattaforma più vicina.
+     */
+    private boolean jumpingAbovePlatform;
+    private long lastDirectionChangeTime;
+    private long lastJumpTime;
+
     // TODO: da rimuovere.
     private static final int DISTANZA_SALTO_X = 50; // Ad esempio, 50 pixel
     int DISTANCEPG = 45;
 
-
-    /// Allo scattare del tempo, il nemico che si trova in una bolla diventa una frutta
+    /// Allo scattare del tempo, il nemico che si trova in una bolla diventa una
+    /// frutta
     private Timer bubbleTimer;
 
     public EnemyModel(int x, int y) {
         super(x, y, Constants.ENEMY_WIDTH, Constants.ENEMY_HEIGHT);
+        this.speed = Constants.ENEMY_SPEED;
     }
 
     public void followCharacter(EntityModel entity) {
@@ -37,14 +49,121 @@ public class EnemyModel extends CharacterModel {
     }
 
     public void update() {
+        updatePosition();
+        move();
+    }
+
+    @Override
+    public void move() {
+        // sposta la il nemico trasformato in bolla verso l'alto
+        if (isInBubble()) {
+            setXSpeed(0);
+            boolean isBelowPlatform = false;
+            for (PlatformModel platform : GameModel.getInstance().getPlatforms()) {
+                isBelowPlatform = platform.collidesWith(this) && platform.getY() <= getY();
+
+                if (isBelowPlatform) {
+                    setY(platform.getY() + platform.getHeight());
+                    break;
+                }
+            }
+
+            if (!isBelowPlatform)
+                setYSpeed(-Constants.ENEMY_BUBBLE_SPEED);
+            else
+                setYSpeed(0);
+        }
 
         // muovi il personaggio solo se non è freezato.
-        boolean canMove = 
-            !GameModel.getInstance().hasPowerup(PowerUpType.Freeze)
-            && !GameModel.getInstance().hasPowerup(PowerUpType.FreezeAndKill);
-        
+        boolean canMove = !GameModel.getInstance().hasPowerup(PowerUpType.Freeze)
+                && !GameModel.getInstance().hasPowerup(PowerUpType.FreezeAndKill);
+
         if (canMove) {
-            move();
+            super.move();
+        }
+    }
+
+    private void updatePosition() {
+        long currentTime = System.currentTimeMillis();
+        if (!isInBubble() && !isFruit()) {
+            // default a sx
+            if (getXSpeed() == 0) {
+                setXSpeed(-speed);
+            }
+
+            // cambia direzione ogni secondo
+            if (currentTime % 1001 == 0) {
+                setXSpeed(getXSpeed() * -1);
+            }
+
+            // verifica collisione con i muri, con cambio direzione di movimento
+            for (WallModel wall : GameModel.getInstance().getWalls()) {
+                if (wall.collidesWith(this)) {
+                    boolean isLeftWall = wall.getX() <= getX();
+
+                    if (isLeftWall) {
+                        setX(wall.getX() + wall.getWidth());
+                    } else {
+                        setX(wall.getX() - getWidth());
+                    }
+
+                    setXSpeed(getXSpeed() * -1);
+                }
+            }
+
+            // salta sopra la prima piattaforma sopra il nemico
+            if (currentTime % 100 == 0 && (lastJumpTime <= 0 || currentTime - lastJumpTime >= 1000 * 10)) {
+                jumpingAbovePlatform = true;
+            }
+
+            if (jumpingAbovePlatform) {
+                List<PlatformModel> inRangePlatforms = 
+                    GameModel.getInstance().getPlatforms().stream().filter(p -> 
+                        // il nemico è nel range dell'angolo sx della piattaforma
+                        p.getX() <= getX() && getX() + getWidth() <= p.getX() + p.getWidth()
+                        
+                        // il nemico è nel range della piattaforma
+                        // || getX() >= p.getX() && getX() <= p.getX() + p.getWidth()
+                    )
+                    .toList();
+
+                Optional<PlatformModel> closerPlatform = inRangePlatforms
+                    .stream()
+                    .filter(p -> getY() + getHeight() > p.getY() && getY() - p.getY() <= 199)
+                    .sorted((o1, o2) -> o2.getY() - o1.getY())
+                    .findFirst();
+
+                if (closerPlatform.isPresent())
+                {
+                    // ho trovato una piattaforma su cui il nemico può salire, azzerriamo 
+                    setXSpeed(0);
+                    setYSpeed(-speed);
+
+                    PlatformModel platform = closerPlatform.get();
+                    boolean isAbove = getYSpeed() < 0
+                            && platform.collidesWith(this)
+                            && getY() + getHeight() <= platform.getY() + speed
+                            ;
+                            //&& getY() <= platform.getY() + platform.getHeight()
+                            //&& getY() + getHeight() <= platform.getY() + platform.getHeight();
+                    
+                    if (isAbove) {
+                        int destY = platform.getY() - getHeight();
+                        setY(destY);
+                        setYSpeed(0);
+                        // isAbovePlatform = true;
+                        jumpingAbovePlatform = false;
+                        lastJumpTime = System.currentTimeMillis();
+
+                        // se mi trovo nella parte a sx della piattaforma, la direzione è verso destra
+                        if (Math.abs(getX() - platform.getX()) < Math.abs(getX() - platform.getX() - platform.getWidth())) {
+                            setXSpeed(speed);
+                        } else {
+                            setXSpeed(-speed);
+                        }
+                    }
+                }
+            }
         }
     }
 

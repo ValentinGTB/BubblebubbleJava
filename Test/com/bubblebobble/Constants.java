@@ -50,7 +50,7 @@ public class Constants {
 
 
 
-    
+
     // === Window
     public static int MAX_WIDTH = 1000;
     public static int MAX_HEIGHT = 800;
@@ -60,8 +60,8 @@ public class Constants {
     public static final int PLAYER_HEIGHT = 40;
     
     public static final int PLAYER_LIVES = 5;
-    public static final int PLAYER_DEFAULT_SPEED = 2;
-    public static final int PLAYER_BOOSTED_SPEED = 4;
+    public static final int PLAYER_DEFAULT_SPEED = 3;
+    public static final int PLAYER_BOOSTED_SPEED = 5;
 
     public static final int PROJECTILE_SPEED = 10;
     public static final int SHOOT_DELAY = 1000 / 3;
@@ -71,6 +71,7 @@ public class Constants {
     public static final int ENEMY_WIDTH = 40;
     public static final int ENEMY_HEIGHT = 40;
 
+    public static final int ENEMY_SPEED = 2;
     public static final int ENEMY_BUBBLE_SPEED = 2;
 
     // === Platform

@@ -11,6 +11,7 @@ public class CharacterModel extends EntityModel {
 	private double gravity = 1;
 	private boolean isJumping = false;
 	
+	// TODO: probabilmente non serve, basta la conndizione su xSpeed.
 	private Direction direction = Direction.LEFT;
 
     public CharacterModel() {
