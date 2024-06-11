@@ -179,6 +179,11 @@ public class GameController {
                 }
             }
 
+            // l'entità che cade nel vuoto, spawna dall'alto
+            if (entity.getY() >= Constants.MAX_HEIGHT) {
+                entity.setY(0);
+            }
+
             // TODO: avere un metodo specifico nell'entita che gestisca la gravità
             if (isAbovePlatform) {
                 entity.setYSpeed(0);
