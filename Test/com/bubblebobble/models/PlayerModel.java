@@ -2,6 +2,7 @@ package com.bubblebobble.models;
 
 import com.bubblebobble.Constants;
 import com.bubblebobble.contansts.Direction;
+import com.bubblebobble.contansts.PowerUpType;
 
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
@@ -21,8 +22,10 @@ public class PlayerModel extends CharacterModel {
 	}
 
 	public void shoot() {
-		ProjectileModel projectile = new BubbleProjectileModel(getX() + getWidth(), getY() + getHeight() - 80 / 2,
+		String bubbleType = GameModel.getInstance().hasPowerup(PowerUpType.Instakill) ? "RedBubble" : "Bubble";
+		ProjectileModel projectile = new BubbleProjectileModel(bubbleType, getX() + getWidth(), getY() + getHeight() - 80 / 2,
 				Constants.PROJECTILE_SPEED, getDirection(), this);
+				
 		GameModel.getInstance().addProjectile(projectile);
 	}
 
