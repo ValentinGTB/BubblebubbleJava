@@ -3,7 +3,7 @@ package com.bubblebobble.models;
 import com.bubblebobble.Constants;
 import com.bubblebobble.contansts.PowerUpType;
 
-public class WizardEnemeyModel extends EnemyModel {
+public class WizardEnemeyModel extends BaseEnemyModel {
     public WizardEnemeyModel(int x, int y) {
         super(x, y);
         setSpeed(3);
@@ -11,6 +11,8 @@ public class WizardEnemeyModel extends EnemyModel {
 
     @Override
     protected void onUpdate() {
+        super.onUpdate();
+
         // spara al giocatore
         if (System.currentTimeMillis() % 60 == 0) {
             ProjectileModel projectile = new RockProjectileModel(getX() + getWidth(), getY() + getHeight() - 80 / 2,

@@ -7,6 +7,7 @@ import com.bubblebobble.models.EnemyModel;
 import com.bubblebobble.models.FastEnemyModel;
 import com.bubblebobble.models.GameModel;
 import com.bubblebobble.models.GhostEnemyModel;
+import com.bubblebobble.models.HideonEnemyModel;
 import com.bubblebobble.models.PlatformModel;
 import com.bubblebobble.models.PowerUpModel;
 import com.bubblebobble.models.WallModel;
@@ -81,7 +82,7 @@ public class Level01 implements Level {
         // EnemyModel enemy2 = new FastEnemyModel(150, 400);
         // game.addEnemy(enemy2);
 
-        EnemyModel enemy3 = new DrunkEnemyModel(150, 400);
+        EnemyModel enemy3 = new HideonEnemyModel(150, 400);
         game.addEnemy(enemy3);
 
         // EnemyModel enemy3 = new EnemyModel(game.getPlayer(), game.getWalls(),

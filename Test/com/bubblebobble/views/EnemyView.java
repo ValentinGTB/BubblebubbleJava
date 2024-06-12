@@ -60,7 +60,9 @@ public class EnemyView extends JComponent {
             return resources.getImage("Fast.png");
         } else if (model instanceof DrunkEnemyModel) {
             return resources.getImage("Drunk.png");
-        } else {
+        } else if (model instanceof HideonEnemyModel) {
+            return resources.getImage("Hideon.png");
+        }else {
             return resources.getImage("Nemico_" + currentFrame + ".png");
         }
     }
