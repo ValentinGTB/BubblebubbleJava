@@ -9,6 +9,13 @@
             "name": "BubbleBobble",
             "request": "launch",
             "mainClass": "com.bubblebobble.BubbleBobble",
+            "projectName": "BubblebubbleJava_9015bd1f"
+        },
+        {
+            "type": "java",
+            "name": "BubbleBobble",
+            "request": "launch",
+            "mainClass": "com.bubblebobble.BubbleBobble",
             "projectName": "Test"
         },
         {

@@ -23,13 +23,16 @@ public class MenuView extends JPanel {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		startButton.setBackground(Color.BLACK);
-		startButton.setPreferredSize(new Dimension(0, 56)); // Cambia height
-		startButton.setMaximumSize(new Dimension(100, 0)); // Cambia width
+		startButton.setPreferredSize(new Dimension(0, 100)); // Cambia height
+		startButton.setMaximumSize(new Dimension(200, 0)); // Cambia width
 
 		exitButton.setBackground(Color.black);
 
-		add(Box.createVerticalStrut(200)); // Aggiungi uno spessore invisibile tra il bordo del pannello e il pulsante
-		add(Box.createHorizontalStrut(Constants.MAX_WIDTH / 2 - 290));
+		exitButton.setPreferredSize(new Dimension(0, 100)); // Cambia height
+		exitButton.setMaximumSize(new Dimension(200, 0)); // Cambia width
+
+		add(Box.createVerticalStrut(500)); // Aggiungi uno spessore invisibile tra il bordo del pannello e il pulsante
+		add(Box.createHorizontalStrut(Constants.MAX_WIDTH / 2 - 200));
 
 		startButton.addMouseListener(new MouseAdapter() {
 			@Override
@@ -62,7 +65,7 @@ public class MenuView extends JPanel {
 	}
 
 	public void paintComponent(Graphics g) {
-		Image image = ResourceManager.getInstance().getImage("start2.png");
+		Image image = ResourceManager.getInstance().getImage("start.png");
 		int larghezza = image.getWidth(null);
 		int altezza = image.getHeight(null);
 

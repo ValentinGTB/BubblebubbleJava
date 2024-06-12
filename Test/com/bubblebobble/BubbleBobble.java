@@ -30,11 +30,12 @@ public class BubbleBobble extends JFrame {
     public void showProfiles() {
         if (profilesPanel == null) {
             profilesPanel = new ProfilesView(this);
-            add(profilesPanel, BorderLayout.WEST);
+            add(profilesPanel, BorderLayout.CENTER);
         }
 
         // mostra il gioco in pausa
         showPanel(profilesPanel);
+
     }
 
     public void startGame() {
@@ -151,11 +152,11 @@ public class BubbleBobble extends JFrame {
         // configura la finestra
         setResizable(false);
         setFocusable(true);
-        setLocation(300, 100);
         setTitle("BubbleBobble");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(Constants.MAX_WIDTH + 15, Constants.MAX_HEIGHT + 38);
+        setLocation(300, 100);
 
         // all'avvio del gioco, mostriamo il menu
         showMenu();
