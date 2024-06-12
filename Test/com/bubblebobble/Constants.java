@@ -11,20 +11,6 @@ public class Constants {
     public static Image immagineBottoneInizia;
     public static Image immagineBottoneEsci;
 
-    public void inizializzaConstants()
-    {
-        try{
-				immagineBottoneInizia = ImageIO.read(getClass().getResource("imageButtonStart.png"));
-				immagineBottoneEsci = ImageIO.read(getClass().getResource("exitButtonDef.png"));
-                
-
-				}
-		catch(Exception e)
-				{
-					System.out.print("errore nel caricamento immagine" + e);
-				}
-    }
-
     //COSTANTI PER LE IMMAGINI
 
     public static String BaseURL = "Test/com/bubblebobble/views/img/";

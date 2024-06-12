@@ -26,9 +26,6 @@ public class GameView extends JPanel {
     private List<PowerUpView> powerUps;
     private List<PlatformView> platforms;
 
-    private Image bubbleImage = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "proiettile.png");
-    private Image rockImage = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "rock.png");
-
     public GameView(GameModel model) {
         game = model;
         player = new PlayerView(model.getPlayer());
@@ -65,21 +62,8 @@ public class GameView extends JPanel {
 
             drawProjectiles(g);
         }
-        // else {
-        //     g.setColor(Color.white);
-        //     g.fillRect(0, 0, Constants.MAX_WIDTH, Constants.MAX_HEIGHT);
-        // }
-
-        // Disegna il power-up
-        // if (powerUp.isActive()) {
-        // g.setColor(Color.BLACK);
-        // g.fillRect(powerUp.getX(), powerUp.getY(), powerUp.getWidth(),
-        // powerUp.getHeight());
-        // }
     }
 
-    // TODO: creare un evento onChangeLevel, che aggiorna le proprietà "walls",
-    // "platforms", etc. e ricrea le view.
     public void onChangeLevel() {
         update();
     }

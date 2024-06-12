@@ -1,19 +1,24 @@
 package com.bubblebobble.views;
 import com.bubblebobble.Constants;
+import com.bubblebobble.ResourceManager;
 import com.bubblebobble.models.*;
 import java.awt.*;
 
 
 public class PlatformView {
     private PlatformModel model;
-    private Image image;
 
     public PlatformView(PlatformModel model) {
         this.model = model;
-        this.image = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "Livelli/lv" + GameModel.getInstance().getCurrentLevel().getLevel() + ".png");
+    }
+
+    private Image getPlatformImage() {
+        return ResourceManager.getInstance().getImage("Livelli/lv" + GameModel.getInstance().getCurrentLevel().getLevel() + ".png");
     }
 
     public void paintComponent(Graphics g) {
+        Image image = getPlatformImage();
+
         int imageWidth = image.getWidth(null);
         int imageHeight = image.getHeight(null);
         int numberOfImages = model.getWidth() / imageWidth;

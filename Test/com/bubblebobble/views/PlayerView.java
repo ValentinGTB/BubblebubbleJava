@@ -1,6 +1,7 @@
 package com.bubblebobble.views;
 
 import com.bubblebobble.Constants;
+import com.bubblebobble.ResourceManager;
 import com.bubblebobble.contansts.Direction;
 import com.bubblebobble.contansts.PowerUpType;
 import com.bubblebobble.controllers.GameController;
@@ -19,13 +20,11 @@ public class PlayerView extends JPanel {
     EnemyModel enemyModel;
 
     // Array di immagini per l'animazione della camminata
-    // private int frameCount = 0; // Conteggio dei frame
-    private ImageIcon[] walkFrames;
     private int currentFrame = 2; // Frame corrente dell'animazione
     private int totalframe = 3;
 
-    private Image vita = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "vita.png");
-    private Image gameOver = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "gameOver.png");
+    private Image hearthImage = ResourceManager.getInstance().getImage("vita.png");
+    private Image gameOverImage = ResourceManager.getInstance().getImage("gameOver.png");
 
     private PlayerModel model;
     private Timer animationTimer;
@@ -33,12 +32,6 @@ public class PlayerView extends JPanel {
 
     public PlayerView(PlayerModel model) {
         this.model = model;
-
-        // Carica le immagini dell'animazione della camminata
-        walkFrames = new ImageIcon[totalframe]; // Supponiamo di avere 4 frame di animazione
-        for (int i = 0; i < totalframe; i++) {
-            walkFrames[i] = new ImageIcon(getClass().getResource("img/walk_" + i + ".png"));
-        }
 
         // Initialize the timer
         animationTimer = new Timer(animationDelay, new ActionListener() {
@@ -55,29 +48,25 @@ public class PlayerView extends JPanel {
         repaint(); // Repaint the component to show the new frame
     }
 
-    public ImageIcon getCurrentWalkFrame() {
-        return walkFrames[currentFrame];
+    public Image getWalkFrame(int frame) {
+        return ResourceManager.getInstance().getImage("walk_" + frame + ".png");
+    }
+
+    public Image getCurrentWalkFrame() {
+        return getWalkFrame(currentFrame);
     }
 
     public void drawVita(Graphics g) {
         int xMassima = 50;
 
         for (int j = 1; j <= model.getLives(); j++) {
-            g.drawImage(vita, xMassima, 50, null);
+            g.drawImage(hearthImage, xMassima, 50, null);
             xMassima += 20; // Stampa i cuori a 20 di distanza da destra a sinistra togliendo 20 dalla dist
                             // massima ad ogni ciclata
         }
         if (model.getLives() <= 0) {
-            g.drawImage(gameOver, 50, 50, null);
+            g.drawImage(gameOverImage, 50, 50, null);
         }
-    }
-
-    public int getWidth() {
-        return getCurrentWalkFrame().getIconWidth();
-    }
-
-    public int getHeight() {
-        return getCurrentWalkFrame().getIconHeight();
     }
 
     @Override
@@ -88,22 +77,22 @@ public class PlayerView extends JPanel {
         if (GameModel.getInstance().hasPowerup(PowerUpType.Invincibility)) {
             float alpha = System.currentTimeMillis() % 5 == 0 ? 0.6f : 1f;
 
-            ImageIcon frame = getCurrentWalkFrame();
-            BufferedImage bufferedImage = new BufferedImage(frame.getIconWidth(), frame.getIconHeight(),
+            Image frame = getCurrentWalkFrame();
+            BufferedImage bufferedImage = new BufferedImage(model.getWidth(), model.getHeight(),
                     BufferedImage.TYPE_INT_ARGB);
             Graphics2D g2d = bufferedImage.createGraphics();
             g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
-            g2d.drawImage(frame.getImage(), 0, 0, frame.getIconWidth(), frame.getIconHeight(), null);
+            g2d.drawImage(frame, 0, 0, model.getWidth(), model.getHeight(), null);
             g2d.dispose();
 
             image = bufferedImage;
         } else {
-            image = getCurrentWalkFrame().getImage();
+            image = getCurrentWalkFrame();
         }
 
         var delta = model.getDirection() == Direction.LEFT ? 1 : -1;
-        g.drawImage(image, model.getX() + (delta < 0 ? getWidth() : 0), model.getY(),
-                getWidth() * delta, getHeight(), null);
+        g.drawImage(image, model.getX() + (delta < 0 ? model.getWidth() : 0), model.getY(),
+                model.getWidth() * delta, model.getHeight(), null);
         drawVita(g);
     }
 }

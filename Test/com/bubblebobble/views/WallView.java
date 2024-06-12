@@ -1,17 +1,23 @@
 package com.bubblebobble.views;
 import com.bubblebobble.Constants;
+import com.bubblebobble.ResourceManager;
 import com.bubblebobble.models.*;
 import java.awt.*;
 
 public class WallView {
     private WallModel model;
-    private Image image = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "Livelli/lv" + GameModel.getInstance().getCurrentLevel().getLevel() + ".png");
     
     public WallView(WallModel model) {
         this.model = model;
     }
+
+    private Image getWallImage(int level) {
+        return ResourceManager.getInstance().getImage("Livelli/lv" + level + ".png");
+    }
     
     public void paintComponent(Graphics g) {
+        Image image = getWallImage(GameModel.getInstance().getCurrentLevel().getLevel());
+
         int imageWidth = image.getWidth(null);
         int imageHeight = image.getHeight(null);
         int numberOfImages = Constants.MAX_HEIGHT / imageWidth;

@@ -14,10 +14,9 @@ import javax.swing.*;
 public class EnemyView extends JComponent {
     private EnemyModel model;
 
-    private Image enemyImage;
-    private Image bubbleImage;
     private Image[] fruitImages;
     private Image currentFruitImage;
+    private Image bubbleImage = ResourceManager.getInstance().getImage("pallanemica.png");
 
     private Timer animationTimer;
     private int currentFrame = 0;
@@ -25,15 +24,8 @@ public class EnemyView extends JComponent {
     private int animationDelay = 200;
 
     public EnemyView(EnemyModel enemy) {
-        this.bubbleImage = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "pallanemica.png");
-        this.enemyImage = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "Enemy1.png");
         this.model = enemy;
 
-        loadFruitImages();
-        loadWalkFrames();
-    }
-
-    private void loadWalkFrames() {
         animationTimer = new Timer(animationDelay, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -49,18 +41,13 @@ public class EnemyView extends JComponent {
         repaint(); // Ridisegna il componente
     }
 
-    private void loadFruitImages() {
-        fruitImages = new Image[30];
-        for (int i = 0; i < 29; i++) {
-            fruitImages[i] = Toolkit.getDefaultToolkit()
-                    .getImage(Constants.BaseURL + "/Frutta/Cibo-" + (i + 1) + ".png");
-        }
+    private Image getFruitImage(int fruitId) {
+        return ResourceManager.getInstance().getImage("Frutta/Cibo-" + fruitId + ".png");
     }
 
     private void selectRandomFruit() {
         Random random = new Random();
-        int randomIndex = random.nextInt(fruitImages.length);
-        currentFruitImage = fruitImages[randomIndex];
+        currentFruitImage = getFruitImage(1 + random.nextInt(29));
     }
 
     private Image getImage() {
