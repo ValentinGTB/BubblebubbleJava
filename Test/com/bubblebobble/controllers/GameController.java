@@ -359,27 +359,4 @@ public class GameController {
             model.notify("removeEnemy", new ActionEvent(this, 0, "updateEnemies"));
         }
     }
-
-    public void blocchiDirezzionali(EnemyModel enemy) {
-        blocchiBordiTopBottom(enemy);
-    }
-
-    public void blocchiBordiTopBottom(EnemyModel enemy) {
-        if (player.getY() + player.getYSpeed() < 0) {
-            player.setYSpeed(Constants.PLAYER_DEFAULT_SPEED);
-        }
-        if (player.getY() + player.getYSpeed() >= Constants.MAX_HEIGHT) {
-            player.setY(-40);
-            player.setYSpeed(-Constants.PLAYER_DEFAULT_SPEED);
-        }
-
-        // Blocco Enemy
-        if (enemy.getY() + enemy.getYSpeed() < 0) {
-            enemy.setYSpeed(Constants.PLAYER_DEFAULT_SPEED);
-        }
-        if (enemy.getY() + enemy.getYSpeed() >= Constants.MAX_HEIGHT) {
-            enemy.setY(-50);
-            enemy.setYSpeed(-Constants.PLAYER_DEFAULT_SPEED);
-        }
-    }
 }
