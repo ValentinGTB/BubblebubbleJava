@@ -3,6 +3,7 @@ package com.bubblebobble.controllers;
 import com.bubblebobble.BubbleBobble;
 import com.bubblebobble.Constants;
 import com.bubblebobble.contansts.Direction;
+import com.bubblebobble.contansts.Events;
 import com.bubblebobble.contansts.PowerUpType;
 import com.bubblebobble.levels.Level;
 import com.bubblebobble.levels.Level01;
@@ -111,7 +112,7 @@ public class GameController {
                 model.removePowerUp(pwup);
             }
 
-            model.notify("collectPowerUp", new ActionEvent(this, 0, "updatePowerUps"));
+            model.notify(Events.COLLECT_POWERUP, new ActionEvent(this, 0, "updatePowerUps"));
         }
     }
 
@@ -389,7 +390,7 @@ public class GameController {
                 enemyModel = null;
             }
 
-            model.notify("removeEnemy", new ActionEvent(this, 0, "updateEnemies"));
+            model.notify(Events.REMOVE_ENEMY, new ActionEvent(this, 0, "updateEnemies"));
         }
     }
 }

@@ -3,6 +3,7 @@ package com.bubblebobble.views;
 
 import com.bubblebobble.Constants;
 import com.bubblebobble.ResourceManager;
+import com.bubblebobble.contansts.Events;
 import com.bubblebobble.contansts.PowerUpType;
 import com.bubblebobble.models.*;
 import java.awt.*;
@@ -34,14 +35,14 @@ public class GameView extends JPanel {
     }
 
     private void setupNotificationn() {
-        game.addSubscriber("removeEnemy", new ActionListener() {
+        game.addSubscriber(Events.REMOVE_ENEMY, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 enemies = game.getEnemies().stream().map(EnemyView::new).toList();
             }
         });
 
-        game.addSubscriber("collectPowerUp", new ActionListener() {
+        game.addSubscriber(COLLECT_POWERUP, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 powerUps = game.getPowerUps().stream().map(PowerUpView::new).toList();
