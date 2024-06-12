@@ -45,7 +45,7 @@ public class Level05 implements Level {
         // game.addPowerUp(new PowerUpModel(PowerUpType.FastShoot, 200, 650, 40, 40));
         // game.addPowerUp(new PowerUpModel(PowerUpType.Health, 150, 680, 40, 40));
         // game.addPowerUp(new PowerUpModel(PowerUpType.Invincibility, 150, 680, 40, 40));
-        game.addPowerUp(new PowerUpModel(PowerUpType.RandomPowerUp, 150, 680, 40, 40));
+        game.addPowerUp(new PowerUpModel(PowerUpType.Random, 150, 680, 40, 40));
     }
 
     private void loadEnemies(GameModel game)

@@ -54,7 +54,7 @@ public class GameController {
                 player.increaseLife();
                 break;
 
-            case RandomPowerUp:
+            case Random:
                 PowerUpType[] powerUpTypes = new PowerUpType[] {
                         // PowerUpType.Speed,
                         // PowerUpType.SuperJump,

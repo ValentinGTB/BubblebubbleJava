@@ -12,5 +12,5 @@ public enum PowerUpType {
     FastShoot,
     Health,
     Invincibility,
-    RandomPowerUp
+    Random
 }

@@ -11,9 +11,9 @@ public class HideonEnemyModel extends BaseEnemyModel {
     @Override
     protected void onUpdate() {
         super.onUpdate();
-        
+
         // spara al giocatore
-        if (System.currentTimeMillis() % 60 == 0) {
+        if (System.currentTimeMillis() % 60 == 0 && !isFruit() && !isInBubble()) {
             ProjectileModel projectile = new FireBallProjectileModel(getX() + getWidth(), getY() + getHeight() - 80 / 2,
                     Constants.PROJECTILE_SPEED * 2, getDirection(), this);
 

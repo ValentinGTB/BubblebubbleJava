@@ -92,6 +92,10 @@ public abstract class EnemyModel extends CharacterModel {
         boolean canMove = !GameModel.getInstance().hasPowerup(PowerUpType.Freeze)
                 && !GameModel.getInstance().hasPowerup(PowerUpType.FreezeAndKill);
 
+        if (isFruit()) {
+            setXSpeed(0);
+        }
+
         if (canMove) {
             super.move();
         }

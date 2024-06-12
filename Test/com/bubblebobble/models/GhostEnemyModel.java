@@ -15,6 +15,10 @@ public class GhostEnemyModel extends EnemyModel {
             setYSpeed(0);
             return;
         }
+        
+        if (isFruit() || isInBubble()) {
+            return;
+        }
 
         if (getXSpeed() == 0 || getYSpeed() == 0) {
             setXSpeed(getSpeed());
