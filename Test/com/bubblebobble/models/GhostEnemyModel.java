@@ -9,12 +9,7 @@ public class GhostEnemyModel extends EnemyModel {
     }
     
     @Override
-    public void update() {
-        updatePosition();
-        move();
-    }
-
-    private void updatePosition() {
+    protected void onUpdate() {
         if (isFruit()) {
             setXSpeed(0);
             setYSpeed(0);
@@ -22,8 +17,8 @@ public class GhostEnemyModel extends EnemyModel {
         }
 
         if (getXSpeed() == 0 || getYSpeed() == 0) {
-            setXSpeed(speed);
-            setYSpeed(speed);
+            setXSpeed(getSpeed());
+            setYSpeed(getSpeed());
         }
 
         // verifica collisione con i muri, con cambio direzione di movimento

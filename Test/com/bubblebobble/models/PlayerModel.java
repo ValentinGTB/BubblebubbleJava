@@ -21,8 +21,8 @@ public class PlayerModel extends CharacterModel {
 	}
 
 	public void shoot() {
-		ProjectileModel projectile = new ProjectileModel(getX() + getWidth(), getY() + getHeight() - 80 / 2,
-				Constants.PROJECTILE_SPEED, getDirection());
+		ProjectileModel projectile = new BubbleProjectileModel(getX() + getWidth(), getY() + getHeight() - 80 / 2,
+				Constants.PROJECTILE_SPEED, getDirection(), this);
 		GameModel.getInstance().addProjectile(projectile);
 	}
 

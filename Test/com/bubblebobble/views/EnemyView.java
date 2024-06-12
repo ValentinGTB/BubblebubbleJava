@@ -1,6 +1,8 @@
 package com.bubblebobble.views;
 
 import com.bubblebobble.Constants;
+import com.bubblebobble.ResourceManager;
+import com.bubblebobble.contansts.Direction;
 import com.bubblebobble.models.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,7 +19,6 @@ public class EnemyView extends JComponent {
     private Image[] fruitImages;
     private Image currentFruitImage;
 
-    private Image[] walkFrames;
     private Timer animationTimer;
     private int currentFrame = 0;
     private int totalFrames = 3;
@@ -33,11 +34,6 @@ public class EnemyView extends JComponent {
     }
 
     private void loadWalkFrames() {
-        walkFrames = new Image[totalFrames];
-        for (int i = 0; i < totalFrames; i++) {
-            walkFrames[i] = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "Nemico_" + i + ".png");
-        }
-
         animationTimer = new Timer(animationDelay, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -67,6 +63,21 @@ public class EnemyView extends JComponent {
         currentFruitImage = fruitImages[randomIndex];
     }
 
+    private Image getImage() {
+        ResourceManager resources = ResourceManager.getInstance();
+        if (model instanceof WizardEnemeyModel) {
+            return resources.getImage("Wizard.png");
+        } else if (model instanceof GhostEnemyModel) {
+            return resources.getImage("Ghost.png");
+        } else if (model instanceof FastEnemyModel) {
+            return resources.getImage("Fast.png");
+        } else if (model instanceof DrunkEnemyModel) {
+            return resources.getImage("Drunk.png");
+        } else {
+            return resources.getImage("Nemico_" + currentFrame + ".png");
+        }
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -84,8 +95,8 @@ public class EnemyView extends JComponent {
             g.drawImage(currentFruitImage, enemyX, enemyY, Constants.PLATFORM_HEIGHT, Constants.PLATFORM_HEIGHT,
                     this);
         } else {
-            g.drawImage(walkFrames[currentFrame], enemyX, enemyY, Constants.PLATFORM_HEIGHT,
-                    Constants.PLATFORM_HEIGHT, this);
+            var delta = model.getDirection() == Direction.LEFT ? 1 : -1;
+            g.drawImage(getImage(), enemyX + (delta < 0 ? model.getWidth() : 0), enemyY, model.getWidth() * delta, model.getHeight(), this);
         }
     }
 }

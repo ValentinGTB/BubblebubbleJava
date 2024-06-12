@@ -32,12 +32,7 @@ public class Constants {
     public static String IMMAGINESTART =  BaseURL + "start.png";
     public static String IMMAGINESTART2 =  BaseURL + "start2.png";
 
-    //Valore per sapere se il player è stato colpito
-    public static boolean colpito = false; // TODO: da rimuovere
-
-
     
-
     //Mantieni menu aperto fin quando è true
     //Quando si avvia il gioco, questa viene messa a false
     public static boolean MENUAPERTO = true;

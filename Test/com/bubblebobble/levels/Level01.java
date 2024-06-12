@@ -2,6 +2,7 @@ package com.bubblebobble.levels;
 
 import com.bubblebobble.Constants;
 import com.bubblebobble.contansts.PowerUpType;
+import com.bubblebobble.models.DrunkEnemyModel;
 import com.bubblebobble.models.EnemyModel;
 import com.bubblebobble.models.FastEnemyModel;
 import com.bubblebobble.models.GameModel;
@@ -9,6 +10,7 @@ import com.bubblebobble.models.GhostEnemyModel;
 import com.bubblebobble.models.PlatformModel;
 import com.bubblebobble.models.PowerUpModel;
 import com.bubblebobble.models.WallModel;
+import com.bubblebobble.models.WizardEnemeyModel;
 
 public class Level01 implements Level {
     public int getLevel() {
@@ -73,13 +75,13 @@ public class Level01 implements Level {
     }
 
     private void loadEnemies(GameModel game) {
-        EnemyModel enemy = new EnemyModel(70, 680);
-        game.addEnemy(enemy);
+        // EnemyModel enemy = new EnemyModel(70, 680);
+        // game.addEnemy(enemy);
 
-        EnemyModel enemy2 = new FastEnemyModel(150, 400);
-        game.addEnemy(enemy2);
+        // EnemyModel enemy2 = new FastEnemyModel(150, 400);
+        // game.addEnemy(enemy2);
 
-        EnemyModel enemy3 = new GhostEnemyModel(150, 400);
+        EnemyModel enemy3 = new DrunkEnemyModel(150, 400);
         game.addEnemy(enemy3);
 
         // EnemyModel enemy3 = new EnemyModel(game.getPlayer(), game.getWalls(),

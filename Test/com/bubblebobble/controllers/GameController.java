@@ -56,11 +56,11 @@ public class GameController {
 
             case RandomPowerUp:
                 PowerUpType[] powerUpTypes = new PowerUpType[] {
-                    // PowerUpType.Speed,
-                    // PowerUpType.SuperJump,
-                    // PowerUpType.Invincibility,
-                    // PowerUpType.DoublePoints
-                    PowerUpType.Health
+                        // PowerUpType.Speed,
+                        // PowerUpType.SuperJump,
+                        // PowerUpType.Invincibility,
+                        // PowerUpType.DoublePoints
+                        PowerUpType.Health
                 };
 
                 activatePowerUp(powerUpTypes[random.nextInt(powerUpTypes.length)]);
@@ -69,7 +69,7 @@ public class GameController {
             case KillThemAll:
                 killAllEnemies();
                 break;
-        
+
             default:
                 model.activatePowerUp(new ActivePowerUpModel(powerUpType));
                 break;
@@ -96,8 +96,9 @@ public class GameController {
             }
         }
 
-        // check collected powerups 
-        List<PowerUpModel> collectedPowerUps = model.getPowerUps().stream().filter(pwup -> pwup.collidesWith(player)).toList();
+        // check collected powerups
+        List<PowerUpModel> collectedPowerUps = model.getPowerUps().stream().filter(pwup -> pwup.collidesWith(player))
+                .toList();
 
         if (!collectedPowerUps.isEmpty()) {
             for (PowerUpModel pwup : collectedPowerUps) {
@@ -135,7 +136,6 @@ public class GameController {
     }
 
     private void updatePlayer() {
-        
         // check walls
         for (WallModel wall : model.getWalls()) {
             if (wall.collidesWith(player)) {
@@ -149,7 +149,20 @@ public class GameController {
             }
         }
 
+        // check collisions with projectiles
+        checkProjectileCollisions(player);
+
+        // update player movement
         player.move();
+    }
+
+    private void onHitPlayerByEnemy() {
+        if (!model.hasPowerup(PowerUpType.Invincibility)) {
+            player.decreaseLife();
+            player.setX(Constants.MAX_WIDTH / 3);
+            player.setY(Constants.MAX_HEIGHT * 70 / 100 - Constants.PLATFORM_HEIGHT);
+            model.activatePowerUp(new ActivePowerUpModel(PowerUpType.Invincibility));
+        }
     }
 
     private void checkGravity() {
@@ -201,9 +214,14 @@ public class GameController {
         for (ProjectileModel projectile : model.getProjectiles()) {
             if (projectile.isActive()) {
                 projectile.move();
-                // Puoi aggiungere la logica per disattivare il proiettile se esce dallo schermo
-                // projectile.deactivate() se il proiettile esce dallo schermo
             }
+        }
+
+        // remove deactivated projectiles
+        List<ProjectileModel> deactivatedProjectiles = model.getProjectiles().stream().filter(p -> !p.isActive())
+                .toList();
+        for (ProjectileModel projectile : deactivatedProjectiles) {
+            model.removeProjectile(projectile);
         }
     }
 
@@ -223,7 +241,8 @@ public class GameController {
     public void onKeyPressed(KeyEvent e) {
         int key = e.getKeyCode();
 
-        int currentSpeed = model.hasPowerup(PowerUpType.Speed) ? Constants.PLAYER_BOOSTED_SPEED : Constants.PLAYER_DEFAULT_SPEED;
+        int currentSpeed = model.hasPowerup(PowerUpType.Speed) ? Constants.PLAYER_BOOSTED_SPEED
+                : Constants.PLAYER_DEFAULT_SPEED;
 
         if (key == KeyEvent.VK_LEFT) {
             player.setXSpeed(-currentSpeed);
@@ -268,11 +287,8 @@ public class GameController {
             }
 
             // se il nemico è vivo, il giocatore perde la vita
-            if (!enemy.isFruit() && !enemy.isInBubble() && !model.hasPowerup(PowerUpType.Invincibility)) {
-                player.decreaseLife();
-                player.setX(Constants.MAX_WIDTH / 3);
-                player.setY(Constants.MAX_HEIGHT * 70 / 100 - Constants.PLATFORM_HEIGHT);
-                model.activatePowerUp(new ActivePowerUpModel(PowerUpType.Invincibility));
+            if (!enemy.isFruit() && !enemy.isInBubble()) {
+                onHitPlayerByEnemy();
             }
 
             // se il nemico è in una bolla ma non è un frutto, divennta un frutto
@@ -283,7 +299,7 @@ public class GameController {
             // se non è una bolla ma è un frutto, facciamo sparire il nemico e guadagniamo
             // dei punti
             else if (!enemy.isInBubble() && enemy.isFruit() && !enemy.isEaten()) {
-               eatEnemy(enemy);
+                eatEnemy(enemy);
             }
         }
     }
@@ -297,21 +313,35 @@ public class GameController {
         model.getScore().addPoints(100);
     }
 
-    private void checkProjectileCollisions(EnemyModel enemy) {
+    private void checkProjectileCollisions(CharacterModel entity) {
         List<ProjectileModel> projectiles = model.getProjectiles();
         for (ProjectileModel projectile : projectiles) {
-            if (projectile.collidesWith(enemy) && !enemy.isFruit()) {
-                if (model.hasPowerup(PowerUpType.Instakill)) {
-                    enemy.instaKill();
-                } else {
-                    enemy.kill();
+            boolean shootByPlayer = projectile.getThrower() instanceof PlayerModel;
+
+            if (projectile.collidesWith(entity)) {
+                if (entity instanceof EnemyModel) {
+                    EnemyModel enemy = (EnemyModel) entity;
+                    if (shootByPlayer && !enemy.isFruit()) {
+                        if (model.hasPowerup(PowerUpType.Instakill)) {
+                            enemy.instaKill();
+                        } else {
+                            enemy.kill();
+                        }
+                        projectile.deactivate();
+                    }
+                } else if (entity instanceof PlayerModel) {
+                    boolean shootByEnemy = projectile.getThrower() instanceof EnemyModel;
+                    if (shootByEnemy) {
+                        onHitPlayerByEnemy();
+                        projectile.deactivate();
+                    }
                 }
+            } else if (projectile.isActive()
+                    && !(projectile instanceof BoomerangProjectileModel)
+                    && model.getWalls().stream().anyMatch(wall -> wall.collidesWith(projectile))) {
+                if (shootByPlayer)
+                    model.getScore().addPoints(10);
 
-                projectile.deactivate();
-            }
-
-            else if (projectile.isActive() && model.getWalls().stream().anyMatch(wall -> wall.collidesWith(projectile))) {
-                model.getScore().addPoints(10);
                 projectile.deactivate();
             }
         }
@@ -350,18 +380,6 @@ public class GameController {
         if (enemy.getY() + enemy.getYSpeed() >= Constants.MAX_HEIGHT) {
             enemy.setY(-50);
             enemy.setYSpeed(-Constants.PLAYER_DEFAULT_SPEED);
-        }
-    }
-
-    // TODO: da controllare
-    public void CollisioneEnemy(EnemyModel enemy) {
-        for (PlatformModel platform : model.getPlatforms()) {
-            if (enemy.collidesWith(platform)) {
-                enemy.setColliding(false);
-            } else {
-                enemy.setColliding(true);
-                enemy.setY(enemy.getY() + 1); // Gravità
-            }
         }
     }
 }

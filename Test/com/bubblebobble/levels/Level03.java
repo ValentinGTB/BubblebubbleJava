@@ -2,6 +2,7 @@ package com.bubblebobble.levels;
 
 import com.bubblebobble.Constants;
 import com.bubblebobble.contansts.PowerUpType;
+import com.bubblebobble.models.BaseEnemyModel;
 import com.bubblebobble.models.EnemyModel;
 import com.bubblebobble.models.GameModel;
 import com.bubblebobble.models.PlatformModel;
@@ -49,7 +50,7 @@ public class Level03 implements Level {
 
     private void loadEnemies(GameModel game)
     {
-        EnemyModel enemy = new EnemyModel(70, 680);
+        EnemyModel enemy = new BaseEnemyModel(70, 680);
         game.addEnemy(enemy);
 
         // EnemyModel enemy2 = new EnemyModel(90, 400);

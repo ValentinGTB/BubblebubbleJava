@@ -78,6 +78,11 @@ public class GameModel {
         return this;
     }
 
+    public GameModel removeProjectile(ProjectileModel projectile) {
+        this.projectiles.remove(projectile);
+        return this;
+    }
+
     public List<ProjectileModel> getProjectiles() {
 		return projectiles;
 	}

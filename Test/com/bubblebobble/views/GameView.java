@@ -26,7 +26,8 @@ public class GameView extends JPanel {
     private List<PowerUpView> powerUps;
     private List<PlatformView> platforms;
 
-    private Image projectileImage = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "proiettile.png");
+    private Image bubbleImage = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "proiettile.png");
+    private Image rockImage = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "rock.png");
 
     public GameView(GameModel model) {
         game = model;
@@ -109,7 +110,8 @@ public class GameView extends JPanel {
         List<ProjectileModel> projectiles = game.getProjectiles();
         for (ProjectileModel projectile : projectiles) {
             if (projectile.isActive()) {
-                g.drawImage(projectileImage, projectile.getX(), projectile.getY(), projectile.getWidth(), projectile.getHeight(), null);
+                Image image = ResourceManager.getInstance().getImage(projectile.getName() + ".png");
+                g.drawImage(image, projectile.getX(), projectile.getY(), projectile.getWidth(), projectile.getHeight(), null);
             }
         }
     }

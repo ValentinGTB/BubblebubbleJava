@@ -1,6 +1,8 @@
 package com.bubblebobble;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 import java.awt.*;
 
@@ -13,11 +15,13 @@ public class ResourceManager {
 
     private int totalWalkFrames = 3;
 
+    private HashMap<String, Image> images;
+
     private Random random = new Random();
 
     private ResourceManager() {
         loadEnemyResources();
-        
+        images = new HashMap<>();
     }
     
     private static ResourceManager instance;
@@ -49,6 +53,14 @@ public class ResourceManager {
             return font;
 
         return new Font("Courier New", Font.BOLD, 32);
+    }
+
+    public Image getImage(String filename) {
+        if (!images.containsKey(filename)) {
+            images.put(filename, Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + filename));
+        }
+        
+        return images.get(filename);
     }
 
     private void loadEnemyResources() {

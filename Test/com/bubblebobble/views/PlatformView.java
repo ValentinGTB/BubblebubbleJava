@@ -10,7 +10,7 @@ public class PlatformView {
 
     public PlatformView(PlatformModel model) {
         this.model = model;
-        this.image = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "Platforms/lv" + GameModel.getInstance().getCurrentLevel().getLevel() + ".png");
+        this.image = Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + "Livelli/lv" + GameModel.getInstance().getCurrentLevel().getLevel() + ".png");
     }
 
     public void paintComponent(Graphics g) {
