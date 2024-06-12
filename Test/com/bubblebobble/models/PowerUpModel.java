@@ -1,7 +1,5 @@
 package com.bubblebobble.models;
 
-import java.awt.Image;
-
 import com.bubblebobble.contansts.PowerUpType;
 
 public class PowerUpModel extends EntityModel {

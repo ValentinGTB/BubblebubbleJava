@@ -9,7 +9,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import com.bubblebobble.BubbleBobble;
-import com.bubblebobble.Constants;
 
 public class PauseView extends JPanel {
     private BubbleBobble game;

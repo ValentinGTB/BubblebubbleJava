@@ -1,13 +1,11 @@
 package com.bubblebobble.views;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 
 import javax.swing.JPanel;
 
 import com.bubblebobble.ResourceManager;
-import com.bubblebobble.contansts.PowerUpType;
 import com.bubblebobble.models.PowerUpModel;
 
 public class PowerUpView extends JPanel {

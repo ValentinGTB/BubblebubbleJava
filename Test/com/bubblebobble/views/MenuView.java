@@ -1,4 +1,4 @@
-package com.bubblebobble.menu;
+package com.bubblebobble.views;
 
 import com.bubblebobble.Constants;
 import com.bubblebobble.BubbleBobble;
@@ -8,7 +8,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.*;

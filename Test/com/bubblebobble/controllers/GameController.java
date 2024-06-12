@@ -2,22 +2,16 @@ package com.bubblebobble.controllers;
 
 import com.bubblebobble.BubbleBobble;
 import com.bubblebobble.Constants;
-import com.bubblebobble.contansts.Direction;
 import com.bubblebobble.contansts.Events;
 import com.bubblebobble.contansts.PowerUpType;
 import com.bubblebobble.levels.Level;
-import com.bubblebobble.levels.Level01;
 import com.bubblebobble.levels.LevelManager;
 import com.bubblebobble.models.*;
 import com.bubblebobble.views.*;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 public class GameController {
@@ -79,12 +73,6 @@ public class GameController {
             default:
                 model.activatePowerUp(new ActivePowerUpModel(powerUpType));
                 break;
-        }
-    }
-
-    private void freezeEnemies() {
-        for (EnemyModel enemy : model.getEnemies()) {
-            enemy.instaKill();
         }
     }
 
@@ -231,7 +219,6 @@ public class GameController {
                 entity.setY(0);
             }
 
-            // TODO: avere un metodo specifico nell'entita che gestisca la gravità
             if (isAbovePlatform) {
                 entity.setYSpeed(0);
             } else if (entity instanceof PlayerModel) {

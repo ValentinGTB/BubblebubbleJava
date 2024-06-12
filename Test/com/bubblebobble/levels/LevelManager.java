@@ -1,7 +1,5 @@
 package com.bubblebobble.levels;
 
-import java.util.Optional;
-
 public final class LevelManager {
     public static Level getStartLevel() {
         return new Level01();

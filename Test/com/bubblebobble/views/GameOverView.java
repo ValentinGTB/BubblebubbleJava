@@ -8,7 +8,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import com.bubblebobble.BubbleBobble;
-import com.bubblebobble.models.GameModel;
 
 public class GameOverView extends JPanel {
     private BubbleBobble game;
@@ -16,7 +15,10 @@ public class GameOverView extends JPanel {
     public GameOverView(BubbleBobble game) {
         super();
         this.game = game;
+        prepare();
+    }
 
+    private void prepare() {
         JButton profileButton = new JButton("GAME VOER");
         profileButton.addActionListener(new ActionListener() {
             @Override

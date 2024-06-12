@@ -1,17 +1,11 @@
 package com.bubblebobble.models;
 
-import java.util.Map;
-
 import com.bubblebobble.contansts.Direction;
 
 public class CharacterModel extends EntityModel {
     private int xSpeed = 0;
 	private int ySpeed = 0;
-	
-	private double gravity = 1;
 	private boolean isJumping = false;
-	
-	// TODO: probabilmente non serve, basta la conndizione su xSpeed.
 	private Direction direction = Direction.LEFT;
 
     public CharacterModel() {
@@ -25,9 +19,6 @@ public class CharacterModel extends EntityModel {
 	public void move() {
         moveX(xSpeed);
         moveY(ySpeed);
-
-		// aumenta la velocità di caduta progressivamente
-		// ySpeed += gravity;
 	}
 
 	public void jump(int height) {

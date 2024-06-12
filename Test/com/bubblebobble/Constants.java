@@ -15,7 +15,7 @@ public class Constants {
     public static final int PLAYER_WIDTH = 40;
     public static final int PLAYER_HEIGHT = 40;
     
-    public static final int PLAYER_LIVES = 1;
+    public static final int PLAYER_LIVES = 5;
     public static final int PLAYER_DEFAULT_SPEED = 3;
     public static final int PLAYER_BOOSTED_SPEED = 5;
 

@@ -4,17 +4,11 @@ package com.bubblebobble.views;
 import com.bubblebobble.Constants;
 import com.bubblebobble.ResourceManager;
 import com.bubblebobble.contansts.Events;
-import com.bubblebobble.contansts.PowerUpType;
 import com.bubblebobble.models.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.*;
 
@@ -42,7 +36,7 @@ public class GameView extends JPanel {
             }
         });
 
-        game.addSubscriber(COLLECT_POWERUP, new ActionListener() {
+        game.addSubscriber(Events.COLLECT_POWERUP, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 powerUps = game.getPowerUps().stream().map(PowerUpView::new).toList();

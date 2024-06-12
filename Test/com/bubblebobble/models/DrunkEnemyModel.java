@@ -3,7 +3,6 @@ package com.bubblebobble.models;
 import java.util.List;
 
 import com.bubblebobble.Constants;
-import com.bubblebobble.contansts.PowerUpType;
 
 public class DrunkEnemyModel extends BaseEnemyModel {
 

@@ -1,17 +1,13 @@
 package com.bubblebobble.views;
 
-import com.bubblebobble.Constants;
 import com.bubblebobble.ResourceManager;
 import com.bubblebobble.contansts.Direction;
 import com.bubblebobble.contansts.PowerUpType;
-import com.bubblebobble.controllers.GameController;
 import com.bubblebobble.models.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
-import java.util.List;
 import javax.swing.*;
 
 public class PlayerView extends JPanel {

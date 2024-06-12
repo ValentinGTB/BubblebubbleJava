@@ -5,7 +5,6 @@ import com.bubblebobble.contansts.Direction;
 public abstract class ProjectileModel extends EntityModel {
     private int speed;
     private boolean active;
-    private boolean visible;
     private Direction direction;
     private long activationTime;
     private CharacterModel thrower;
@@ -17,10 +16,6 @@ public abstract class ProjectileModel extends EntityModel {
         this.thrower = thrower;
         this.direction = direction;
         this.activationTime = System.currentTimeMillis();
-    }
-
-    public void setVisible(boolean visible) {
-        this.visible = visible;
     }
 
     public void move() {

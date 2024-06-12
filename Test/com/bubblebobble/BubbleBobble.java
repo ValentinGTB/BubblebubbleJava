@@ -3,8 +3,6 @@ package com.bubblebobble;
 import javax.swing.*;
 
 import com.bubblebobble.controllers.*;
-import com.bubblebobble.menu.MenuView;
-import com.bubblebobble.models.GameModel;
 import com.bubblebobble.views.*;
 
 import java.awt.*;
@@ -12,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
 
 public class BubbleBobble extends JFrame {
 

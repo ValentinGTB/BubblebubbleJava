@@ -1,5 +1,4 @@
 package com.bubblebobble.views;
-import com.bubblebobble.Constants;
 import com.bubblebobble.ResourceManager;
 import com.bubblebobble.models.*;
 import java.awt.*;

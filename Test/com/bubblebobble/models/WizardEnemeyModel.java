@@ -1,7 +1,6 @@
 package com.bubblebobble.models;
 
 import com.bubblebobble.Constants;
-import com.bubblebobble.contansts.PowerUpType;
 
 public class WizardEnemeyModel extends BaseEnemyModel {
     public WizardEnemeyModel(int x, int y) {

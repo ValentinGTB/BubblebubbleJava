@@ -2,16 +2,12 @@ package com.bubblebobble.levels;
 
 import com.bubblebobble.Constants;
 import com.bubblebobble.contansts.PowerUpType;
-import com.bubblebobble.models.DrunkEnemyModel;
 import com.bubblebobble.models.EnemyModel;
-import com.bubblebobble.models.FastEnemyModel;
 import com.bubblebobble.models.GameModel;
-import com.bubblebobble.models.GhostEnemyModel;
 import com.bubblebobble.models.HideonEnemyModel;
 import com.bubblebobble.models.PlatformModel;
 import com.bubblebobble.models.PowerUpModel;
 import com.bubblebobble.models.WallModel;
-import com.bubblebobble.models.WizardEnemeyModel;
 
 public class Level01 implements Level {
     public int getLevel() {

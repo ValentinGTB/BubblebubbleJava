@@ -7,14 +7,12 @@ import com.bubblebobble.models.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.*;
 
 public class EnemyView extends JComponent {
     private EnemyModel model;
 
-    private Image[] fruitImages;
     private Image currentFruitImage;
     private Image bubbleImage = ResourceManager.getInstance().getImage("pallanemica.png");
 

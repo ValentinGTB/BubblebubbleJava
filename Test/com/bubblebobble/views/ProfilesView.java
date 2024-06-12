@@ -9,12 +9,9 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import com.bubblebobble.BubbleBobble;
-import com.bubblebobble.Constants;
 import com.bubblebobble.ProfilesManager;
 import com.bubblebobble.models.GameModel;
 import com.bubblebobble.models.ProfileModel;
-
-import java.io.File;
 
 public class ProfilesView extends JPanel {
     private BubbleBobble game;
@@ -27,6 +24,9 @@ public class ProfilesView extends JPanel {
 
         // aggiungi i profili alla schermata
         ProfilesManager.getInstance().getProfiles().stream().forEach(profile -> addProfile(profile));
+
+        // aggiungi la classifica
+        add(new ClassificationView());
     }
 
     private void addProfile(ProfileModel profile) {

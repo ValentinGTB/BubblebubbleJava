@@ -15,7 +15,10 @@ public class EndGameView extends JPanel {
     public EndGameView(BubbleBobble game) {
         super();
         this.game = game;
+        prepare();
+    }
 
+    private void prepare() {
         JButton profileButton = new JButton("END GAME");
         profileButton.addActionListener(new ActionListener() {
             @Override

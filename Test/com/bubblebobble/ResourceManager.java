@@ -1,9 +1,7 @@
 package com.bubblebobble;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 import java.awt.*;
 
 public class ResourceManager {
