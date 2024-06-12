@@ -26,7 +26,7 @@ public class ResourceManager {
         // Carica il font personalizzato da un file TTF
         Font font = null;
         try {
-            font = Font.createFont(Font.TRUETYPE_FONT, new File(Constants.BaseURL + fontName));
+            font = Font.createFont(Font.TRUETYPE_FONT, new File(Constants.BASE_URL + fontName));
             font = font.deriveFont(Font.BOLD, 16); // Imposta la dimensione del font
         } catch (IOException | FontFormatException e) {
             e.printStackTrace();
@@ -46,7 +46,7 @@ public class ResourceManager {
 
     public Image getImage(String filename) {
         if (!images.containsKey(filename)) {
-            images.put(filename, Toolkit.getDefaultToolkit().getImage(Constants.BaseURL + filename));
+            images.put(filename, Toolkit.getDefaultToolkit().getImage(Constants.BASE_URL + filename));
         }
         
         return images.get(filename);

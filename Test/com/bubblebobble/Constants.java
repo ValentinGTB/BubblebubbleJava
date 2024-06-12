@@ -1,37 +1,12 @@
 package com.bubblebobble;
 
-import java.awt.*;
-import javax.imageio.ImageIO;
-
-
 public class Constants {
-
+    // === Common
     public static final String FONT_NAME = "arcade-legacy.ttf";
 
-    public static Image immagineBottoneInizia;
-    public static Image immagineBottoneEsci;
-
-    //COSTANTI PER LE IMMAGINI
-
-    public static String BaseURL = "Test/com/bubblebobble/views/img/";
-    //Percorso per l'immagine di start nel menu
-    public static String IMMAGINESTART =  BaseURL + "start.png";
-    public static String IMMAGINESTART2 =  BaseURL + "start2.png";
-
+    public static String BASE_URL = "Test/com/bubblebobble/views/img/";
+    public static String PROFILES_URL = "Test/com/bubblebobble/profiles/";
     
-    //Mantieni menu aperto fin quando è true
-    //Quando si avvia il gioco, questa viene messa a false
-    public static boolean MENUAPERTO = true;
-    
-    public static boolean INGAMEMENUAPERTO = false;
-    public static boolean isGamePaused = false;
-    
-
-
-
-
-
-
     // === Window
     public static int MAX_WIDTH = 1000;
     public static int MAX_HEIGHT = 800;
@@ -40,7 +15,7 @@ public class Constants {
     public static final int PLAYER_WIDTH = 40;
     public static final int PLAYER_HEIGHT = 40;
     
-    public static final int PLAYER_LIVES = 5;
+    public static final int PLAYER_LIVES = 1;
     public static final int PLAYER_DEFAULT_SPEED = 3;
     public static final int PLAYER_BOOSTED_SPEED = 5;
 

@@ -29,6 +29,7 @@ public class GameView extends JPanel {
     public GameView(GameModel model) {
         game = model;
         player = new PlayerView(model.getPlayer());
+        setBackground(Color.BLACK);
         setupNotificationn();
     }
 
@@ -51,17 +52,15 @@ public class GameView extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (!Constants.isGamePaused) {
-            drawWalls(g);
-            drawPlatforms(g);
-            drawPowerUps(g);
-            drawScore(g);
+        drawWalls(g);
+        drawPlatforms(g);
+        drawPowerUps(g);
+        drawScore(g);
 
-            drawEnemies(g);
-            drawPlayer(g);
+        drawEnemies(g);
+        drawPlayer(g);
 
-            drawProjectiles(g);
-        }
+        drawProjectiles(g);
     }
 
     public void onChangeLevel() {

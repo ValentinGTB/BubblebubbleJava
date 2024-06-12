@@ -1,5 +1,6 @@
 package com.bubblebobble.controllers;
 
+import com.bubblebobble.BubbleBobble;
 import com.bubblebobble.Constants;
 import com.bubblebobble.contansts.Direction;
 import com.bubblebobble.contansts.PowerUpType;
@@ -20,13 +21,16 @@ import java.util.Random;
 
 public class GameController {
     private GameView game;
+    private boolean isOver;
     private GameModel model;
     private PlayerModel player;
+    private BubbleBobble window;
     private Random random = new Random();
 
-    public GameController() {
+    public GameController(BubbleBobble game) {
         model = GameModel.getInstance();
         player = model.getPlayer();
+        window = game;
     }
 
     public GameView getGame() {
@@ -38,6 +42,7 @@ public class GameController {
     }
 
     public void startGame() {
+        isOver = false;
         game = new GameView(model);
         changeLevel(LevelManager.getStartLevel());
     }
@@ -130,7 +135,7 @@ public class GameController {
             if (nextLevel != null) {
                 changeLevel(nextLevel);
             } else {
-                Constants.isGamePaused = true;
+                onEndGame();
             }
         }
     }
@@ -162,6 +167,34 @@ public class GameController {
             player.setX(Constants.MAX_WIDTH / 3);
             player.setY(Constants.MAX_HEIGHT * 70 / 100 - Constants.PLATFORM_HEIGHT);
             model.activatePowerUp(new ActivePowerUpModel(PowerUpType.Invincibility));
+        }
+
+        if (player.getLives() <= 0) {
+            onGameOver();
+        }
+    }
+
+    private void onEndGame() {
+        if (!isOver) {
+            // incrementa il numero di game vinti
+            if (model.getProfile() != null)
+                model.getProfile().setWonGams(model.getProfile().getWonGams() + 1);
+
+            model.save();
+            isOver = true;
+            window.showEndGame();
+        }
+    }
+
+    private void onGameOver() {
+        if (!isOver) {
+            // incrementa il numero di game persi
+            if (model.getProfile() != null)
+                model.getProfile().setLostGames(model.getProfile().getLostGames() + 1);
+
+            model.save();
+            isOver = true;
+            window.showGameOver();
         }
     }
 

@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "BubbleBobble",
+            "request": "launch",
+            "mainClass": "com.bubblebobble.BubbleBobble",
+            "projectName": "Test"
+        },
+        {
+            "type": "java",
             "name": "Main",
             "request": "launch",
             "mainClass": "com.bubblebobble.Main",

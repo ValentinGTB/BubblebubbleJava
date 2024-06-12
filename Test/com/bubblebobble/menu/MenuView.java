@@ -1,7 +1,7 @@
 package com.bubblebobble.menu;
 
 import com.bubblebobble.Constants;
-import com.bubblebobble.Main;
+import com.bubblebobble.BubbleBobble;
 import com.bubblebobble.ResourceManager;
 
 import java.awt.Color;
@@ -13,34 +13,33 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.*;
 
-public class Menu extends JPanel {
-	JButton button = new JButton();
-	JButton buttonExit = new JButton();
+public class MenuView extends JPanel {
+	JButton startButton = new JButton();
+	JButton exitButton = new JButton();
 
-	public Menu() {
-		button.setIcon(new ImageIcon(ResourceManager.getInstance().getImage("imageButtonStart.png")));
-		buttonExit.setIcon(new ImageIcon(ResourceManager.getInstance().getImage("exitButtonDef.png")));
+	public MenuView(BubbleBobble game) {
+		startButton.setIcon(new ImageIcon(ResourceManager.getInstance().getImage("imageButtonStart.png")));
+		exitButton.setIcon(new ImageIcon(ResourceManager.getInstance().getImage("exitButtonDef.png")));
 
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-		button.setBackground(Color.BLACK);
-		button.setPreferredSize(new Dimension(0, 56)); // Cambia height
-		button.setMaximumSize(new Dimension(100, 0)); // Cambia width
+		startButton.setBackground(Color.BLACK);
+		startButton.setPreferredSize(new Dimension(0, 56)); // Cambia height
+		startButton.setMaximumSize(new Dimension(100, 0)); // Cambia width
 
-		buttonExit.setBackground(Color.black);
+		exitButton.setBackground(Color.black);
 
 		add(Box.createVerticalStrut(200)); // Aggiungi uno spessore invisibile tra il bordo del pannello e il pulsante
 		add(Box.createHorizontalStrut(Constants.MAX_WIDTH / 2 - 290));
 
-		button.addMouseListener(new MouseAdapter() {
+		startButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				SwingUtilities.invokeLater(Main::new);
-				Constants.MENUAPERTO = false;
+				game.showProfiles();
 			}
 		});
 
-		buttonExit.addMouseListener(new MouseAdapter() {
+		exitButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				System.exit(0);
@@ -50,9 +49,9 @@ public class Menu extends JPanel {
 		setBackground(Color.black);
 
 		add(Box.createVerticalGlue());
-		add(button);
+		add(startButton);
 		add(Box.createVerticalGlue());
-		add(buttonExit);
+		add(exitButton);
 		add(Box.createVerticalGlue());
 
 		setVisible(true);

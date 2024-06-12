@@ -16,9 +16,10 @@ import com.bubblebobble.contansts.PowerUpType;
 import com.bubblebobble.levels.Level;
 
 public class GameModel {
+    private Level currentLevel;
     private ScoreModel score;
     private PlayerModel player;
-    private Level currentLevel;
+    private ProfileModel profile;
 
     private ArrayList<WallModel> walls;
     private ArrayList<EnemyModel> enemies;
@@ -70,6 +71,31 @@ public class GameModel {
     // === Player
     public PlayerModel getPlayer() {
         return this.player;
+    }
+
+    public ProfileModel getProfile() {
+        return this.profile;
+    }
+
+    public void setProfile(ProfileModel profile) {
+        this.profile = profile;
+    }
+
+    public void save() {
+        if (this.profile == null) {
+            return;
+        }
+
+        // aggiorna lo score dell'utente
+        if (score.getCurrentScore() > profile.getHighestScore()) {
+            profile.setHighestScore(score.getCurrentScore());
+        }
+
+        try {
+            profile.save();
+        } catch (Exception e) {
+            System.out.println("Impossibile salvare le statistiche del giocatore.");
+        }
     }
 
     // === Projectiles

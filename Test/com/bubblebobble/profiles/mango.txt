@@ -1,0 +1,5 @@
+nickname=Mango
+avatar=Mango.png
+wonGames=4
+lostGames=2
+highestScore=1680

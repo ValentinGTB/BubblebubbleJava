@@ -72,7 +72,7 @@ public class Level01 implements Level {
         // game.addPowerUp(new PowerUpModel(PowerUpType.RandomPowerUp, 150, 680, 40, 40));
 
 
-        game.addPowerUp(new PowerUpModel(PowerUpType.Instakill, 250, 700, 40, 40));
+        game.addPowerUp(new PowerUpModel(PowerUpType.SuperJump, 250, 700, 40, 40));
     }
 
     private void loadEnemies(GameModel game) {
