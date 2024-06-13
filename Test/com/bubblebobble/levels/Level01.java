@@ -5,7 +5,6 @@ import com.bubblebobble.contansts.PowerUpType;
 import com.bubblebobble.models.BaseEnemyModel;
 import com.bubblebobble.models.EnemyModel;
 import com.bubblebobble.models.GameModel;
-import com.bubblebobble.models.HideonEnemyModel;
 import com.bubblebobble.models.PlatformModel;
 import com.bubblebobble.models.PowerUpModel;
 import com.bubblebobble.models.WallModel;
