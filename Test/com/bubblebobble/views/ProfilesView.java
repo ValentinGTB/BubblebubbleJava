@@ -6,8 +6,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
+ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
@@ -38,7 +37,7 @@ public class ProfilesView extends JPanel {
         titleLabel.setFont(new Font("Monospaced", Font.BOLD, 24));
         titleLabel.setForeground(Color.WHITE);
         topPanel.add(titleLabel);
-        titleLabel.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0));
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(90, 0, 0, 0));
 
         // Aggiungi l'etichetta al BorderLayout.NORTH del JPanel principale
         add(topPanel, BorderLayout.NORTH);

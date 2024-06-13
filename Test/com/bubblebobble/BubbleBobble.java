@@ -97,7 +97,7 @@ public class BubbleBobble extends JFrame {
     public void pause() {
         if (pausePanel == null) {
             pausePanel = new PauseView(this);
-            add(pausePanel, BorderLayout.WEST);
+            add(pausePanel, BorderLayout.CENTER);
         }
 
         // mostra il gioco in pausa

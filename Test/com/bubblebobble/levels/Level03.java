@@ -2,9 +2,10 @@ package com.bubblebobble.levels;
 
 import com.bubblebobble.Constants;
 import com.bubblebobble.contansts.PowerUpType;
-import com.bubblebobble.models.BaseEnemyModel;
 import com.bubblebobble.models.EnemyModel;
+import com.bubblebobble.models.FastEnemyModel;
 import com.bubblebobble.models.GameModel;
+import com.bubblebobble.models.GhostEnemyModel;
 import com.bubblebobble.models.PlatformModel;
 import com.bubblebobble.models.PowerUpModel;
 import com.bubblebobble.models.WallModel;
@@ -28,8 +29,10 @@ public class Level03 implements Level {
 
     private void loadPlatforms(GameModel game) {
         // piattaforma
-        game.addPlatform(new PlatformModel(Constants.MAX_WIDTH - Constants.PLATFORM_WIDTH * 10 - Constants.PLATFORM_WIDTH, Constants.MAX_HEIGHT * 80 / 100, 40 * 10,
-                Constants.PLATFORM_HEIGHT));
+        game.addPlatform(new PlatformModel(100, Constants.MAX_HEIGHT - Constants.PLATFORM_HEIGHT * 2, 200, Constants.PLATFORM_HEIGHT));
+        game.addPlatform(new PlatformModel(400, Constants.MAX_HEIGHT - Constants.PLATFORM_HEIGHT * 5, 200, Constants.PLATFORM_HEIGHT));
+        game.addPlatform(new PlatformModel(700, Constants.MAX_HEIGHT - Constants.PLATFORM_HEIGHT * 8, 200, Constants.PLATFORM_HEIGHT));
+        game.addPlatform(new PlatformModel(1000, Constants.MAX_HEIGHT - Constants.PLATFORM_HEIGHT * 11, 200, Constants.PLATFORM_HEIGHT));
     }
 
     private void loadPowerUps(GameModel game)
@@ -45,13 +48,16 @@ public class Level03 implements Level {
         // game.addPowerUp(new PowerUpModel(PowerUpType.FastShoot, 200, 650, 40, 40));
         // game.addPowerUp(new PowerUpModel(PowerUpType.Health, 150, 680, 40, 40));
         // game.addPowerUp(new PowerUpModel(PowerUpType.Invincibility, 150, 680, 40, 40));
-        game.addPowerUp(new PowerUpModel(PowerUpType.Random, 150, 680, 40, 40));
+        game.addPowerUp(new PowerUpModel(PowerUpType.Speed, 600, 500, 40, 40));
+        game.addPowerUp(new PowerUpModel(PowerUpType.SuperJump, 900, 400, 40, 40));
     }
 
     private void loadEnemies(GameModel game)
     {
-        EnemyModel enemy = new BaseEnemyModel(70, 680);
+        EnemyModel enemy = new GhostEnemyModel(800, 300);
         game.addEnemy(enemy);
+
+    
 
         // EnemyModel enemy2 = new EnemyModel(90, 400);
         // game.addEnemy(enemy2);

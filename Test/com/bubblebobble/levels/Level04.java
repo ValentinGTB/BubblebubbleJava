@@ -5,6 +5,7 @@ import com.bubblebobble.contansts.PowerUpType;
 import com.bubblebobble.models.BaseEnemyModel;
 import com.bubblebobble.models.EnemyModel;
 import com.bubblebobble.models.GameModel;
+import com.bubblebobble.models.HideonEnemyModel;
 import com.bubblebobble.models.PlatformModel;
 import com.bubblebobble.models.PowerUpModel;
 import com.bubblebobble.models.WallModel;
@@ -28,8 +29,10 @@ public class Level04 implements Level {
 
     private void loadPlatforms(GameModel game) {
         // piattaforma
-        game.addPlatform(new PlatformModel(Constants.MAX_WIDTH - Constants.PLATFORM_WIDTH * 10 - Constants.PLATFORM_WIDTH, Constants.MAX_HEIGHT * 80 / 100, 40 * 10,
-                Constants.PLATFORM_HEIGHT));
+        game.addPlatform(new PlatformModel(150, Constants.MAX_HEIGHT - Constants.PLATFORM_HEIGHT * 3, 200, Constants.PLATFORM_HEIGHT));
+        game.addPlatform(new PlatformModel(450, Constants.MAX_HEIGHT - Constants.PLATFORM_HEIGHT * 6, 200, Constants.PLATFORM_HEIGHT));
+        game.addPlatform(new PlatformModel(750, Constants.MAX_HEIGHT - Constants.PLATFORM_HEIGHT * 9, 200, Constants.PLATFORM_HEIGHT));
+        game.addPlatform(new PlatformModel(1050, Constants.MAX_HEIGHT - Constants.PLATFORM_HEIGHT * 12, 200, Constants.PLATFORM_HEIGHT));
     }
 
     private void loadPowerUps(GameModel game)
@@ -45,7 +48,8 @@ public class Level04 implements Level {
         // game.addPowerUp(new PowerUpModel(PowerUpType.FastShoot, 200, 650, 40, 40));
         // game.addPowerUp(new PowerUpModel(PowerUpType.Health, 150, 680, 40, 40));
         // game.addPowerUp(new PowerUpModel(PowerUpType.Invincibility, 150, 680, 40, 40));
-        game.addPowerUp(new PowerUpModel(PowerUpType.Random, 150, 680, 40, 40));
+        game.addPowerUp(new PowerUpModel(PowerUpType.Freeze, 500, 600, 40, 40));
+        game.addPowerUp(new PowerUpModel(PowerUpType.Health, 850, 450, 40, 40));
     }
 
     private void loadEnemies(GameModel game)
@@ -53,8 +57,8 @@ public class Level04 implements Level {
         EnemyModel enemy = new BaseEnemyModel(70, 680);
         game.addEnemy(enemy);
 
-        // EnemyModel enemy2 = new EnemyModel(90, 400);
-        // game.addEnemy(enemy2);
+        EnemyModel enemy2 = new HideonEnemyModel(700, 350);
+        game.addEnemy(enemy2);
 
         // EnemyModel enemy3 = new EnemyModel(game.getPlayer(), game.getWalls(), game.getPlatforms(), 100, 300);
         // game.addEnemy(enemy3);

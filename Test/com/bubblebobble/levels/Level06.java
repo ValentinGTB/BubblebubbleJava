@@ -3,6 +3,7 @@ package com.bubblebobble.levels;
 import com.bubblebobble.Constants;
 import com.bubblebobble.contansts.PowerUpType;
 import com.bubblebobble.models.BaseEnemyModel;
+import com.bubblebobble.models.DrunkEnemyModel;
 import com.bubblebobble.models.EnemyModel;
 import com.bubblebobble.models.GameModel;
 import com.bubblebobble.models.PlatformModel;
@@ -28,8 +29,9 @@ public class Level06 implements Level {
 
     private void loadPlatforms(GameModel game) {
         // piattaforma
-        game.addPlatform(new PlatformModel(Constants.MAX_WIDTH - Constants.PLATFORM_WIDTH * 10 - Constants.PLATFORM_WIDTH, Constants.MAX_HEIGHT * 80 / 100, 40 * 10,
-                Constants.PLATFORM_HEIGHT));
+        game.addPlatform(new PlatformModel(100, Constants.MAX_HEIGHT - Constants.PLATFORM_HEIGHT * 4, 300, Constants.PLATFORM_HEIGHT));
+        game.addPlatform(new PlatformModel(100, Constants.MAX_HEIGHT - Constants.PLATFORM_HEIGHT * 8, 300, Constants.PLATFORM_HEIGHT));
+        game.addPlatform(new PlatformModel(100, Constants.MAX_HEIGHT - Constants.PLATFORM_HEIGHT * 12, 300, Constants.PLATFORM_HEIGHT));
     }
 
     private void loadPowerUps(GameModel game)
@@ -45,13 +47,15 @@ public class Level06 implements Level {
         // game.addPowerUp(new PowerUpModel(PowerUpType.FastShoot, 200, 650, 40, 40));
         // game.addPowerUp(new PowerUpModel(PowerUpType.Health, 150, 680, 40, 40));
         // game.addPowerUp(new PowerUpModel(PowerUpType.Invincibility, 150, 680, 40, 40));
-        game.addPowerUp(new PowerUpModel(PowerUpType.Random, 150, 680, 40, 40));
+        game.addPowerUp(new PowerUpModel(PowerUpType.Freeze, 500, 500, 40, 40));
+        game.addPowerUp(new PowerUpModel(PowerUpType.Health, 900, 400, 40, 40));
     }
 
     private void loadEnemies(GameModel game)
     {
-        EnemyModel enemy = new BaseEnemyModel(70, 680);
+        EnemyModel enemy = new DrunkEnemyModel(70, 680);
         game.addEnemy(enemy);
+
 
         // EnemyModel enemy2 = new EnemyModel(90, 400);
         // game.addEnemy(enemy2);

@@ -12,7 +12,7 @@ public class GhostEnemyModel extends EnemyModel {
     protected void onUpdate() {
         if (isFruit()) {
             setXSpeed(0);
-            setYSpeed(0);
+            setYSpeed(1);
             return;
         }
         

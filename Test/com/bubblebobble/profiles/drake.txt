@@ -1,5 +1,5 @@
 nickname=Drake
 avatar=Drake.png
-wonGames=3
-lostGames=10
-highestScore=1700
+wonGames=5
+lostGames=11
+highestScore=2920

@@ -56,11 +56,11 @@ public class GameController {
 
             case Random:
                 PowerUpType[] powerUpTypes = new PowerUpType[] {
-                        // PowerUpType.Speed,
-                        // PowerUpType.SuperJump,
-                        // PowerUpType.Invincibility,
-                        // PowerUpType.DoublePoints
-                        PowerUpType.Health
+                        PowerUpType.Speed,
+                        PowerUpType.SuperJump,
+                        PowerUpType.Invincibility,
+                        PowerUpType.DoublePoints
+                        //PowerUpType.Health
                 };
 
                 activatePowerUp(powerUpTypes[random.nextInt(powerUpTypes.length)]);

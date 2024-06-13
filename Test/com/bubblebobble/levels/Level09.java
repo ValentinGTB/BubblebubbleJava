@@ -28,8 +28,9 @@ public class Level09 implements Level {
 
     private void loadPlatforms(GameModel game) {
         // piattaforma
-        game.addPlatform(new PlatformModel(Constants.MAX_WIDTH - Constants.PLATFORM_WIDTH * 10 - Constants.PLATFORM_WIDTH, Constants.MAX_HEIGHT * 80 / 100, 40 * 10,
-                Constants.PLATFORM_HEIGHT));
+        game.addPlatform(new PlatformModel(100, Constants.MAX_HEIGHT - Constants.PLATFORM_HEIGHT * 3, 300, Constants.PLATFORM_HEIGHT));
+        game.addPlatform(new PlatformModel(500, Constants.MAX_HEIGHT - Constants.PLATFORM_HEIGHT * 6, 300, Constants.PLATFORM_HEIGHT));
+        game.addPlatform(new PlatformModel(900, Constants.MAX_HEIGHT - Constants.PLATFORM_HEIGHT * 9, 300, Constants.PLATFORM_HEIGHT));
     }
 
     private void loadPowerUps(GameModel game)
@@ -45,7 +46,8 @@ public class Level09 implements Level {
         // game.addPowerUp(new PowerUpModel(PowerUpType.FastShoot, 200, 650, 40, 40));
         // game.addPowerUp(new PowerUpModel(PowerUpType.Health, 150, 680, 40, 40));
         // game.addPowerUp(new PowerUpModel(PowerUpType.Invincibility, 150, 680, 40, 40));
-        game.addPowerUp(new PowerUpModel(PowerUpType.Random, 150, 680, 40, 40));
+        game.addPowerUp(new PowerUpModel(PowerUpType.Health, 350, 500, 40, 40));
+        game.addPowerUp(new PowerUpModel(PowerUpType.Speed, 700, 400, 40, 40));
     }
 
     private void loadEnemies(GameModel game)
