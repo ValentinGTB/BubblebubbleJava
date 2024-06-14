@@ -11,7 +11,10 @@ import javax.swing.ImageIcon;
 
 import com.bubblebobble.BubbleBobble;
 import com.bubblebobble.Constants;
-
+/**
+ * Questa classe rappresenta il pannello visualizzato alla fine del gioco.
+ * Mostra un'immagine di fine gioco e un pulsante per chiudere l'applicazione.
+ */
 public class EndGameView extends JPanel {
     private BubbleBobble game;
 
@@ -21,7 +24,10 @@ public class EndGameView extends JPanel {
         prepare();
         setBackground(Color.BLACK);
     }
-
+    /**
+     * Prepara il pannello aggiungendo un pulsante con un'icona di endgame,
+     * Il pulsante è quello per chiudere il gioco.
+     */
     private void prepare() {
         JButton EndGameButton = new JButton();
         EndGameButton.setIcon(new ImageIcon(Constants.BASE_URL + "/EndGame.png")); // Sostituisci con il percorso reale del tuo file

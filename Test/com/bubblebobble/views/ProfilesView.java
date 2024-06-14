@@ -19,10 +19,19 @@ import com.bubblebobble.BubbleBobble;
 import com.bubblebobble.ProfilesManager;
 import com.bubblebobble.models.GameModel;
 import com.bubblebobble.models.ProfileModel;
-
+/**
+ * Questa classe permette di visualizzare il menu per la selezione dei profili.
+ * Estende JPanel e organizza l'interfaccia utilizzando BorderLayout.
+ * Include un titolo, una lista di profili selezionabili e una classifica.
+ */
 public class ProfilesView extends JPanel {
     private BubbleBobble game;
-
+    /**
+     * Costruttore della classe ProfilesView.
+     * Inizializza la vista dei profili con il gioco specificato.
+     *
+     * @param game L'istanza del gioco Bubble Bobble.
+     */
     public ProfilesView(BubbleBobble game) {
         super(new BorderLayout()); // Layout BorderLayout per organizzare i componenti
         this.game = game;
@@ -53,7 +62,12 @@ public class ProfilesView extends JPanel {
         // Aggiungi la classifica alla fine usando il metodo esistente
         addClassification();
     }
-
+    /**
+     * Aggiunge un pulsante di selezione per un profilo specificato nel pannello dei profili.
+     *
+     * @param profile Il profilo da aggiungere.
+     * @param profilesPanel Il pannello in cui aggiungere il pulsante del profilo.
+     */
     private void addProfile(ProfileModel profile, JPanel profilesPanel) {
         JButton profileButton = new JButton();
         profileButton.setLayout(new BorderLayout()); // Utilizza BorderLayout per posizionare l'immagine sopra il testo
@@ -84,7 +98,9 @@ public class ProfilesView extends JPanel {
     
         profilesPanel.add(profileButton);
     }
-
+    /**
+     * Visualizza la classifica alla fine dei profili.
+     */
     private void addClassification() {
         // Aggiungi la classifica usando il metodo esistente senza modificarla
         ClassificationView classificationView = new ClassificationView();

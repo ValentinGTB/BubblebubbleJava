@@ -9,7 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 import javax.swing.*;
-
+/**
+ * Questa classe rappresenta la visualizzazione del nemico.
+ * Gestisce l'animazione, il disegno del nemico, e la gestione dello stato del nemico (in bolla, frutta...).
+ */
 public class EnemyView extends JComponent {
     private EnemyModel model;
 
@@ -20,7 +23,12 @@ public class EnemyView extends JComponent {
     private int currentFrame = 0;
     private int totalFrames = 3;
     private int animationDelay = 200;
-
+    /**
+     * Costruttore di EnemyView.
+     * Inizializza la visualizzazoine del nemico con il modello specificato.
+     *
+     * @param enemy Il modello del nemico da visualizzare.
+     */
     public EnemyView(EnemyModel enemy) {
         this.model = enemy;
 
@@ -33,21 +41,34 @@ public class EnemyView extends JComponent {
 
         animationTimer.start();
     }
-
+    /**
+     * Aggiorna il frame corrente dell'animazione e richiede la ridisegnazione del componente.
+     */
     private void updateFrame() {
         currentFrame = (currentFrame + 1) % totalFrames; // Cambia il frame
         repaint(); // Ridisegna il componente
     }
-
+    /**
+     * Ottiene l'immagine della frutta corrispondente all'ID specificato.
+     *
+     * @param fruitId L'ID della frutta.
+     * @return L'immagine della frutta.
+     */
     private Image getFruitImage(int fruitId) {
         return ResourceManager.getInstance().getImage("Frutta/Cibo-" + fruitId + ".png");
     }
-
+    /**
+     * Seleziona casualmente l'immagine di un frutto da mostrare quando il nemico viene trasformato in frutta.
+     */
     private void selectRandomFruit() {
         Random random = new Random();
         currentFruitImage = getFruitImage(1 + random.nextInt(29));
     }
-
+    /**
+     * Ottiene l'immagine appropriata per il tipo di nemico.
+     *
+     * @return L'immagine del nemico.
+     */
     private Image getImage() {
         ResourceManager resources = ResourceManager.getInstance();
         if (model instanceof WizardEnemeyModel) {

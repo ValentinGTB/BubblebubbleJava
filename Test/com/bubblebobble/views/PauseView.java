@@ -15,10 +15,17 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import com.bubblebobble.BubbleBobble;
-
+/**
+ * Questa classe rappresenta la visualizzazione della schermata di pausa nel gioco Bubble Bobble.
+ * Estende JPanel e fornisce i pulsanti per continuare il gioco o uscire.
+ */
 public class PauseView extends JPanel {
     private BubbleBobble game;
-
+    /**
+     * Costruttore della classe PauseView.
+     *
+     * @param game L'istanza di {@code BubbleBobble} ossia il main
+     */
     public PauseView(BubbleBobble game) {
         super();
         this.game = game;
@@ -34,7 +41,12 @@ public class PauseView extends JPanel {
         addResumeButton(gbc);
         addExitButton(gbc);
     }
-
+    /**
+     * Aggiunge il pulsante "Continua" al menu di pausa.
+     * Il pulsante permette di riprendere il gioco quando premuto.
+     *
+     * @param gbc L'oggetto GridBagConstraints utilizzato per posizionare il pulsante.
+     */
     private void addResumeButton(GridBagConstraints gbc) {
         JButton resumeButton = new JButton("Continua");
         resumeButton.addActionListener(new ActionListener() {
@@ -60,7 +72,12 @@ public class PauseView extends JPanel {
         gbc.anchor = GridBagConstraints.CENTER;
         add(resumeButton, gbc);
     }
-
+    /**
+     * Aggiunge il pulsante "Esci" al menu di pausa.
+     * Il pulsante permette di uscire dal gioco quando premuto.
+     *
+     * @param gbc L'oggetto GridBagConstraints utilizzato per posizionare il pulsante.
+     */
     private void addExitButton(GridBagConstraints gbc) {
         JButton exitButton = new JButton("Esci");
         exitButton.addActionListener(new ActionListener() {

@@ -1,13 +1,16 @@
 package com.bubblebobble.models;
 
+import com.bubblebobble.ResourceManager;
 import java.awt.Image;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import com.bubblebobble.ResourceManager;
-
+/**
+ * Questa classe rappresenta il profilo di un giocatore con informazioni come
+ * nickname, avatar, partite vinte e perse, punteggio più alto e file di salvataggio.
+ */
 public class ProfileModel {
     private String avatar;
     private int wonGames;

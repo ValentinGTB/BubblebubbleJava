@@ -11,7 +11,13 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.*;
-
+/**
+ * La classe {@code GameView} gestisce la visualizzazione del gioco.
+ * Collegata ad altre classi {@code view} si occupa di richiamare il metodo
+ * {@code paintComponent()} di tutti gli elementi.
+ * Estende {@code JPanel} e si occupa di disegnare i vari elementi
+ * come muri, nemici, giocatore...
+ */
 public class GameView extends JPanel {
     private GameModel game;
     private PlayerView player;
@@ -27,7 +33,9 @@ public class GameView extends JPanel {
         setBackground(Color.BLACK);
         setupNotificationn();
     }
-
+    /**
+     * Aggiunge listener per l'eliminazione dei nemici e quando vengono raccolti i power-up
+     */
     private void setupNotificationn() {
         game.addSubscriber(Events.REMOVE_ENEMY, new ActionListener() {
             @Override
@@ -43,7 +51,9 @@ public class GameView extends JPanel {
             }
         });
     }
-
+    /**
+     * Se il gioco non è in pausa, disegna i vari componenti richiamando i metodi necessari
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -61,7 +71,9 @@ public class GameView extends JPanel {
     public void onChangeLevel() {
         update();
     }
-
+    /**
+     * Ricrea le view per elementi "di base" del gioco come muri, nemici, power-up, piattaforme.
+     */
     private void update() {
         // ricrea le view
         walls = game.getWalls().stream().map(WallView::new).toList();
@@ -69,21 +81,37 @@ public class GameView extends JPanel {
         powerUps = game.getPowerUps().stream().map(PowerUpView::new).toList();
         platforms = game.getPlatforms().stream().map(PlatformView::new).toList();
     }
-
+    /**
+     * Disegna i muri
+     *
+     * @param g il contesto grafico in cui disegnare
+     */
     private void drawWalls(Graphics g) {
         walls.forEach(wall -> wall.paintComponent(g));
     }
-
+    /**
+     * Disegna le piattaforme
+     *
+     * @param g il contesto grafico in cui disegnare
+     */
     private void drawPlatforms(Graphics g) {
         // disegna piattaforme
         platforms.forEach(platform -> platform.paintComponent(g));
     }
-
+     /**
+     * Disegna il giocatore
+     *
+     * @param g il contesto grafico in cui disegnare
+     */
     private void drawPlayer(Graphics g) {
         // disegna personaggio
         player.paintComponent(g);
     }
-
+    /**
+     * Disegna i proiettili
+     *
+     * @param g il contesto grafico in cui disegnare
+     */
     public void drawProjectiles(Graphics g) {
         List<ProjectileModel> projectiles = game.getProjectiles();
         for (ProjectileModel projectile : projectiles) {
@@ -93,17 +121,29 @@ public class GameView extends JPanel {
             }
         }
     }
-
+    /**
+     * Disegna i nemici
+     *
+     * @param g il contesto grafico in cui disegnare
+     */
     private void drawEnemies(Graphics g) {
         // Disegna nemico
         enemies.forEach(enemy -> enemy.paintComponent(g));
     }
-
+    /**
+     * Disegna i power-up
+     *
+     * @param g il contesto grafico in cui disegnare
+     */
     private void drawPowerUps(Graphics g) {
         // Disegna PowerUp
         powerUps.forEach(pwup -> pwup.paintComponent(g));
     }
-
+     /**
+     * Disegna il punteggio
+     *
+     * @param g il contesto grafico in cui disegnare
+     */
     private void drawScore(Graphics g) {
         g.setFont(ResourceManager.getInstance().getFontOrDefault(Constants.FONT_NAME));
         g.setColor(Color.WHITE);

@@ -1,9 +1,8 @@
 package com.bubblebobble.views;
 
-import com.bubblebobble.Constants;
 import com.bubblebobble.BubbleBobble;
+import com.bubblebobble.Constants;
 import com.bubblebobble.ResourceManager;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -11,11 +10,16 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.*;
-
+/**
+ * Questa classe visualizza il menu principale nel gioco.
+ */
 public class MenuView extends JPanel {
 	JButton startButton = new JButton();
 	JButton exitButton = new JButton();
-
+    /**
+     * Costruttore di MenuView.
+     * Inizializza i pulsanti per iniziare il gioco o uscire.
+     */
 	public MenuView(BubbleBobble game) {
 		startButton.setIcon(new ImageIcon(ResourceManager.getInstance().getImage("imageButtonStart.png")));
 		exitButton.setIcon(new ImageIcon(ResourceManager.getInstance().getImage("exitButtonDef.png")));

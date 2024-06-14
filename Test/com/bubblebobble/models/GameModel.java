@@ -31,7 +31,13 @@ public class GameModel {
     private Map<String, Set<ActionListener>> subscribersTopicMap;
 
     private static GameModel instance;
-
+    /**
+     * Inizializza il punteggio, il giocatore e l'ActionListener per {@code subscribersTopicMap}
+     * 
+     * La classe {@code GameModel} contiene le istanze di tutti i model nel gioco. 
+     * Basata su pattern MVC questa classe ha il compito di, attraverso getter e setter, gestire queste istanze e 
+     * restituirle quando necessario. 
+     */
     private GameModel() {
         score = new ScoreModel();
         subscribersTopicMap = new HashMap<String,Set<ActionListener>>();
@@ -45,7 +51,10 @@ public class GameModel {
 
         return instance;
     }
-
+    /**
+     * Azzera tutti gli oggetti e powerup del livello precedente per costruirne di nuovi e caricare un nuovo livello.
+     * @param level il livello da caricare.
+     */
     public void loadLevel(Level level) {
         // azzerriamo gli oggetti del vecchio livello
         walls = new ArrayList<>();
@@ -71,15 +80,23 @@ public class GameModel {
     public PlayerModel getPlayer() {
         return this.player;
     }
-
+    /**
+     * Restituisce il profilo del giocatore.
+     * @return il profilo del giocatore
+     */
     public ProfileModel getProfile() {
         return this.profile;
     }
-
+   /**
+     * Imposta il profilo del giocatore.
+     * @param profile il profilo del giocatore da impostare
+     */
     public void setProfile(ProfileModel profile) {
         this.profile = profile;
     }
-
+    /**
+     * Salva lo stato attuale del gioco, inclusi il punteggio del giocatore nel profilo.
+     */
     public void save() {
         if (this.profile == null) {
             return;
@@ -137,7 +154,12 @@ public class GameModel {
         this.enemies.add(enemy);
         return this;
     }
-
+    /**
+     * Rimuove un nemico.
+     * @param enemy il nemico da rimuovere
+     * @return l'istanza corrente di {@code GameModel}
+     * @throws RuntimeException se il nemico non è presente nella mappa attuale
+     */
     public GameModel removeEnemy(EnemyModel enemy) {
         if (!enemies.contains(enemy))
             throw new RuntimeException("Il nemico non fa parte della mappa attuale");
@@ -168,12 +190,20 @@ public class GameModel {
 
         powerUps.remove(powerUp.get());
     }
-
+    /**
+     * Controlla se un certo powerup di tipo {@code PowerUpType} è attivo
+     * @param powerUpType il powerup da controllare
+     * @return {@code true} se il power-up è attivo, {@code false} altrimenti
+     */
     public boolean hasPowerup(PowerUpType powerUpType) {
         Optional<ActivePowerUpModel> model = activePowerUps.stream().filter(pwup -> pwup.is(powerUpType)).findFirst();
         return model.isPresent() && model.get().isActive() && !model.get().isExpired();
     }
-
+    /**
+     * Attiva un certo modello di powerup.
+     * @param powerUpModel il modello di powerup da attivare
+     * @return l'istanza corrente di {@code GameModel}
+     */
     public GameModel activatePowerUp(ActivePowerUpModel powerUpModel) {
         // attiva l'effetto del powerup
         activePowerUps.add(powerUpModel);
@@ -183,7 +213,10 @@ public class GameModel {
     public List<ActivePowerUpModel> getActivePowerUpModels() {
         return activePowerUps;
     }
-
+    /**
+     * Rimuove un powerup.
+     * @param powerUpModel powerup da rimuovere
+     */
     public GameModel removePowerUp(ActivePowerUpModel powerUpModel) {
         activePowerUps.remove(powerUpModel);
         return this;

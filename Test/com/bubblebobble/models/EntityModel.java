@@ -1,5 +1,9 @@
 package com.bubblebobble.models;
 
+/**
+ * Questa classe rappresenta un'entità di base con posizione e dimensioni.
+ * Fornisce metodi per modificare queste proprietà, oltre alla logica per il rilevamento delle collisioni.
+ */
 public class EntityModel {
 	private int x;
 	private int y;
@@ -9,7 +13,14 @@ public class EntityModel {
 
 	public EntityModel() {
 	}
-
+    /**
+     * Costruisce un'istanza di EntityModel con posizione e dimensioni iniziali specificate.
+     *
+     * @param x      La coordinata x iniziale dell'entità.
+     * @param y      La coordinata y iniziale dell'entità.
+     * @param width  La larghezza dell'entità.
+     * @param height L'altezza dell'entità.
+     */
 	public EntityModel(int x, int y, int width, int height) {
 		this.x = x;
 		this.y = y;
@@ -20,7 +31,11 @@ public class EntityModel {
 	public void setX(int x) {
 		this.x = x;
 	}
-
+    /**
+     * Sposta l'entità orizzontalmente di una quantità delta.
+     *
+     * @param delta quanto l'entità dovrà spostarsi orizzontalmente.
+     */
 	public void moveX(int delta) {
 		setX(getX() + delta);
 	}
@@ -30,7 +45,11 @@ public class EntityModel {
 		// System.out.println("X aggiornate --> " + x);
 		return x;
 	}
-
+    /**
+     * Sposta l'entità verticalmente di una quantità delta.
+     *
+     * @param delta quanto l'entità dovrà spostarsi verticalmente.
+     */
 	public void moveY(int delta) {
 		setY(getY() + delta);
 	}

@@ -10,7 +10,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
+/**
+ * La classe {@code Main} è la classe principale del gioco.
+ * Estende {@code JFrame} e gestisce la finestra principale, incluso menu, gioco e gestione degli eventi.
+ */
 public class BubbleBobble extends JFrame {
 
     // stato del gioco
@@ -26,7 +29,9 @@ public class BubbleBobble extends JFrame {
     private EndGameView endGamePanel;
     private GameOverView gameOverPanel;
     private ProfilesView profilesPanel;
-
+    /**
+     * Mostra il pannello dei profili dei giocatori.
+     */
     public void showProfiles() {
         if (profilesPanel == null) {
             profilesPanel = new ProfilesView(this);
@@ -37,7 +42,9 @@ public class BubbleBobble extends JFrame {
         showPanel(profilesPanel);
 
     }
-
+    /**
+     * Avvia il gioco, rimuovendo il menu e inizializzando il controller del gioco e il timer per gli aggiornamenti.
+     */
     public void startGame() {
         // rimuovi menu
         menuPanel.setVisible(false);
@@ -84,7 +91,9 @@ public class BubbleBobble extends JFrame {
 
         timer.start();
     }
-
+    /**
+     * Riprendi, ripristinando la finestra di gioco e il timer.
+     */
     public void resume() {
         // ripristina la finestra di gioco
         showPanel(gamePanel);
@@ -93,7 +102,9 @@ public class BubbleBobble extends JFrame {
         isPaused = false;
         timer.restart();
     }
-
+    /**
+     * Mette in pausa il gioco, mostrando il pannello di pausa e fermando il timer.
+     */
     public void pause() {
         if (pausePanel == null) {
             pausePanel = new PauseView(this);
@@ -134,7 +145,11 @@ public class BubbleBobble extends JFrame {
 
         showPanel(endGamePanel);
     }
-
+    /**
+     * Gestisce la visualizzazione dei pannelli.
+     * Nasconde il pannello corrente e mostra il nuovo pannello specificato.
+     * @param panel il pannello da mostrare
+     */
     private void showPanel(JPanel panel) {
         if (currentPanel != null) {
             currentPanel.setVisible(false);
@@ -147,7 +162,9 @@ public class BubbleBobble extends JFrame {
     public void close() {
         System.exit(0);
     }
-
+    /**
+     * Configura e avvia l'applicazione.
+     */
     public void run() {
         // configura la finestra
         setResizable(false);

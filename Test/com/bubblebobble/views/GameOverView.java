@@ -11,17 +11,25 @@ import javax.swing.ImageIcon;
 
 import com.bubblebobble.BubbleBobble;
 import com.bubblebobble.Constants;
-
+/**
+ * Questa classe rappresenta la visualizzazione della schermata di Game Over nel gioco.
+ * Mostra un'immagine di Game Over e permette di chiudere il gioco quando l'immagine viene cliccata.
+ */
 public class GameOverView extends JPanel {
     private BubbleBobble game;
-
+    /**
+     * Costruttore di GameOverView.
+     */
     public GameOverView(BubbleBobble game) {
         super();
         this.game = game;
         prepare();
         setBackground(Color.BLACK);
     }
-
+    /**
+     * Prepara la visualizzazione di Game Over aggiungendo un pulsante con l'immagine di Game Over.
+     * Il pulsante chiude il gioco quando viene cliccato.
+     */
     private void prepare() {
         // Crea un JButton senza testo per l'immagine
         JButton gameOverButton = new JButton();

@@ -21,7 +21,10 @@ public class GameController {
     private PlayerModel player;
     private BubbleBobble window;
     private Random random = new Random();
-
+    /**
+     * Metodo costruttore vuoto del GameController, prende le istanze già inizializzate di GameModel e PlayerModel
+     * (Quella di PlayerModel è contenuta in GameModel, come altre istanze di models)
+     */
     public GameController(BubbleBobble game) {
         model = GameModel.getInstance();
         player = model.getPlayer();
@@ -35,19 +38,31 @@ public class GameController {
     public GameModel getGameModel() {
         return model;
     }
-
+    /**
+     * Crea una nuova istanza del GameView.
+     * Il costruttore del GameView richiede un'istanza di GameModel, per ottenerla potrebbe essere utile usare il metodo
+     * "getInstance()" da GameModel
+     */
     public void startGame() {
         isOver = false;
         game = new GameView(model);
         changeLevel(LevelManager.getStartLevel());
     }
-
+    /**
+     * Questo metodo viene usato per cambiare il livello (chiamato quando il giocatore uccide tutti i nemici nel
+     * livello.)
+     * @param level il livello da caricare per cambiare il livello attuale.
+     */
     public void changeLevel(Level level) {
         System.err.println("Level " + level.getLevel() + " started.");
         model.loadLevel(level);
         game.onChangeLevel();
     }
-
+    /**
+     * Attiva un powerup in base a quello dato in parametro.
+     * Crea una nuova istanza di PowerUpType se viene dato un parametro non valido.
+     * @param powerUpType Il powerup da attivare, attenzione: deve essere di tipo "PowerUpType"
+     */
     private void activatePowerUp(PowerUpType powerUpType) {
         switch (powerUpType) {
             case Health:
@@ -75,13 +90,17 @@ public class GameController {
                 break;
         }
     }
-
+    /**
+     * Uccide tutti i nemici nel livello
+     */
     private void killAllEnemies() {
         for (EnemyModel enemy : model.getEnemies()) {
             enemy.instaKill();
         }
     }
-
+    /**
+     * Rimuove i powerup utilizzati, facendo scomparire il loro render e la possibilità di essere raccolti.
+     */
     private void updatePowerUps() {
         // remove expired powerups
         for (ActivePowerUpModel pwup : model.getActivePowerUpModels().stream().toList()) {
@@ -107,6 +126,9 @@ public class GameController {
     // eseguito ad ogni frame
     // qui dobbiamo sia aggiornare i modelli (es. fare il move) che fare il render
     // della view
+    /**
+    * eseguito ad ogni frame, ciclo principale del gioco oltre al main
+    */
     public void onTick() {
         updatePlayer();
         updatePowerUps();
@@ -115,7 +137,10 @@ public class GameController {
         checkGravity();
         updateGame();
     }
-
+    /**
+     * Metodo che controlla se tutti i nemici sono stati eliminati e in tal caso aggiorna il livello chiamando
+     * getNextLevel() da LevelManager
+     */
     private void updateGame() {
         // se tutti i nemici sono stati eliminati, ricomincia il livello
         if (model.getEnemies().isEmpty()) {
@@ -128,7 +153,9 @@ public class GameController {
             }
         }
     }
-
+    /**
+     * Aggiorna il movimento del giocatore e controlla le collisioni.
+     */
     private void updatePlayer() {
         // check walls
         for (WallModel wall : model.getWalls()) {
@@ -149,7 +176,9 @@ public class GameController {
         // update player movement
         player.move();
     }
-
+    /**
+     * Gestisce l'evento di un giocatore colpito da un nemico.
+     */
     private void onHitPlayerByEnemy() {
         if (!model.hasPowerup(PowerUpType.Invincibility)) {
             player.decreaseLife();
@@ -186,7 +215,9 @@ public class GameController {
             window.showGameOver();
         }
     }
-
+    /**
+     * Controlla la gravità per le entità del gioco e aggiorna le loro posizioni.
+     */
     private void checkGravity() {
         // Regola la posizione del personaggio per farlo rimanere sulla piattaforma
         ArrayList<CharacterModel> entities = new ArrayList<>();
@@ -230,7 +261,9 @@ public class GameController {
             }
         }
     }
-
+    /**
+     * Aggiorna i proiettili nel gioco, controlla le collisioni e rimuove i proiettili disattivati.
+     */
     public void updateProjectiles() {
         for (ProjectileModel projectile : model.getProjectiles()) {
             if (projectile.isActive()) {
@@ -245,7 +278,11 @@ public class GameController {
             model.removeProjectile(projectile);
         }
     }
-
+    /**
+     * Controlla se il giocatore può sparare un nuovo proiettile in base al tempo trascorso dall'ultimo sparo.
+     * 
+     * @return true se il giocatore può sparare, false altrimenti.
+     */
     public boolean canShootProjectile() {
         List<ProjectileModel> projectiles = model.getProjectiles();
 
@@ -258,7 +295,11 @@ public class GameController {
 
         return timePassed >= shootDelay;
     }
-
+    /**
+     * Gestisce l'evento di un tasto premuto.
+     * 
+     * @param e l'evento della tastiera.
+     */
     public void onKeyPressed(KeyEvent e) {
         int key = e.getKeyCode();
 
@@ -278,7 +319,11 @@ public class GameController {
             player.shoot();
         }
     }
-
+    /**
+     * Gestisce l'evento di un tasto rilasciato.
+     * 
+     * @param e l'evento della tastiera.
+     */
     public void onKeyReleased(KeyEvent e) {
         int key = e.getKeyCode();
         if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_RIGHT) {
@@ -289,6 +334,9 @@ public class GameController {
     }
 
     // === Enemy
+    /**
+     * Aggiorna i nemici nel gioco, gestisce i loro movimenti e controlla le collisioni.
+     */
     private void updateEnemies() {
         for (EnemyModel enemy : model.getEnemies()) {
             enemy.update();
@@ -298,7 +346,11 @@ public class GameController {
 
         removeEatenEnemies();
     }
-
+    /**
+     * Controlla le collisioni tra il giocatore e i nemici.
+     * 
+     * @param enemy il nemico da controllare per le collisioni.
+     */
     private void checkPlayerCollisions(EnemyModel enemy) {
         if (player.collidesWith(enemy)) {
             // se ho il powerup freeze and kill il nemico muore quando viene toccato
@@ -324,7 +376,11 @@ public class GameController {
             }
         }
     }
-
+    /**
+     * Mangia un nemico, rimuovendolo dal gioco e aggiungendo punti al punteggio del giocatore.
+     * 
+     * @param enemy il nemico da mangiare.
+     */
     private void eatEnemy(EnemyModel enemy) {
         if (enemy.isEaten()) {
             throw new RuntimeException("Il nemico è stto già mangiato una volta");
@@ -333,7 +389,11 @@ public class GameController {
         enemy.setEaten(true);
         model.getScore().addPoints(100);
     }
-
+    /**
+     * Controlla le collisioni tra un'entità e i proiettili.
+     * 
+     * @param entity l'entità da controllare per le collisioni.
+     */
     private void checkProjectileCollisions(CharacterModel entity) {
         List<ProjectileModel> projectiles = model.getProjectiles();
         for (ProjectileModel projectile : projectiles) {
@@ -367,7 +427,9 @@ public class GameController {
             }
         }
     }
-
+    /**
+     * Rimuove i nemici mangiati dal gioco.
+     */
     private void removeEatenEnemies() {
         List<EnemyModel> eatenEnemies = model.getEnemies().stream().filter(EnemyModel::isEaten).toList();
         if (!eatenEnemies.isEmpty()) {

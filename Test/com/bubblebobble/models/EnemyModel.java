@@ -7,7 +7,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
-
+/**
+ * Questa classe astratta rappresenta il modello base per i nemici.
+ * Estende CharacterModel e gestisce lo stato del nemico come in bolla, mangiato o trasformato in frutta.
+ * Fornisce metodi per aggiornare il movimento, gestire collisioni con muri e cambiare direzione.
+ * Implementa anche un timer per gestire la trasformazione da nemico a frutta quando è in una bolla.
+ */
 public abstract class EnemyModel extends CharacterModel {
     private boolean inBubble = false;
     private boolean isEaten = false;
@@ -16,12 +21,21 @@ public abstract class EnemyModel extends CharacterModel {
 
     /// Allo scattare del tempo, il nemico che si trova in una bolla diventa una frutta
     private Timer bubbleTimer;
-
+ /**
+     * Costruttore che inizializza le coordinate del nemico e la velocità.
+     * 
+     * @param x coordinata x iniziale
+     * @param y coordinata y iniziale
+     */
     public EnemyModel(int x, int y) {
         super(x, y, Constants.ENEMY_WIDTH, Constants.ENEMY_HEIGHT);
         setSpeed(Constants.ENEMY_SPEED);
     }
-
+    /**
+     * Metodo per aggiornare lo stato del nemico ad ogni frame.
+     * Gestisce il movimento quando il nemico è in una bolla, le collisioni con i muri,
+     * aggiorna la direzione del movimento e chiama onUpdate per il comportamento specifico del nemico.
+     */
     public void update() {
         if (GameModel.getInstance().hasPowerup(PowerUpType.Freeze)
             || GameModel.getInstance().hasPowerup(PowerUpType.FreezeAndKill))
@@ -44,7 +58,10 @@ public abstract class EnemyModel extends CharacterModel {
     }
 
     protected abstract void onUpdate();
-
+    /**
+     * Metodo per aggiornare il movimento quando il nemico è in una bolla.
+     * Gestisce la direzione verso l'alto o la sospensione sotto le piattaforme.
+     */
     protected void updateBubble() {
         if (isInBubble()) {
             setXSpeed(0);
@@ -81,7 +98,10 @@ public abstract class EnemyModel extends CharacterModel {
             }
         }
     }
-
+    /**
+     * Override del metodo move di {@code CharacterModel}.
+     * Gestisce il movimento del nemico solo se non è freezato.
+     */
     @Override
     public void move() {
         // muovi il personaggio solo se non è freezato.
@@ -96,7 +116,10 @@ public abstract class EnemyModel extends CharacterModel {
             super.move();
         }
     }
-
+    /**
+     * Metodo per aggiornare la direzione del movimento del nemico in base al tempo corrente.
+     * Cambia la direzione ogni secondo se non è in bolla o trasformato in frutta.
+     */
     private void updateDirection() {
         long currentTime = System.currentTimeMillis();
 
@@ -155,7 +178,9 @@ public abstract class EnemyModel extends CharacterModel {
     public boolean isInBubble() {
         return inBubble;
     }
-
+    /**
+     * Metodo per uccidere il nemico, trasformandolo in bolla se non è già un frutto.
+     */
     public void kill() {
         if (!isFruit()) {
             setInBubble(true);
@@ -173,7 +198,10 @@ public abstract class EnemyModel extends CharacterModel {
     public int getSpeed() {
         return speed;
     }
-
+    /**
+     * Metodo per impostare la velocità del nemico.
+     * @param speed la velocità da impostare
+     */
     public void setSpeed(int speed) {
         this.speed = speed;
     }

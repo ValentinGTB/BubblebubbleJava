@@ -1,13 +1,14 @@
 package com.bubblebobble.views;
 
-import java.awt.Graphics;
-import java.awt.Image;
-
-import javax.swing.JPanel;
-
 import com.bubblebobble.ResourceManager;
 import com.bubblebobble.models.PowerUpModel;
-
+import java.awt.Graphics;
+import java.awt.Image;
+import javax.swing.JPanel;
+/**
+ * Questa classe rappresenta la visualizzazione di un power-up nel gioco.
+ * Estende JPanel e utilizza {@code PowerUpModel} per ottenere le informazioni necessarie per il rendering.
+ */
 public class PowerUpView extends JPanel {
     private PowerUpModel model;
 

@@ -9,7 +9,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
-
+/**
+ * Questa classe permette di visualizzare il giocatore.
+ * Estende JPanel e gestisce l'animazione della camminata, la visualizzazione delle vite e
+ * altri effetti.
+ */
 public class PlayerView extends JPanel {
 
     GameModel gm;
@@ -25,7 +29,12 @@ public class PlayerView extends JPanel {
     private PlayerModel model;
     private Timer animationTimer;
     private int animationDelay = 250; // Time between frame changes in milliseconds
-
+    /**
+     * Costruttore della classe PlayerView.
+     * Inizializza la visualizzazione del giocatore con il modello specificato e avvia il timer di animazione.
+     *
+     * @param model Il modello del giocatore da visualizzare.
+     */
     public PlayerView(PlayerModel model) {
         this.model = model;
 
@@ -38,7 +47,10 @@ public class PlayerView extends JPanel {
         });
         animationTimer.start();
     }
-
+    /**
+     * Aggiorna il frame corrente dell'animazione della camminata.
+     * Cicla attraverso i frame disponibili.
+     */
     private void updateFrame() {
         currentFrame = (currentFrame + 1) % totalframe; // Cycle through frames
         repaint(); // Repaint the component to show the new frame
@@ -47,7 +59,11 @@ public class PlayerView extends JPanel {
     public Image getWalkFrame(int frame) {
         return ResourceManager.getInstance().getImage("walk_" + frame + ".png");
     }
-
+    /**
+     * Ottiene l'immagine del frame corrente dell'animazione della camminata.
+     *
+     * @return L'immagine del frame corrente.
+     */
     public Image getCurrentWalkFrame() {
         return getWalkFrame(currentFrame);
     }

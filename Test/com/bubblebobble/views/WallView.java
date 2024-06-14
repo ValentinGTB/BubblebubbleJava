@@ -3,7 +3,10 @@ import com.bubblebobble.Constants;
 import com.bubblebobble.ResourceManager;
 import com.bubblebobble.models.*;
 import java.awt.*;
-
+/**
+ * Questa classe rappresenta la visualizzazione dei muri.
+ * Gestisce il disegno del muro basandosi sul modello fornito.
+ */
 public class WallView {
     private WallModel model;
     
