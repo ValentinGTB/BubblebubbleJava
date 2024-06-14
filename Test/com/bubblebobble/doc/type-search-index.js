@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"com.bubblebobble","l":"BubbleBobble"},{"p":"com.bubblebobble","l":"Constants"},{"p":"com.bubblebobble","l":"ProfilesManager"},{"p":"com.bubblebobble","l":"ResourceManager"}];updateSearchResults();
