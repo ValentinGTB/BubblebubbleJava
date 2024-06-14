@@ -1,5 +1,6 @@
 package com.bubblebobble;
 
+import com.bubblebobble.audio.AudioManager;
 import javax.swing.*;
 
 import com.bubblebobble.controllers.*;
@@ -189,5 +190,6 @@ public class BubbleBobble extends JFrame {
     public static void main(String[] args) {
         var app = new BubbleBobble();
         app.run();
+        AudioManager.getInstance().play("Test/com/bubblebobble/resources/audio/mainAudio.wav");
     }
 }

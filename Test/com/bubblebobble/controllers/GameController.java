@@ -2,6 +2,7 @@ package com.bubblebobble.controllers;
 
 import com.bubblebobble.BubbleBobble;
 import com.bubblebobble.Constants;
+import com.bubblebobble.audio.AudioManager;
 import com.bubblebobble.contansts.Events;
 import com.bubblebobble.contansts.PowerUpType;
 import com.bubblebobble.levels.Level;
@@ -311,11 +312,13 @@ public class GameController {
         } else if (key == KeyEvent.VK_RIGHT) {
             player.setXSpeed(currentSpeed);
         } else if (key == KeyEvent.VK_UP) {
+            AudioManager.getInstance().play("Test/com/bubblebobble/resources/audio/jump.wav");
             player.jump(model.hasPowerup(PowerUpType.SuperJump) ? 23 : 18);
             if (model.hasPowerup(PowerUpType.JumpPoints)) {
                 model.getScore().addPoints(100);
             }
         } else if (key == KeyEvent.VK_SPACE && canShootProjectile()) {
+            AudioManager.getInstance().play("Test/com/bubblebobble/resources/audio/shoot.wav");
             player.shoot();
         }
     }
